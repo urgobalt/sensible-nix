@@ -1,0 +1,23 @@
+name: Flake metadata check
+run-name: Ensuring validity of flake metadata
+on:
+  push:
+    # Trigger only on branches
+    branches: '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: cachix/install-nix-action@v31
+      - run: |
+          github_event_json=$(cat "$GITHUB_EVENT_PATH")
+          commit_ids=$(echo "$github_event_json" | jq -r '.commits[].id')
+          for commit in $commit_ids; do
+              git checkout $commit
+              nix flake metadata
+              echo "done $commit"
+          done
