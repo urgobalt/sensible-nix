@@ -85,7 +85,6 @@ in {
       specialArgs =
         rec {
           inherit hostname user;
-          wallpaper = fallback system.wallpaper config.default.wallpaper;
           sensible_config = config:
             {
               assertions =

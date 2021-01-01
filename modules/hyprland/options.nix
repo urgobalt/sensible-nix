@@ -44,4 +44,14 @@ with lib;
         description = "Default live wallpaper to be displayed. Supports many video formats.";
       };
     };
+    wallpaper = {
+      source = mkOption {
+        type = types.path;
+        description = "Wallpaper used in graphical environments";
+      };
+      resolved = mkOption {
+        type = types.path;
+        internal = true;
+      };
+    };
   }

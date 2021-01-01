@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  wallpaper,
 }: let
   #  _                      _            _
   # | |__  _   _ _ __  _ __| | ___   ___| | __
@@ -129,7 +128,7 @@ in {
 
   image = {
     monitor = "";
-    path = wallpaper;
+    path = config.sensible.wallpaper.resolved;
     size = 280;
     rounding = 40;
     border_size = 4;
