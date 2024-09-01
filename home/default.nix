@@ -6,6 +6,7 @@
     ./eww
     ./dunst
     ./waybar
+    ./plasma
 
     # Applets
     ./fuzzel
