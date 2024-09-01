@@ -5,5 +5,6 @@
     ./display-manager
     ./hyprland
     ./steam
+    ./plasma
   ];
 }
