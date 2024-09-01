@@ -1,0 +1,156 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+  },
+    "modules": [
+        {
+            "type": "custom", // HardwareStart
+            "format": "Hardware"
+        },
+        {
+            "type": "host",
+            "key": "  󰌢 "
+        },
+        {
+            "type": "cpu",
+            "key": "  󰍛 "
+        },
+        {
+            "type": "gpu",
+            "key": "  󰘚 "
+        },
+        {
+            "type": "disk",
+            "key": "   "
+        },
+        {
+            "type": "memory",
+            "key": "  󰑭 "
+        },
+        {
+            "type": "swap",
+            "key": "  󰓡 "
+        },
+        //{
+        //    "type": "display",
+        //    "key": "  󰍹 "
+        //},
+        {
+            "type": "brightness",
+            "key": "  󰃞 "
+        },
+        {
+            "type": "battery",
+            "key": "   "
+        },
+        {
+            "type": "poweradapter",
+            "key": "   "
+        },
+        {
+            "type": "bluetooth",
+            "key": "   "
+        },
+        {
+            "type": "sound",
+            "key": "   "
+        },
+        {
+            "type": "gamepad",
+            "key": "  r"
+        },
+        {
+            "type": "custom", // SoftwareStart
+            "format": "Software"
+        },
+        {
+            "type": "title",
+            "key": "   ",
+            "format": "{1}@{2}"
+        },
+        {
+            "type": "os",
+            "key": "   " // Just get your distro's logo off nerdfonts.com
+        },
+        {
+            "type": "kernel",
+            "key": "   ",
+            "format": "{1} {2}"
+        },
+        //{
+        //    "type": "lm",
+        //    "key": "  󰧨 "
+        //},
+        {
+            "type": "de",
+            "key": "   "
+        },
+        {
+            "type": "wm",
+            "key": "   "
+        },
+        {
+            "type": "shell",
+            "key": "   "
+        },
+        {
+            "type": "terminal",
+            "key": "   "
+        },
+        {
+            "type": "terminalfont",
+            "key": "   "
+        },
+        {
+            "type": "theme",
+            "key": "  󰉼 "
+        },
+        {
+            "type": "icons",
+            "key": "  󰀻 "
+        },
+        {
+            "type": "wallpaper",
+            "key": "  󰸉 "
+        },
+        {
+            "type": "packages",
+            "key": "  󰏖 "
+        },
+        {
+            "type": "uptime",
+            "key": "  󰅐 "
+        },
+        {
+            "type": "media",
+            "key": "  󰝚 "
+        },
+        {
+            "type": "localip",
+            "key": "  󰩟 ",
+            "compact": true
+        },
+        {
+            "type": "publicip",
+            "key": "  󰩠 "
+        },
+        {
+            "type": "wifi",
+            "key": "   ",
+            "format": "{4}" // ssid
+        },
+        {
+            "type": "locale",
+            "key": "   "
+        },
+        {
+            "type": "custom", // InformationEnd
+            "format": "\n"
+        },
+        {
+            "type": "colors",
+            "paddingLeft": 2,
+            "symbol": "circle"
+        }
+    ]
+}
