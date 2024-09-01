@@ -4,7 +4,7 @@
   lib,
   pkgs,
   ssh,
-  fullName,
+  full-name,
   ...
 }: {
   environment.defaultPackages = [];
@@ -26,7 +26,7 @@
     # Will be overwritten promptly after secrets has been
     # rekeyed with the new ssh key
     initialPassword = "root";
-    description = fullName;
+    description = full-name;
     extraGroups = ["wheel" "networkmanager"];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = ssh.users;

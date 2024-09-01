@@ -1,6 +1,6 @@
 {
   pkgs,
-  fullName,
+  full-name,
   lib,
   config,
   ...
@@ -16,7 +16,7 @@ in {
       accounts = {
         "personal" = {
           flavor = "gmail.com";
-          realName = fullName;
+          realName = full-name;
           address = "lukecastellan165@gmail.com";
           passwordCommand = getPassword config.age.secrets.personal-email.path;
           neomutt = {
@@ -26,7 +26,7 @@ in {
         "professional" = {
           primary = true;
           flavor = "gmail.com";
-          realName = fullName;
+          realName = full-name;
           address = "ludvigkallqvistnygren@gmail.com";
           passwordCommand = getPassword config.age.secrets.professional-email.path;
           neomutt = {
@@ -35,7 +35,7 @@ in {
         };
         # "nygren" = {
         #   flavor = "plain";
-        #   realName = fullName;
+        #   realName = full-name;
         #   address = "ludvig@nygren.nu";
         #   passwordCommand = getPassword config.age.secrets.nygren-email.path;
         #   neomutt = {

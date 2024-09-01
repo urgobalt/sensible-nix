@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  fullName,
+  full-name,
   ...
 }:
 with lib; let
@@ -12,7 +12,7 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = fullName;
+      userName = full-name;
       userEmail = "ludvigkallqvistnygren@gmail.com";
       extraConfig = {
         core.editor = "nvim";
