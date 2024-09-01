@@ -2,8 +2,6 @@
   lib,
   config,
   pkgs,
-  hyprland,
-  hyprspace,
   wallpaper,
   ...
 }:
@@ -27,8 +25,7 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.variables = ["--all"];
-      package = hyprland;
-      plugins = [
+      plugins = with pkgs; [
         hyprspace
       ];
       settings = {

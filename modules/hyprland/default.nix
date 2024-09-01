@@ -2,7 +2,6 @@
   pkgs,
   lib,
   config,
-  hyprland,
   ...
 }:
 with lib; let
@@ -12,7 +11,6 @@ in {
   config = mkIf cfg.enable {
     programs.hyprland = {
       enable = true;
-      package = hyprland;
     };
   };
 }

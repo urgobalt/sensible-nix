@@ -43,8 +43,6 @@ pkgs.lib.nixosSystem {
           extraSpecialArgs = {
             inherit full-name user wallpaper nvim-config;
             inherit (inputs) agenix;
-            hyprspace = inputs.hyprspace.packages.${system}.default;
-            hyprland = inputs.hyprland.packages.${system}.default;
           };
 
           users.${user}.imports = [
@@ -125,7 +123,6 @@ pkgs.lib.nixosSystem {
     {
       inherit user full-name wallpaper;
       inherit (inputs) agenix;
-      hyprland = inputs.hyprland.packages.${system}.default;
       ssh = import ./ssh.nix;
     }
     // specialArgs;
