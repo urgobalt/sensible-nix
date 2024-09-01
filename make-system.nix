@@ -1,10 +1,12 @@
+{pkgs,inputs}:
 {
-  pkgs,
   user,
-  fullName,
-  inputs,
-  wallpaper,
+  full-name,
+  wallpaper ? ./assets/wallpaper.png,
   nvim-config,
+  system-secrets ? /etc/nixos/secrets/system.nix,
+  home-secrets ? /etc/nixos/secrets/home.nix,
+  host-base ? /etc/nixos/hosts,
   ...
 }: hostname: {
   system,
@@ -13,8 +15,11 @@
   disko ? false,
   wsl ? false,
 }:
+let host = file: (host-base + "/${hostname}/${file}");
+in
 pkgs.lib.nixosSystem {
   system = system;
+
   modules =
     [
       # Set the hostname for automatic selection of the right system after
@@ -24,10 +29,10 @@ pkgs.lib.nixosSystem {
       ./modules/configuration.nix
       # Import the modules that can be enabled
       ./modules
-      (./. + "/hosts/${hostname}/system.nix")
+      (host "system.nix")
       # Secret management within nixos, many things depend on them
       inputs.agenix.nixosModules.default
-      ./secrets
+      system-secrets
       # Home manager is the thing modularizing the configuration
       inputs.home-manager.nixosModules.home-manager
       {
@@ -36,7 +41,7 @@ pkgs.lib.nixosSystem {
           useGlobalPkgs = true;
           useUserPackages = true;
           extraSpecialArgs = {
-            inherit fullName user wallpaper nvim-config;
+            inherit full-name user wallpaper nvim-config;
             inherit (inputs) agenix;
             hyprspace = inputs.hyprspace.packages.${system}.default;
             hyprland = inputs.hyprland.packages.${system}.default;
@@ -47,9 +52,9 @@ pkgs.lib.nixosSystem {
             ./home
             # Secrets
             inputs.agenix.homeManagerModules.default
-            ./secrets/home.nix
+            home-secrets
             # Host configuration
-            (./. + "/hosts/${hostname}/user.nix")
+            (host "user.nix")
           ];
         };
       }
@@ -88,7 +93,7 @@ pkgs.lib.nixosSystem {
       # WSL does not really have hardware
       (
         if (wsl == false)
-        then (./. + "/hosts/${hostname}/hardware-configuration.nix")
+        then (host "hardware-configuration.nix")
         else {}
       )
     ]
@@ -111,14 +116,14 @@ pkgs.lib.nixosSystem {
       if disko
       then [
         inputs.disko.nixosModules.disko
-        (./. + "/hosts/${hostname}/disk-config.nix")
+        (host "disk-config.nix")
       ]
       else []
     )
     ++ extraModules;
   specialArgs =
     {
-      inherit user fullName wallpaper;
+      inherit user full-name wallpaper;
       inherit (inputs) agenix;
       hyprland = inputs.hyprland.packages.${system}.default;
       ssh = import ./ssh.nix;

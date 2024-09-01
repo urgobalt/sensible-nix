@@ -49,5 +49,6 @@
     hardware,
     ...
   } @ inputs: {
+    nixosModules.mkSystem=(import ./make-system.nix {inherit pkgs inputs;});
   };
 }
