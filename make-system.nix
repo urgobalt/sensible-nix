@@ -7,6 +7,7 @@
   system-secrets ? /etc/nixos/secrets/system.nix,
   home-secrets ? /etc/nixos/secrets/home.nix,
   host-base ? /etc/nixos/hosts,
+  sshPath ? /etc/nixos/ssh.nix,
   ...
 }: hostname: {
   system,
@@ -123,7 +124,7 @@ pkgs.lib.nixosSystem {
     {
       inherit user full-name wallpaper;
       inherit (inputs) agenix;
-      ssh = import ./ssh.nix;
+      ssh = import sshPath;
     }
     // specialArgs;
 }
