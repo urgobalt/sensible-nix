@@ -25,7 +25,7 @@ in {
 
     boot.plymouth.enable = true;
   } //
-    if cfg.enable && cfg.pam_google_auth {
+    mkIf cfg.enable && cfg.pam_google_auth {
       security.pam.services.sddm = {
         auth =  [
       {
@@ -40,5 +40,5 @@ in {
       }
     ];
   };
-    } else {};
+    };
 }
