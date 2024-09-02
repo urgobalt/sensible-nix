@@ -8,8 +8,13 @@ with lib; let
   cfg = config.modules.display-manager;
   # regreet = import ./regreet.nix {inherit pkgs;};
 in {
-  options.modules.display-manager = {enable = mkEnableOption "display-manager"; pam_google_auth = mkEnableOption "display-manager";};
-  config = mkIf cfg.enable {
+  options.modules.display-manager = {enable = mkEnableOption "display-manager"; 
+  pam_google_auth = mkOption {
+    type = types.bool;
+    default = false;
+    description = "Enable pam_2fa with google authenticator";
+  };};
+  config = mkIf cfg.enable mkMerge [ {
   
 
     environment.systemPackages = with pkgs; [
@@ -24,7 +29,7 @@ in {
     };
 
     boot.plymouth.enable = true;
-  } //
+  }
     mkIf cfg.enable && cfg.pam_google_auth {
       security.pam.services.sddm = {
         auth =  [
@@ -39,6 +44,7 @@ in {
         arguments = "nullok";
       }
     ];
-  };
     };
+  }
+  ];
 }
