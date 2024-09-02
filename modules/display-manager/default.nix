@@ -38,7 +38,7 @@ in {
     };
 
     boot.plymouth.enable = true;
-    mkIf cfg.pam_google_auth {
+    config=mkIf cfg.pam_google_auth {
       security.pam.services.sddm = {
         auth =  [
       {
