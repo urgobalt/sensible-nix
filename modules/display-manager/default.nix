@@ -10,21 +10,7 @@ with lib; let
 in {
   options.modules.display-manager = {enable = mkEnableOption "display-manager"; pam_google_auth = mkEnableOption "display-manager";};
   config = mkIf cfg.enable {
-    # environment.systemPackages = with pkgs; [
-    #   cage
-    #   greetd.regreet
-    # ];
-    #
-    # services.greetd = {
-    #   enable = true;
-    #   restart = true;
-    #   settings = {
-    #     default_session = {
-    #       command = "cage -s -- regreet --config ${regreet}";
-    #       user = "urgobalt";
-    #     };
-    #   };
-    # };
+  
 
     environment.systemPackages = with pkgs; [
       (callPackage ./sddm-sugar-dark {})
@@ -39,7 +25,7 @@ in {
 
     boot.plymouth.enable = true;
   } //
-    mkIfElse cfg.enable && cfg.pam_google_auth {
+    if cfg.enable && cfg.pam_google_auth {
       security.pam.services.sddm = {
         auth =  [
       {
@@ -54,5 +40,5 @@ in {
       }
     ];
   };
-    } {};
+    } else {};
 }
