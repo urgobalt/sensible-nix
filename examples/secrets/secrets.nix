@@ -7,6 +7,6 @@ in
     "wifi-env.age".publicKeys = default;
 
     # Email
-    "personal-email.age".publicKeys = ssh.users;
-    "professional-email.age".publicKeys = ssh.users;
+    "my-email.age".publicKeys = users;
   }
+

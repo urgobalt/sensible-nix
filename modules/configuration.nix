@@ -23,9 +23,6 @@
     home = "/home/${user}";
     createHome = true;
     hashedPasswordFile = config.age.secrets.user-password.path;
-    # Will be overwritten promptly after secrets has been
-    # rekeyed with the new ssh key
-    initialPassword = "root";
     description = full-name;
     extraGroups = ["wheel" "networkmanager"];
     shell = pkgs.fish;

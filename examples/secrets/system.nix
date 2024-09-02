@@ -7,3 +7,4 @@
   age.secrets.user-password.file = ./user-password.age;
   age.secrets.wifi-env.file = ./wifi-env.age;
 }
+

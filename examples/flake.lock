@@ -5,6 +5,7 @@
         "darwin": "darwin",
         "home-manager": "home-manager",
         "nixpkgs": [
+          "sensible-nix",
           "pkgs"
         ],
         "systems": "systems"
@@ -26,6 +27,7 @@
     "darwin": {
       "inputs": {
         "nixpkgs": [
+          "sensible-nix",
           "agenix",
           "nixpkgs"
         ]
@@ -48,6 +50,7 @@
     "disko": {
       "inputs": {
         "nixpkgs": [
+          "sensible-nix",
           "pkgs"
         ]
       },
@@ -117,6 +120,7 @@
     "home-manager": {
       "inputs": {
         "nixpkgs": [
+          "sensible-nix",
           "agenix",
           "nixpkgs"
         ]
@@ -138,6 +142,7 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
+          "sensible-nix",
           "pkgs"
         ]
       },
@@ -205,6 +210,11 @@
     },
     "root": {
       "inputs": {
+        "sensible-nix": "sensible-nix"
+      }
+    },
+    "sensible-nix": {
+      "inputs": {
         "agenix": "agenix",
         "disko": "disko",
         "hardware": "hardware",
@@ -214,6 +224,16 @@
         "pkgs-unstable": "pkgs-unstable",
         "systems": "systems_2",
         "wsl": "wsl"
+      },
+      "locked": {
+        "lastModified": 0,
+        "narHash": "sha256-hYR2wsEIcjSksPibdj2073f4wQROtgETMBCuRB7yGG0=",
+        "path": "/nix/store/l90nsj8izfgni32vp8g4z4mlrcq9n70g-source",
+        "type": "path"
+      },
+      "original": {
+        "path": "/nix/store/l90nsj8izfgni32vp8g4z4mlrcq9n70g-source",
+        "type": "path"
       }
     },
     "systems": {
@@ -266,6 +286,7 @@
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "nixpkgs": [
+          "sensible-nix",
           "pkgs"
         ]
       },

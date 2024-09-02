@@ -21,7 +21,6 @@
     ./git
     ./pass
     ./direnv
-    ./neomutt
 
     # system
     ./wsl
