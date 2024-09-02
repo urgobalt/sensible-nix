@@ -1,5 +1,5 @@
 {
-  pkgs,
+  nixpkgs,
   inputs,
 }: {
   outPath,
@@ -21,7 +21,7 @@
 }: let
   host = file: (host-base + "/${hostname}/${file}");
 in
-  pkgs.lib.nixosSystem {
+  nixpkgs.lib.nixosSystem {
     system = system;
 
     modules =
@@ -72,7 +72,7 @@ in
                 };
               })
               (final: prev: {
-                unstable = import inputs.pkgs-unstable {
+                unstable = import inputs.nixpkgs-unstable {
                   system = system;
                   config.allowUnfree = true;
                 };
@@ -81,11 +81,11 @@ in
             ];
             config = {
               allowUnfreePredicate = pkg:
-                builtins.elem (pkgs.lib.getName pkg) [
+                builtins.elem (nixpkgs.lib.getName pkg) [
                   "obsidian"
                 ];
               allowInsecurePredicate = pkg:
-                builtins.elem (pkgs.lib.getName pkg) [
+                builtins.elem (nixpkgs.lib.getName pkg) [
                   "electron"
                 ];
             };
