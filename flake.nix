@@ -35,8 +35,11 @@
   outputs = {
     pkgs,
     hardware,
+    agenix,
     ...
   } @ inputs: {
-    nixosModules.mkSystem=(import ./make-system.nix {inherit pkgs inputs;});
+    nixosModules.mkSystem = import ./make-system.nix {inherit pkgs inputs;};
+    apps.agenix = agenix.packages.agenix;
   };
 }
+
