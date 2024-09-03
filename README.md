@@ -72,3 +72,5 @@ This section will guide you through enabling some more advanced modules.
 **!!Important!!**
 This is a **dangerous** option so you need to know what you're doing before enabling. You will be required to do recovery on your computer if misconfigured.
 
+### Preparation
+

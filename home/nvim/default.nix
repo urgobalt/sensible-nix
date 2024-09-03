@@ -35,8 +35,7 @@ in {
       elixir
 
       # Python
-      uv
-      python313FreeThreading
+      ruff
 
       # Lsp
       lua-language-server

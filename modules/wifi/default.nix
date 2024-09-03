@@ -7,7 +7,14 @@
 with lib; let
   cfg = config.modules.wifi;
 in {
-  options.modules.wifi = {enable = mkEnableOption "wifi";networks=mkOption {type=types.attrs; default={}; description="wifi networks";};};
+  options.modules.wifi = {
+    enable = mkEnableOption "wifi";
+    networks = mkOption {
+      type = types.attrs;
+      default = {};
+      description = "wifi networks";
+    };
+  };
   config = mkIf cfg.enable {
     networking.wireless.enable = true;
     networking.networkmanager.enable = false;
