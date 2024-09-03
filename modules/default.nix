@@ -1,5 +1,6 @@
 {
   imports = [
+    ./declarative-password
     ./wifi
     ./virtualisation
     ./display-manager

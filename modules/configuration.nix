@@ -14,15 +14,11 @@
   programs.fish.enable = true;
 
   # User
-  users.mutableUsers = false;
-
-  # User
   users.users.${user} = {
     uid = 1000;
     isNormalUser = true;
     home = "/home/${user}";
     createHome = true;
-    hashedPasswordFile = config.age.secrets.user-password.path;
     initialPassword = "root";
     description = full-name;
     extraGroups = ["wheel" "networkmanager"];
