@@ -9,13 +9,12 @@
       outPath = self.outPath;
       user = "test";
       full-name = "Testing";
+      email = "test@test.com";
       nvim-config = ./.;
     };
   in {
     nixosConfigurations.examplehost = mkSystem "examplehost" {
       system = "x86_64-linux";
-      wsl = true;
     };
   };
 }
-

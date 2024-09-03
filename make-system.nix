@@ -5,6 +5,7 @@
   outPath,
   user,
   full-name,
+  email,
   wallpaper ? ./assets/wallpaper.png,
   nvim-config,
   system-secrets ? "${outPath}/secrets/system.nix",
@@ -47,7 +48,7 @@ in
             useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = {
-              inherit full-name user wallpaper nvim-config;
+              inherit full-name user email wallpaper nvim-config;
               inherit (inputs) agenix;
             };
 

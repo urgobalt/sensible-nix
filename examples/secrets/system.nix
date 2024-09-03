@@ -4,7 +4,6 @@
 
   # IF YOU HAVE AN EMPTY FILE user-password.age IT IS UB AND RECOVERY IS NOT GARANTIED UOCURE
   # Make sure to add ssh keys too be safe
-  age.secrets.user-password.file = ./user-password.age;
-  age.secrets.wifi-env.file = ./wifi-env.age;
+  # age.secrets.user-password.file = ./user-password.age;
+  # age.secrets.wifi-env.file = ./wifi-env.age;
 }
-

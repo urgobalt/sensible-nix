@@ -3,6 +3,7 @@
   lib,
   config,
   full-name,
+  email,
   ...
 }:
 with lib; let
@@ -13,7 +14,7 @@ in {
     programs.git = {
       enable = true;
       userName = full-name;
-      userEmail = "ludvigkallqvistnygren@gmail.com";
+      userEmail = email;
       extraConfig = {
         core.editor = "nvim";
         safe.directory = [
