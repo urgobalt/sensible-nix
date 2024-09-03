@@ -5,7 +5,7 @@ _A sensible base nixos configuration._
 This is not a regular nixos system, but rather is exposing a function to modularize your own configuration with sensible defaults.
 
 ### Adding secrets
-There is some secrets that is required to build the configuration depending on what modules are enabled. The only secret required without any modules enabled is `user-password.age`.
+There is some secrets that is required to build the configuration depending on what modules are enabled.
 
 After installation you will be provided with a program called `agenix`, but before that you can use `nix run`.
 
@@ -61,7 +61,14 @@ We can define system modules within `system.nix` and home-manager modules within
 {
     config.modules = {
         # The name of the module and the options you want to enable.
-        wifi.enable = true;
+        nvim.enable = true;
     }
 }
 ```
+
+## How-to
+This section will guide you through enabling some more advanced modules.
+### Declarative passwords
+**!!Important!!**
+This is a **dangerous** option so you need to know what you're doing before enabling. You will be required to do recovery on your computer if misconfigured.
+
