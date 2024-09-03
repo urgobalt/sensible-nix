@@ -36,6 +36,7 @@ in {
 
       # Python
       ruff
+      pylyzer
 
       # Lsp
       lua-language-server
