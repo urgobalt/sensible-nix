@@ -37,6 +37,8 @@ in
         # Secret management within nixos, many things depend on them
         inputs.agenix.nixosModules.default
         system-secrets
+        # Nix index database
+        inputs.nix-index-database.nixosModules.nix-index
         # Home manager is the thing modularizing the configuration
         inputs.home-manager.nixosModules.home-manager
         {

@@ -9,6 +9,10 @@
       flake = false;
     };
     nur.url = "github:nix-community/nur";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     # Hardware
     wsl = {
@@ -51,4 +55,3 @@
     });
   };
 }
-
