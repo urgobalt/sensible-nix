@@ -23,7 +23,6 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       swaybg
-      hyprkool-bin
       wlsunset
       wl-clipboard
       # unstable.hyprpaper
@@ -35,7 +34,7 @@ in {
       systemd.variables = ["--all"];
       plugins = with pkgs; [
         # hyprspace
-        hyprkool-plugin
+        hyprkool
       ];
       settings = {
         monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
