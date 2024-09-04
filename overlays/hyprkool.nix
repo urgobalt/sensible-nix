@@ -8,6 +8,6 @@ stdenv.mkDerivation {
 
   src = fetchzip {
     url = "https://github.com/thrombe/hyprkool/archive/refs/tags/0.7.1.tar.gz";
-    hash = "";
+    hash = "sha256-II9j5IplV6tWg7AKsKIGkFSeDby+AJgB+nNHv3cU16k=";
   };
 }
