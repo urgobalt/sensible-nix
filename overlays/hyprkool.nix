@@ -143,11 +143,8 @@
     '';
   };
 in
-  stdenv.mkDerivation {
-    pname = "hyprkool";
-    version = meta.version;
-    src = buildEnv {
-      name = "hyprkool-join";
-      paths = [binary plugin];
-    };
+  buildEnv {
+    name = "hyprkool";
+    paths = [binary plugin];
+    pathsToLink = ["/bin" "/lib"];
   }

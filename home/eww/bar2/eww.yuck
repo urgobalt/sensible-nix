@@ -26,6 +26,21 @@
 ;         :onclick "$HOME/.config/eww/bar/scripts/pop calendar" clock_date
 ;    ))
 
+(defwidget cal []
+	(box :class "cal" :orientation "v"
+	(box :class "cal-in"
+	(calendar :class "cal"
+			  :day calendar_day
+			  :year calendar_year))))
+
+(defwindow calendar
+	:geometry (geometry :x "-20px"
+						:y "7%"
+                        :anchor "top right"
+						:width "270px"
+						:height "60px")
+(cal))
+
 (defwidget left []
 	(box :orientation "h"
 		 :space-evenly false
