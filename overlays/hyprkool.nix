@@ -1,6 +1,8 @@
 {
   stdenv,
   fetchzip,
+  cmake,
+  hyprland,
 }:
 stdenv.mkDerivation {
   pname = "hyprkool";
@@ -10,4 +12,7 @@ stdenv.mkDerivation {
     url = "https://github.com/thrombe/hyprkool/archive/refs/tags/0.7.1.tar.gz";
     hash = "sha256-II9j5IplV6tWg7AKsKIGkFSeDby+AJgB+nNHv3cU16k=";
   };
+
+  dontUseCmakeConfigure = true;
+  dontUseMesonConfigure = true;
 }
