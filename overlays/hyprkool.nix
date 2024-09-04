@@ -2,7 +2,7 @@
   stdenv,
   fetchzip,
 }:
-stdenv.mkDerivaton {
+stdenv.mkDerivation {
   pname = "hyprkool";
   version = "e0ae6c6b6513eaa70540fea200031743e4b62165";
 
