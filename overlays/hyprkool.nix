@@ -145,5 +145,5 @@
 in
   symlinkJoin {
     name = "hyprkool";
-    path = [binary plugin];
+    paths = [binary plugin];
   }
