@@ -10,6 +10,7 @@ with lib; let
   colors = {
     yellow = "0xffffdeaa";
     gray02 = "0x4c4c4c4bff";
+    none = "0x00000000";
   };
 in {
   options.modules.hyprland = {
@@ -38,7 +39,7 @@ in {
         monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
         # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
         # "eww daemon" "eww open bar"
-        exec-once = ["wlsunset -l -23 -L -46"];
+        exec-once = ["wlsunset -l -23 -L -46" "eww daemon" "eww open bar"];
         input = {
           follow_mouse = 0;
           kb_layout = "se";
@@ -51,7 +52,7 @@ in {
           gaps_out = 15;
           border_size = 1;
           "col.active_border" = colors.yellow;
-          "col.inactive_border" = colors.gray02;
+          "col.inactive_border" = colors.none;
         };
         master = {
           mfact = 0.6;
@@ -67,7 +68,7 @@ in {
           rounding = 5;
           drop_shadow = 0;
           shadow_range = 60;
-          "col.shadow" = "0x66000000";
+          "col.shadow" = colors.gray02;
           inactive_opacity = 1.0;
         };
         plugin = {

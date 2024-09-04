@@ -21,7 +21,7 @@ in {
     ];
 
     xdg.configFile."eww" = {
-      source = ./bar;
+      source = ./bar2;
       recursive = true;
     };
   };
