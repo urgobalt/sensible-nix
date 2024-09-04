@@ -12,7 +12,13 @@ with lib; let
     gray02 = "0x4c4c4c4bff";
   };
 in {
-  options.modules.hyprland = {enable = mkEnableOption "hyprland";};
+  options.modules.hyprland = {
+    enable = mkEnableOption "hyprland";
+    monitors = mkOption {
+      type = types.listOf types.str;
+      default = null;
+    };
+  };
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       swaybg
@@ -29,7 +35,7 @@ in {
         hyprspace
       ];
       settings = {
-        monitor = ["eDP-1,1920x1080@60,0x0,1" "eDP-1,addreserved,50,0,0,0"];
+        monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
         # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
         # "eww daemon" "eww open bar"
         exec-once = ["wlsunset -l -23 -L -46"];
