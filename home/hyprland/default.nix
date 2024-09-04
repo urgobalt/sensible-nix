@@ -33,7 +33,8 @@ in {
       enable = true;
       systemd.variables = ["--all"];
       plugins = with pkgs; [
-        hyprspace
+        # hyprspace
+        hyprkool
       ];
       settings = {
         monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
