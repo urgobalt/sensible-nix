@@ -50,7 +50,7 @@ gcc13Stdenv.mkDerivation rec {
     owner = "thrombe";
     repo = "hyprkool";
     rev = version;
-    sha256 = "";
+    sha256 = "sha256-HHmJey9l4+BW+5PYMLfeqcHwtIZcJ8ZI42ARgRRNC+E=";
   };
 
   nativeBuildInputs = [
