@@ -43,14 +43,14 @@
   withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
 }:
 gcc13Stdenv.mkDerivation rec {
-  pname = "Hyprkool";
-  version = "e0ae6c6b6513eaa70540fea200031743e4b62165";
+  pname = "hyprkool";
+  version = "3f56d829b44218d70867886b91d9f697d8ad9f68";
 
   src = fetchFromGitHub {
     owner = "thrombe";
     repo = "hyprkool";
     rev = version;
-    sha256 = "sha256-LYtAvRlE1zJCYmnY1EYroGu5zGlIMMr9bFIBLM7hwng=";
+    sha256 = "";
   };
 
   nativeBuildInputs = [
