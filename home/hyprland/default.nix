@@ -17,7 +17,7 @@ in {
     enable = mkEnableOption "hyprland";
     monitors = mkOption {
       type = types.listOf types.str;
-      default = null;
+      default = [",preferred,auto,1"];
     };
   };
   config = mkIf cfg.enable {
