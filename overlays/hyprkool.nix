@@ -8,7 +8,7 @@ pkgs.unstable.rustPlatform.buildRustPackage rec {
   pname = "hyprkool";
   version = "3f56d829b44218d70867886b91d9f697d8ad9f68";
 
-  src = pkgs.lib.cleanSource fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "thrombe";
     repo = "hyprkool";
     rev = version;
