@@ -3,17 +3,17 @@
 activities = ["my-default-activity", "my-activity"]
 
 # number of workspaces in x and y dimensions
-workspaces = [2, 2]
+workspaces = [3, 3]
 
 [daemon]
 # remember last focused workspace in an activity
-remember_activity_focus = true
+remember_activity_focus = false
 
 # execute fallback commands if daemon cannot be reached
 fallback_commands = true
 
 [daemon.mouse]
-switch_workspace_on_edge = true
+switch_workspace_on_edge = false
 
 # how often to poll for cursor position
 polling_rate = 300 # in ms

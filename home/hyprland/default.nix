@@ -80,6 +80,13 @@ in {
           #   overrideGaps = false;
           #   affectStrut = false;
           # };
+          hyprkool = {
+            overview = {
+              hover_border_color = colors.yellow;
+              focus_border_color = colors.yellow;
+              workspace_gap_size = 5;
+            };
+          };
         };
         animations = {
           enabled = 1;
@@ -125,11 +132,15 @@ in {
           "$mod, j, exec, hyprkool move-down -c"
           "$mod, k, exec, hyprkool move-up -c"
           # Move to workspace
-          "$smod,1,movetoworkspacesilent,1"
-          "$smod,2,movetoworkspacesilent,2"
-          "$smod,3,movetoworkspacesilent,3"
-          "$smod,4,movetoworkspacesilent,4"
-          "$smod,5,movetoworkspacesilent,5"
+          # "$smod,1,movetoworkspacesilent,1"
+          # "$smod,2,movetoworkspacesilent,2"
+          # "$smod,3,movetoworkspacesilent,3"
+          # "$smod,4,movetoworkspacesilent,4"
+          # "$smod,5,movetoworkspacesilent,5"
+          "$smod, h, exec, hyprkool move-left -c -w"
+          "$smod, l, exec, hyprkool move-right -c -w"
+          "$smod, j, exec, hyprkool move-down -c -w"
+          "$smod, k, exec, hyprkool move-up -c -w"
           # Brightness
           ",XF86MonBrightnessUp,exec,brightnessctl set +5%"
           ",XF86MonBrightnessDown,exec,brightnessctl set 5%-"
