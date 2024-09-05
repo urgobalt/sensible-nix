@@ -1,10 +1,8 @@
 {
   lib,
+  gcc13Stdenv,
   stdenv,
   fetchFromGitHub,
-  pkgs,
-  gcc13Stdenv,
-  symlinkJoin,
   pkg-config,
   cmake,
   ninja,
@@ -46,7 +44,7 @@
 }:
 gcc13Stdenv.mkDerivation rec {
   pname = "hyprkool";
-  version = "3f56d829b44218d70867886b91d9f697d8ad9f68";
+  version = "e0ae6c6b6513eaa70540fea200031743e4b62165";
 
   src = fetchFromGitHub {
     owner = "thrombe";

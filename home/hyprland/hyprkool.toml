@@ -1,0 +1,25 @@
+# activity names (first activity is treated as default)
+# note: only a-z A-Z 0-9 - _ characters are allowed in the name
+activities = ["my-default-activity", "my-activity"]
+
+# number of workspaces in x and y dimensions
+workspaces = [2, 2]
+
+[daemon]
+# remember last focused workspace in an activity
+remember_activity_focus = true
+
+# execute fallback commands if daemon cannot be reached
+fallback_commands = true
+
+[daemon.mouse]
+switch_workspace_on_edge = true
+
+# how often to poll for cursor position
+polling_rate = 300 # in ms
+
+# number of pixels to consider as edge
+edge_width = 0
+
+# number of pixels to push cursor inside when it loops around
+edge_margin = 2

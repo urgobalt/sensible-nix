@@ -25,6 +25,7 @@ in {
       swaybg
       wlsunset
       wl-clipboard
+      hyprkool-bin
       # unstable.hyprpaper
       # unstable.hyprland
     ];
@@ -34,13 +35,13 @@ in {
       systemd.variables = ["--all"];
       plugins = with pkgs; [
         # hyprspace
-        hyprkool
+        hyprkool-plugin
       ];
       settings = {
         monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
         # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
         # "eww daemon" "eww open bar"
-        exec-once = ["wlsunset -l -23 -L -46" "eww daemon" "eww open bar"];
+        exec-once = ["wlsunset -l -23 -L -46" "eww daemon" "eww open bar" "hyprkool daemon -m"];
         input = {
           follow_mouse = 0;
           kb_layout = "se";
@@ -73,12 +74,12 @@ in {
           inactive_opacity = 1.0;
         };
         plugin = {
-          overview = {
-            workspaceActiveBorder = colors.yellow;
-            workspaceBorder = colors.gray02;
-            overrideGaps = false;
-            affectStrut = false;
-          };
+          # overview = {
+          #   workspaceActiveBorder = colors.yellow;
+          #   workspaceBorder = colors.gray02;
+          #   overrideGaps = false;
+          #   affectStrut = false;
+          # };
         };
         animations = {
           enabled = 1;
@@ -89,14 +90,6 @@ in {
           ];
         };
 
-        windowrule = [
-          "workspace 0,kitty"
-          "workspace 1,chromium"
-        ];
-        workspace = [
-          "1,on-created-empty:exec, kitty"
-          "1,monitor:eDP-1"
-        ];
         "$mod" = "SUPER";
         "$smod" = "SUPER SHIFT";
         "$cmod" = "CTRL SUPER";
@@ -105,7 +98,7 @@ in {
           "$mod,Q,killactive,"
           "$mod,V,togglefloating,"
           "$mod,F,fullscreen,0"
-          "$mod,Tab,overview:toggle"
+          "$mod,Tab,exec,hyprkool toggle-overview"
           # Applications
           "$mod,R,exec,fuzzel"
           "$mod,T,exec,kitty"
@@ -119,14 +112,18 @@ in {
           "$smod,k,movewindow,u"
           "$smod,j,movewindow,d"
           # Workspace navigation
-          "$mod,1,workspace,1"
-          "$mod,2,workspace,2"
-          "$mod,3,workspace,3"
-          "$mod,4,workspace,4"
-          "$mod,5,workspace,5"
+          # "$mod,1,workspace,1"
+          # "$mod,2,workspace,2"
+          # "$mod,3,workspace,3"
+          # "$mod,4,workspace,4"
+          # "$mod,5,workspace,5"
           # Relative workspace navigation
-          "$mod,l,workspace,+1"
-          "$mod,h,workspace,-1"
+          # "$mod,l,workspace,+1"
+          # "$mod,h,workspace,-1"
+          "$mod, h, exec, hyprkool move-left -c"
+          "$mod, l, exec, hyprkool move-right -c"
+          "$mod, j, exec, hyprkool move-down -c"
+          "$mod, k, exec, hyprkool move-up -c"
           # Move to workspace
           "$smod,1,movetoworkspacesilent,1"
           "$smod,2,movetoworkspacesilent,2"
@@ -163,5 +160,7 @@ in {
 
     # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
     # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
+
+    xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
   };
 }
