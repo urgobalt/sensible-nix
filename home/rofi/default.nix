@@ -8,7 +8,13 @@
 with lib; let
   cfg = config.modules.rofi;
 in {
-  options.modules.rofi = {enable = mkEnableOption "rofi";};
+  options.modules.rofi = {
+    enable = mkOption {
+      name = "rofi";
+      type = types.bool;
+      default = config.modules.hyprland.enable;
+    };
+  };
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       rofi-wayland
