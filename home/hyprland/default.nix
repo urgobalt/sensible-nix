@@ -103,11 +103,12 @@ in {
         bind = [
           # General
           "$mod,Q,killactive,"
-          "$mod,V,togglefloating,"
+          "$mod,H,togglefloating,"
           "$mod,F,fullscreen,0"
           "$mod,Tab,exec,hyprkool toggle-overview"
           # Applications
-          "$mod,R,exec,fuzzel"
+          "$mod,R,exec,rofi -show drun"
+          "$mod,V,exec,cliphist list | rofi -dmenu | wl-copy"
           "$mod,T,exec,kitty"
           "$mod,B,exec,chromium"
           # Movement
