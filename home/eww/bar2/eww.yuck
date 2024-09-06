@@ -1,6 +1,6 @@
 
 ; Clock
-(defpoll clock_time :interval "10s" "date +\%I")
+(defpoll clock_time :interval "10s" "date +\%H")
 (defpoll clock_minute :interval "5s" "date +\%M")
 (defpoll clock_date :interval "10h" "date '+%d/%m'")
 (defvar time_rev false)
