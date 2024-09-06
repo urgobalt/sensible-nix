@@ -50,6 +50,7 @@ in
             extraSpecialArgs = {
               inherit full-name user email wallpaper nvim-config;
               inherit (inputs) agenix;
+              colors = import ./lib/colors.nix;
             };
 
             users.${user}.imports = [

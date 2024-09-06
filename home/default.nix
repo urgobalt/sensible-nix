@@ -9,6 +9,7 @@
 
     # Applets
     ./fuzzel
+    ./rofi
     ./kitty
     ./wezterm
     ./chromium
