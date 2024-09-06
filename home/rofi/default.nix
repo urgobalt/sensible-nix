@@ -12,6 +12,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       rofi-wayland
+      cliphist
     ];
 
     xdg.configFile."rofi/config.rasi".source = ./theme.rasi;
