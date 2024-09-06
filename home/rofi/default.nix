@@ -10,7 +10,6 @@ with lib; let
 in {
   options.modules.rofi = {
     enable = mkOption {
-      name = "rofi";
       type = types.bool;
       default = config.modules.hyprland.enable;
     };
