@@ -33,10 +33,18 @@ $gray07: #b6b6b5;
 }
 
 .background {
-  background-color: rgba($background, 0.67);
   color: $text;
   border-radius: 5px;
   padding: 5px 10px;
+}
+
+.bar_class {
+  background-color: rgba($background, 0.67);
+}
+
+.calendar {
+  background-color: $background;
+  padding: 5rem;
 }
 
 .module {

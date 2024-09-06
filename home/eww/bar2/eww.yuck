@@ -6,18 +6,21 @@
 (defvar time_rev false)
 
 (defwidget clock_module []
- (eventbox :onhover "${EWW_CMD} update time_rev=true"
- :onhoverlost "${EWW_CMD} eww update time_rev=false"
-    (box :class "module" :space-evenly "false" :orientation "h" :spacing "3"
-      (label :text clock_time :class "clock_hours" )
-      (label :text ":" :class "clock_time_sep" )
-      (label :text clock_minute :class "clock_minute_class")
-  )))
+    (eventbox :onhover "${EWW_CMD} open calendar"
+              :onhoverlost "${EWW_CMD} close calendar"
+      (box :class "module" :space-evenly "false" :orientation "h" :spacing "3"
+        (label :text clock_time :class "clock_hours" )
+        (label :text ":" :class "clock_time_sep" )
+        (label :text clock_minute :class "clock_minute_class")
+)))
 
 (defwidget date_module []
   (box :class "module" :space-evenly "false" :orientation "h" :spacing "3"
     (label :text clock_date :class "clock_date")))
 
+ ;  (eventbox :onhover "${EWW_CMD} update time_rev=true"
+ ;  :onhoverlost "${EWW_CMD} eww update time_rev=false"
+;   )
 
 ;  (revealer :transition "slideleft"
 ;		  :reveal time_rev
@@ -30,16 +33,17 @@
 (defpoll calendar_year :interval "20h" "date '+%Y'")
 
 (defwidget cal []
-	(box :class "cal" :orientation "v"
-	(box :class "cal-in"
+	(box :class "calendar" :orientation "v"
+	(box :class "inner-calendar"
 	(calendar :class "cal"
 			  :day calendar_day
 			  :year calendar_year))))
 
 (defwindow calendar
-	:geometry (geometry :x "-20px"
-						:y "7%"
-                        :anchor "top right"
+  :monitor 0
+  :geometry (geometry :x "0px"
+						:y "55px"
+                        :anchor "top center"
 						:width "270px"
 						:height "60px")
 (cal))
@@ -76,6 +80,7 @@
 
 (defwindow bar
           :monitor 0
+          :id "bar"
           :geometry (geometry :x "0%"
                        :y "10px"
                        :width "98%"
