@@ -103,7 +103,7 @@ in {
         bind = [
           # General
           "$mod,Q,killactive,"
-          "$smod,H,togglefloating,"
+          "$smod,F,togglefloating,"
           "$mod,F,fullscreen,0"
           "$mod,Tab,exec,hyprkool toggle-overview"
           # Applications
