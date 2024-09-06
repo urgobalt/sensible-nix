@@ -14,6 +14,7 @@
     ./wezterm
     ./chromium
     ./social
+    ./spacedrive
 
     # cli
     ./tmux
