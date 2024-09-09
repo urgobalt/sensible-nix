@@ -7,6 +7,7 @@
 }:
 with lib; let
   cfg = config.modules.rofi;
+  c = colors.regular;
 in {
   options.modules.rofi = {
     enable = mkOption {
@@ -23,12 +24,12 @@ in {
     xdg.configFile."rofi/config.rasi".source = ./theme.rasi;
     xdg.configFile."rofi/assets.rasi".text = ''
       * {
-          background:     ${colors.hex.background};
-          background-alt: ${colors.hex.black};
-          foreground:     ${colors.hex.text};
-          selected:       ${colors.hex.cyan};
-          active:         ${colors.hex.yellow};
-          urgent:         ${colors.hex.red};
+          background:     ${c.background};
+          background-alt: ${c.black};
+          foreground:     ${c.text};
+          selected:       ${c.cyan};
+          active:         ${c.yellow};
+          urgent:         ${c.red};
           font:           "SourceCodePro Nerd Font 14";
       }
     '';

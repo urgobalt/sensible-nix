@@ -2,10 +2,12 @@
   pkgs,
   lib,
   config,
+  colors,
   ...
 }:
 with lib; let
   cfg = config.modules.fuzzel;
+  c = colors.no_prefix;
 in {
   options.modules.fuzzel = {enable = mkEnableOption "fuzzel";};
   config = mkIf cfg.enable {
@@ -13,8 +15,8 @@ in {
       enable = true;
       settings = {
         colors = {
-          background = "1a1a19ab";
-          text = "d1d1d1ff";
+          background = c.background;
+          text = c.text;
           match = "7bb099ff";
           selection = "2a2a29ff";
           selection-text = "d1d1d1ff";

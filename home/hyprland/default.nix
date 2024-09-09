@@ -3,15 +3,12 @@
   config,
   pkgs,
   wallpaper,
+  colors,
   ...
 }:
 with lib; let
   cfg = config.modules.hyprland;
-  colors = {
-    yellow = "0xffffdeaa";
-    gray02 = "0x4c4c4c4bff";
-    none = "0x00000000";
-  };
+  c = colors.zero_prefix;
 in {
   options.modules.hyprland = {
     enable = mkEnableOption "hyprland";
@@ -37,7 +34,10 @@ in {
         # hyprspace
         hyprkool-plugin
       ];
-      settings = import ./hyprland.nix {inherit cfg colors;};
+      settings = import ./hyprland.nix {
+        inherit cfg;
+        colors = c;
+      };
     };
 
     services.hyprpaper = {
