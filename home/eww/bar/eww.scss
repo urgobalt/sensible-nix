@@ -43,7 +43,7 @@ $gray07: #b6b6b5;
   padding: 0px 10px;
 }
 
-.calendar, .battery {
+.calendar, .battery, .cpu, .ram, .disk {
   background-color: $background;
   padding: 1rem;
   border-radius: 5px;
@@ -92,4 +92,16 @@ $gray07: #b6b6b5;
   background-color: $red;
   color: $black;
   border-radius: 10px;
+}
+
+.icon.normal {
+  color: $text;
+}
+
+.icon.warning {
+  color: $yellow;
+}
+
+.icon.error {
+  color: $red;
 }

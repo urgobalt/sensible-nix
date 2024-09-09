@@ -49,31 +49,69 @@
 (defwidget battery_module []
   (eventbox :onhover "${EWW_CMD} open battery"
             :onhoverlost "${EWW_CMD} close battery"
-    (box :class "" :orientation "h" :space-evenly "false" :spacing "3"
-      (metric :icon "󰁹" :value {jq(EWW_BATTERY, ".total_avg")})
-)))
-
-(defwidget metric [icon value ?onchange ?class]
-  (box :class "metric" :orientation "h" :space-evenly "false" :spacing "10"
-    (scale :class {class != "" ? class : "normal"}
-           :min 0
-           :max 101
-           :active {onchange != ""}
-           :value value
-           :onchange onchange
-          :orientation "h")
-    (label :text icon)
+      (metric :icon {jq(EWW_BATTERY, ".BAT0.status") == "Charging" ? "󰂄" : "󰁹"} :value {jq(EWW_BATTERY, ".total_avg")})
 ))
 
 (defwindow battery
           :monitor 0
           :id "battery"
-          :geometry (geometry :x "10px"
+          :geometry (geometry :x "15px"
                               :y "55px"
                               :anchor "top right")
   (box :orientation "h" :space-evenly "false" :spacing "20"
     (label :text "${jq(EWW_BATTERY, ".BAT0.capacity")}%")
     (label :text {jq(EWW_BATTERY, ".BAT0.status")})
+))
+
+; RAM
+(defwidget ram_module []
+  (eventbox :onhover "${EWW_CMD} open ram"
+            :onhoverlost "${EWW_CMD} close ram"
+      (metric :icon "󰍛 " :value {jq(EWW_RAM, ".used_mem_perc")} :reverse true)
+))
+
+(defwindow ram
+          :monitor 0
+          :id "ram"
+          :geometry (geometry :x "165px"
+                              :y "55px"
+                              :anchor "top left")
+  (box :orientation "h" :space-evenly "false" :spacing "20"
+    (label :text "${round(jq(EWW_RAM, ".used_mem")/1000000000, 2)}/${round(jq(EWW_RAM, ".total_mem")/1000000000, 0)} Gb RAM used")
+))
+
+; Disk
+(defwidget disk_module []
+  (eventbox :onhover "${EWW_CMD} open disk"
+            :onhoverlost "${EWW_CMD} close disk"
+      (metric :icon "󰒋 " :value {jq(EWW_DISK, ".\"/\".used_perc")} :reverse true)
+))
+
+(defwindow disk
+          :monitor 0
+          :id "disk"
+          :geometry (geometry :x "${150*2+15}px"
+                              :y "55px"
+                              :anchor "top left")
+  (box :orientation "h" :space-evenly "false" :spacing "20"
+    (label :text "${round(jq(EWW_DISK, ".\"/\".used")/1000000000, 2)}/${round(jq(EWW_DISK, ".\"/\".total")/1000000000, 0)} Gb disk space used")
+))
+
+; CPU
+(defwidget cpu_module []
+  (eventbox :onhover "${EWW_CMD} open cpu"
+            :onhoverlost "${EWW_CMD} close cpu"
+      (metric :icon "󰊚 " :value {jq(EWW_CPU, ".avg")} :reverse true)
+))
+
+(defwindow cpu
+          :monitor 0
+          :id "cpu"
+          :geometry (geometry :x "15px"
+                              :y "55px"
+                              :anchor "top left")
+  (box :orientation "h" :space-evenly "false" :spacing "20"
+    (label :text "${round(jq(EWW_CPU, ".avg"), 2)}% CPU usage")
 ))
 
 ; Locations
@@ -82,6 +120,10 @@
 		 :space-evenly false
          :halign "start"
 		 :class "right_modules"
+          :spacing "20"
+    (cpu_module)
+    (ram_module)
+    (disk_module)
 ))
 
 
@@ -119,3 +161,19 @@
           :windowtype "dock"
   (bar_1))
 
+(defwidget metric [icon value ?onchange ?reverse]
+  (inner_metric :icon icon :value value :onchange onchange :state {reverse != "" && reverse ?
+                  value > 75 ? "error" : value > 50 ? "warning" : "normal" :
+                  value < 25 ? "error" : value < 50 ? "warning" : "normal"})
+  )
+(defwidget inner_metric [icon value onchange state]
+  (box :class "metric" :orientation "h" :space-evenly "false" :spacing "10"
+    (scale :class {state}
+           :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange
+          :orientation "h")
+    (label :text icon :class "icon ${state}")
+))
