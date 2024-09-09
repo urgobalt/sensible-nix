@@ -49,7 +49,7 @@
 (defwidget battery_module []
   (eventbox :onhover "${EWW_CMD} open battery"
             :onhoverlost "${EWW_CMD} close battery"
-      (metric :icon {jq(EWW_BATTERY, ".BAT0.status") == "Charging" ? "󰂄" : "󰁹"} :value {jq(EWW_BATTERY, ".total_avg")})
+      (metric :icon {EWW_BATTERY.BAT0.status == "Charging" ? "󰂄" : "󰁹"} :value {jq(EWW_BATTERY, ".total_avg")})
 ))
 
 (defwindow battery
@@ -60,7 +60,7 @@
                               :anchor "top right")
   (box :orientation "h" :space-evenly "false" :spacing "20"
     (label :text "${jq(EWW_BATTERY, ".BAT0.capacity")}%")
-    (label :text {jq(EWW_BATTERY, ".BAT0.status")})
+    (label :text {EWW_BATTERY.BAT0.status})
 ))
 
 ; RAM
