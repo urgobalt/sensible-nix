@@ -1,10 +1,11 @@
 {
   stdenvNoCC,
   pkgs,
+  path,
 }:
 stdenvNoCC.mkDerivation {
-  name = "sddm-sugar-dark";
-  src = ./.;
+  name = "sddm-theme";
+  src = path;
 
   propegatedBuildInputs = [
     pkgs.libsForQt5.qt5.qtgraphicaleffects
@@ -14,7 +15,7 @@ stdenvNoCC.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/share/sddm/themes
-    cp -r $src $out/share/sddm/themes/sugar-dark
+    cp -r $src $out/share/sddm/themes/current
   '';
 
   postFixup = ''

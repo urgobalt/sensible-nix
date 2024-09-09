@@ -6,7 +6,10 @@
 }:
 with lib; let
   cfg = config.modules.display-manager;
-  # regreet = import ./regreet.nix {inherit pkgs;};
+  theme = pkgs.callPackage ./theme {
+    path = cfg.theme;
+    inherit pkgs;
+  };
 in {
   options.modules.display-manager = {
     enable = mkEnableOption "display-manager";
@@ -15,17 +18,22 @@ in {
       default = false;
       description = "Enable pam_2fa with google authenticator";
     };
+    theme = mkOption {
+      type = types.path;
+      default = ../../assets/sddm-sugar-dark;
+      description = "Path to the sddm main.qml file";
+    };
   };
   config = mkIf cfg.enable (mkMerge [
     {
       environment.systemPackages = with pkgs; [
-        (callPackage ./sddm-sugar-dark {})
+        theme
       ];
 
       services.displayManager.sddm = {
         enable = true;
         enableHidpi = true;
-        theme = "sugar-dark";
+        theme = "current";
         wayland.enable = true;
       };
 
