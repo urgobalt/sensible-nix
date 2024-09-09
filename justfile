@@ -4,7 +4,6 @@ default:
   @just --list
 
 core:
-  nix flake update /etc/nixos
   sudo nixos-rebuild switch --fast --override-input sensible-nix $PWD
 
 eww: core
