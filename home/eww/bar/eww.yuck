@@ -3,18 +3,18 @@
 (defpoll clock_time :interval "200ms" "date +\%H")
 (defpoll clock_minute :interval "200ms" "date +\%M")
 (defpoll clock_second :interval "200ms" "date +\%S")
-(defvar time_rev false)
+(defvar show_time false)
 
 (defwidget clock_module []
     (eventbox :onhover "${EWW_CMD} open calendar"
               :onhoverlost "${EWW_CMD} close calendar"
-      (eventbox :onhover "${EWW_CMD} update time_rev=true"
-                :onhoverlost "${EWW_CMD} update time_rev=false"
+      (eventbox :onhover "${EWW_CMD} update show_time=true"
+                :onhoverlost "${EWW_CMD} update show_time=false"
       (box :class "module" :space-evenly "false" :orientation "h" :spacing "3"
         (label :text clock_time :class "clock_hours" )
         (label :text ":" :class "clock_time_sep" )
         (label :text clock_minute :class "clock_minute_class")
-        (revealer :transition "slideright" :reveal time_rev :duration "350ms"
+        (revealer :transition "slideright" :reveal show_time :duration "350ms"
           (box :space-evenly "false" :orientation "h" :spacing "3"
             (label :text ":" :class "clock_time_sep" )
             (label :text clock_second :class "clock_second_class")
@@ -114,6 +114,20 @@
     (label :text "${round(jq(EWW_CPU, ".avg"), 2)}% CPU usage")
 ))
 
+; WIFI
+(defpoll wifi_name :interval "5s" "iwgetid -r")
+(defpoll wifi_rssi :interval "5s" "wpa_cli signal_poll | grep \"^RSSI=\" | awk -F '=' '{print $2}'")
+(defvar show_wifi false)
+
+(defwidget wifi_module []
+  (eventbox :onhover "${EWW_CMD} update show_wifi=true"
+            :onhoverlost "${EWW_CMD} update show_wifi=false"
+    (box :orientation "h" :space-evenly "false" :spacing "10"
+      (revealer :transition "slideleft" :reveal show_wifi :duration "350ms"
+          (label :text wifi_name))
+      (label :text {wifi_rssi < -50 ? wifi_rssi < -60 ? wifi_rssi < -70 ? wifi_rssi ? -80 : "󰤟 " : "󰤢 " : "󰤥 " : "󰤨 " })
+)))
+
 ; Locations
 (defwidget left []
 	(box :orientation "h"
@@ -132,6 +146,7 @@
 		 :space-evenly false
          :halign "center"
 		 :class "center_modules"
+          :spacing "20"
 (clock_module)))
 
 (defwidget right []
@@ -139,7 +154,10 @@
 		 :space-evenly false
          :halign "end"
 		 :class "left_modules"
-(battery_module)))
+          :spacing "20"
+    (wifi_module)
+    (battery_module)
+))
 
 (defwidget bar_1 []
   (box :class "bar_class"
