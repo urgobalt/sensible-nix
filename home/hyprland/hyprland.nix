@@ -24,6 +24,7 @@
     mfact = 0.6;
     inherit_fullscreen = 1;
     no_gaps_when_only = 0;
+    orientation = "center";
     new_status = "master";
   };
   misc = {
@@ -72,7 +73,7 @@
     "$mod,Tab,exec,hyprkool toggle-overview"
     # Applications
     "$mod,R,exec,rofi -show drun"
-    "$mod,V,exec,cliphist list | rofi -dmenu | wl-copy"
+    "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
     "$mod,T,exec,kitty"
     "$mod,B,exec,chromium"
     # Movement
