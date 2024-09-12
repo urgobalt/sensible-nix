@@ -43,11 +43,20 @@ $gray07: #b6b6b5;
   padding: 0px 10px;
 }
 
-.calendar, .battery, .cpu, .ram, .disk {
-  background-color: $background;
+.calendar {
+  background-color: $gray02;
   padding: 1rem;
   border-radius: 5px;
-  border-width: 1px;
+  border-width: 0px;
+  border-style: solid;
+  border-color: $cyan;
+}
+
+.battery, .cpu, .ram, .disk {
+  background-color: $background;
+  padding: 1rem;
+  border-radius: 0px 0px 5px 5px;
+  border-width: 0px;
   border-style: solid;
   border-color: $cyan;
 }

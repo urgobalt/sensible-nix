@@ -40,27 +40,18 @@
 (defwindow calendar
   :monitor 0
   :geometry (geometry :x "0px"
-						:y "55px"
+						:y "80px"
             :anchor "top center"
 						)
 (cal))
 
 ; Battery
-(defwidget battery_module []
-  (eventbox :onhover "${EWW_CMD} open battery"
-            :onhoverlost "${EWW_CMD} close battery"
-      (metric :icon {EWW_BATTERY.BAT0.status == "Charging" ? "󰂄" : "󰁹"} :value {jq(EWW_BATTERY, ".total_avg")})
-))
+(defvar show_battery false)
 
-(defwindow battery
-          :monitor 0
-          :id "battery"
-          :geometry (geometry :x "15px"
-                              :y "55px"
-                              :anchor "top right")
-  (box :orientation "h" :space-evenly "false" :spacing "20"
-    (label :text "${jq(EWW_BATTERY, ".BAT0.capacity")}%")
-    (label :text {EWW_BATTERY.BAT0.status})
+(defwidget battery_module []
+  (eventbox :onhover "${EWW_CMD} update show_battery=true"
+            :onhoverlost "${EWW_CMD} update show_battery=false"
+      (metric :icon {EWW_BATTERY.BAT0.status == "Charging" ? "󰂄" : "󰁹"} :value {jq(EWW_BATTERY, ".total_avg")} :preview "${EWW_BATTERY.BAT0.capacity}%" :show_preview show_battery)
 ))
 
 ; RAM
@@ -74,7 +65,7 @@
           :monitor 0
           :id "ram"
           :geometry (geometry :x "165px"
-                              :y "55px"
+                              :y "40px"
                               :anchor "top left")
   (box :orientation "h" :space-evenly "false" :spacing "20"
     (label :text "${round(jq(EWW_RAM, ".used_mem")/1000000000, 2)}/${round(jq(EWW_RAM, ".total_mem")/1000000000, 0)} Gb RAM used")
@@ -90,31 +81,33 @@
 (defwindow disk
           :monitor 0
           :id "disk"
+          :transition "slidedown"
           :geometry (geometry :x "${150*2+15}px"
-                              :y "55px"
+                              :y "40px"
                               :anchor "top left")
   (box :orientation "h" :space-evenly "false" :spacing "20"
     (label :text "${round(jq(EWW_DISK, ".\"/\".used")/1000000000, 2)}/${round(jq(EWW_DISK, ".\"/\".total")/1000000000, 0)} Gb disk space used")
 ))
 
 ; CPU
-(defwidget cpu_module []
-  (eventbox :onhover "${EWW_CMD} open cpu"
-            :onhoverlost "${EWW_CMD} close cpu"
-      (metric :icon "󰊚 " :value {jq(EWW_CPU, ".avg")} :reverse true)
-))
+(defvar show_cpu false)
 
-(defwindow cpu
-          :monitor 0
-          :id "cpu"
-          :geometry (geometry :x "15px"
-                              :y "55px"
-                              :anchor "top left")
-  (box :orientation "h" :space-evenly "false" :spacing "20"
-    (label :text "${round(jq(EWW_CPU, ".avg"), 2)}% CPU usage")
+(defwidget cpu_module []
+  (eventbox :onhover "${EWW_CMD} update show_cpu=true"
+            :onhoverlost "${EWW_CMD} update show_cpu=false"
+        (metric :icon "󰊚 " :value {jq(EWW_CPU, ".avg")} :preview "${round(jq(EWW_CPU, ".avg"), 2)}%" :show_preview show_cpu :reverse true)
 ))
 
 ; WIFI
+(defpoll ethernet_connected :interval "5s" "
+ethernet_interface=$(ip link show | grep -E '^[0-9]+: (en|eth)' | awk -F: '{print $2}' | tr -d ' ')
+
+if [[ -n $ethernet_interface && $(ip addr show $ethernet_interface | grep 'inet ' | wc -l) -gt 0 ]]; then
+    echo \"true\"
+else
+    echo \"false\"
+fi
+")
 (defpoll wifi_status :interval "5s" "wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print $2}'")
 (defpoll wifi_name :interval "5s" "iwgetid -r")
 (defpoll wifi_rssi :interval "5s" "wpa_cli signal_poll | grep \"^RSSI=\" | awk -F '=' '{print $2}'")
@@ -124,9 +117,9 @@
   (eventbox :onhover "${EWW_CMD} update show_wifi=true"
             :onhoverlost "${EWW_CMD} update show_wifi=false"
     (box :orientation "h" :space-evenly "false" :spacing "10"
-      (revealer :transition "slideleft" :reveal {show_wifi && wifi_status == "COMPLETED"} :duration "350ms"
+      (revealer :transition "slideleft" :reveal {show_wifi && wifi_status == "COMPLETED" && ethernet_connected == false} :duration "350ms"
           (label :text wifi_name))
-      (label :text {wifi_status != "COMPLETED" ? "󰤮 " : wifi_rssi < -50 ? wifi_rssi < -60 ? wifi_rssi < -70 ? wifi_rssi ? -80 : "󰤟 " : "󰤢 " : "󰤥 " : "󰤨 " })
+      (label :text {ethernet_connected == "true" ? "󰈁" : wifi_status != "COMPLETED" ? "󰤮 " : wifi_rssi < -50 ? wifi_rssi < -60 ? wifi_rssi < -70 ? wifi_rssi < -80 ? "󰤯 " : "󰤟 " : "󰤢 " : "󰤥 " : "󰤨 " })
 )))
 
 ; Locations
@@ -180,19 +173,23 @@
           :windowtype "dock"
   (bar_1))
 
-(defwidget metric [icon value ?onchange ?reverse]
-  (inner_metric :icon icon :value value :onchange onchange :state {reverse != "" && reverse ?
+(defwidget metric [icon value ?preview ?show_preview ?onchange ?reverse]
+  (inner_metric :icon icon :value value :preview preview :show_preview show_preview :onchange onchange :state {reverse != "" && reverse ?
                   value > 75 ? "error" : value > 50 ? "warning" : "normal" :
                   value < 25 ? "error" : value < 50 ? "warning" : "normal"})
   )
-(defwidget inner_metric [icon value onchange state]
+(defwidget inner_metric [icon value preview show_preview onchange state]
   (box :class "metric" :orientation "h" :space-evenly "false" :spacing "10"
-    (scale :class {state}
-           :min 0
-           :max 101
-           :active {onchange != ""}
-           :value value
-           :onchange onchange
-          :orientation "h")
+    (overlay
+      (revealer :transition "crossfade" :reveal {show_preview == false || preview == ""} :duration "350ms"
+        (scale :class {state}
+               :min 0
+               :max 101
+               :active {onchange != ""}
+               :value value
+               :onchange onchange
+              :orientation "h"))
+      (revealer :transition "crossfade" :reveal show_preview :duration "350ms"
+        (label :text preview)))
     (label :text icon :class "icon ${state}")
 ))
