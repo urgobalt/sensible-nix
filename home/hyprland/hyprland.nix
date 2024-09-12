@@ -7,7 +7,7 @@
   # "eww daemon" "eww open bar"
   exec-once = ["wlsunset -l -23 -L -46" "eww daemon" "eww open bar" "hyprkool daemon -m" "wl-paste --watch cliphist store"];
   input = {
-    follow_mouse = 0;
+    follow_mouse = 3;
     kb_layout = "se";
     sensitivity = 1;
     natural_scroll = false;
