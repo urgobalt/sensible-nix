@@ -13,6 +13,7 @@
     ./kitty
     ./wezterm
     ./chromium
+    ./zen-browser
     ./social
     ./spacedrive
 
