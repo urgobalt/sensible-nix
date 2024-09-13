@@ -6,10 +6,6 @@
 }:
 with lib; let
   cfg = config.modules.display-manager;
-  theme = pkgs.callPackage ./theme {
-    path = cfg.theme;
-    inherit pkgs;
-  };
 in {
   options.modules.display-manager = {
     enable = mkEnableOption "display-manager";
@@ -18,43 +14,47 @@ in {
       default = false;
       description = "Enable pam_2fa with google authenticator";
     };
-    theme = mkOption {
-      type = types.path;
-      default = ../../assets/sddm-sugar-dark;
-      description = "Path to the sddm main.qml file";
+
+    theme = {
+      package = mkOption {
+        type = types.package;
+        default = pkgs.callPackage ../../assets/Blur-Glassy-V.2 {
+          inherit pkgs;
+          name = cfg.theme.name;
+        };
+        description = "Path to the default.nix file for the theme";
+      };
+      name = mkOption {
+        type = types.str;
+        default = "Blur-Glassy-V.2";
+        description = "The name of the theme";
+      };
     };
   };
   config = mkIf cfg.enable (mkMerge [
     {
-      environment.systemPackages = with pkgs; [
-        theme
+      environment.systemPackages = [
+        cfg.theme.package
       ];
 
       services.displayManager.sddm = {
         enable = true;
         enableHidpi = true;
-        theme = "current";
+        theme = cfg.theme.name;
         wayland.enable = true;
       };
-
       boot.plymouth.enable = true;
     }
     (mkIf
       cfg.pam_google_auth
       {
-        security.pam.services.sddm = {
-          auth = [
-            {
-              # Standard UNIX authentication
-              module = "pam_unix.so";
-              arguments = "try_first_pass";
-            }
-            {
-              # Google Authenticator module
-              module = "pam_google_authenticator.so";
-              arguments = "nullok";
-            }
-          ];
+        environment.systemPackages = [
+          pkgs.google-authenticator
+          pkgs.qrencode
+        ];
+
+        security.pam.services.login = {
+          googleAuthenticator.enable = true;
         };
       })
   ]);
