@@ -5,7 +5,7 @@
   monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
-  exec-once = ["wlsunset -l -23 -L -46" "eww daemon" "eww open bar" "hyprkool daemon -m" "wl-paste --watch cliphist store"];
+  exec-once = ["wlsunset -l -23 -L -46" "eww daemon" "eww open bar" "hyprkool daemon -m" "wl-paste --watch cliphist store" "dunst --startup_notification"];
   input = {
     follow_mouse = 2;
     kb_layout = "se";
@@ -72,6 +72,7 @@
     "$smod,F,togglefloating,"
     "$mod,F,fullscreen,0"
     "$mod,Tab,exec,hyprkool toggle-overview"
+    "CTRL SHIFT,Escape,exec,kitty btop"
     # Applications
     "$mod,R,exec,rofi -show drun"
     "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"

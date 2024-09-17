@@ -12,12 +12,14 @@ in {
       enable = true;
 
       shellAliases = {
+        rm = "trash put";
+      };
+
+      shellAbbrs = {
         nvim-dev = "NVIM_APPNAME=nvim-dev nvim";
         ls = "eza";
         ll = "ls -ahl";
         lt = "ls -hlTL 5";
-        rm = "trash put";
-        update = "sudo nixos-rebuild switch";
         speedtest = "speedtest-rs";
         printpath = "printf %s\\n $PATH | column";
         systempath = "printf %s\\n $PATH | grep -v /mnt | column";

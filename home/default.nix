@@ -24,6 +24,7 @@
     ./git
     ./pass
     ./direnv
+    ./zoxide
 
     # system
     ./wsl

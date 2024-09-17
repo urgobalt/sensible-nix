@@ -32,9 +32,9 @@ in {
           line_height = 0;
           format = "<b>%s</b>\n%b";
           alignment = "left";
-          icon_position = "top-right";
-          startup_notification = "false";
-          corner_radius = 12;
+          icon_position = "right";
+          icon_corner_radius = 5;
+          corner_radius = 5;
 
           frame_color = c.red;
           background = c.gray01;

@@ -35,6 +35,8 @@ in {
       tldr
       just
 
+      btop
+
       # Source control
       gh
 
@@ -55,6 +57,8 @@ in {
       aspellDicts.en
       aspellDicts.en-computers
       aspellDicts.en-science
+
+      firefox
     ];
   };
 }
