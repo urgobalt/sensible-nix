@@ -15,6 +15,22 @@ in {
     monitors = mkOption {
       type = types.listOf types.str;
       default = [",preferred,auto,1"];
+      description = "The monitors registred into hyprland.";
+    };
+    layout = mkOption {
+      type = with types; enum ["master" "dwindle"];
+      default = "master";
+      description = "The initial layout that hyprland has at boot. May be changed using dispatchers.";
+    };
+    terminal = mkOption {
+      type = with types; package;
+      default = pkgs.kitty;
+      description = "The terminal that is used to run most terminal dependant commands and binds in hyprland.";
+    };
+    browser = mkOption {
+      type = with types; package;
+      default = pkgs.firefox;
+      description = "The browser that is used by default in hyprland commands and binds.";
     };
   };
   config = mkIf cfg.enable {
@@ -22,6 +38,7 @@ in {
       swaybg
       wlsunset
       wl-clipboard
+      cliphist
       hyprkool-bin
       # unstable.hyprpaper
       # unstable.hyprland
@@ -36,7 +53,7 @@ in {
         hyprkool-plugin
       ];
       settings = import ./hyprland.nix {
-        inherit cfg;
+        inherit cfg lib config;
         colors = c;
       };
     };
