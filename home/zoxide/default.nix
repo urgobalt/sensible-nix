@@ -22,11 +22,15 @@ in {
       enable = true;
       enableZshIntegration = true;
       enableBashIntegration = true;
-      enableFishIntegration = true;
+      enableFishIntegration = false; # Alias come before init breaking zoxide
     };
 
-    programs.fish.shellAbbrs = shellAliases;
+    programs.fish.shellAliases = shellAliases;
     programs.zsh.shellAliases = shellAliases;
     programs.bash.shellAliases = shellAliases;
+
+    programs.fish.shellInit = ''
+      ${lib.getExe pkgs.zoxide} init fish | source
+    '';
   };
 }
