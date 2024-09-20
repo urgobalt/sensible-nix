@@ -44,6 +44,11 @@ in {
     shadow_range = 60;
     "col.shadow" = colors.gray02;
     inactive_opacity = 1.0;
+    blur = {
+      size = 7;
+      vibrancy = 1;
+      passes = 3;
+    };
   };
   plugin = {
     # overview = {

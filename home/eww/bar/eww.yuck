@@ -65,7 +65,7 @@
           :monitor 0
           :id "ram"
           :geometry (geometry :x "165px"
-                              :y "40px"
+                              :y "45px"
                               :anchor "top left")
   (box :orientation "h" :space-evenly "false" :spacing "20"
     (label :text "${round(jq(EWW_RAM, ".used_mem")/1000000000, 2)}/${round(jq(EWW_RAM, ".total_mem")/1000000000, 0)} Gb RAM used")
@@ -83,7 +83,7 @@
           :id "disk"
           :transition "slidedown"
           :geometry (geometry :x "${150*2+15}px"
-                              :y "40px"
+                              :y "45px"
                               :anchor "top left")
   (box :orientation "h" :space-evenly "false" :spacing "20"
     (label :text "${round(jq(EWW_DISK, ".\"/\".used")/1000000000, 2)}/${round(jq(EWW_DISK, ".\"/\".total")/1000000000, 0)} Gb disk space used")
