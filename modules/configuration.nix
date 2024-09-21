@@ -105,6 +105,7 @@
     ANKI_WAYLAND = "1";
     OZ_ENABLE_WAYLAND = "1";
     DISABLE_QT5_COMPAT = "0";
+    NIXOS_OZONE_WL = "1";
   };
 
   # Security

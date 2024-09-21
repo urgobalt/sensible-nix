@@ -4,7 +4,6 @@
     ./wifi
     ./virtualisation
     ./display-manager
-    ./hyprland
     ./steam
     ./plasma
   ];
