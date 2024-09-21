@@ -40,7 +40,7 @@
 (defwindow calendar
   :monitor 0
   :geometry (geometry :x "0px"
-						:y "80px"
+						:y "45px"
             :anchor "top center"
 						)
 (cal))
