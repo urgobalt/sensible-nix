@@ -39,6 +39,7 @@
 
 (defwindow calendar
   :monitor 0
+  :namespace "eww"
   :geometry (geometry :x "0px"
 						:y "45px"
             :anchor "top center"
@@ -63,6 +64,7 @@
 
 (defwindow ram
           :monitor 0
+          :namespace "eww"
           :id "ram"
           :geometry (geometry :x "165px"
                               :y "45px"
@@ -80,6 +82,7 @@
 
 (defwindow disk
           :monitor 0
+          :namespace "eww"
           :id "disk"
           :transition "slidedown"
           :geometry (geometry :x "${150*2+15}px"
@@ -163,6 +166,7 @@ fi
 
 (defwindow bar
           :monitor 0
+          :namespace "eww"
           :id "bar"
           :geometry (geometry :x "0%"
                        :y "10px"
