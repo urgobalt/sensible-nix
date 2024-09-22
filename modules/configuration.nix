@@ -87,8 +87,11 @@
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 7d";
+      options = "--delete-older-than 2d";
     };
+    extraOptions = ''
+      !include ${config.age.secrets.nix-access-tokens.path}
+    '';
   };
 
   # Boot settings
@@ -97,7 +100,7 @@
   # Set environment variables
   environment.variables = {
     EDITOR = "nvim";
-    SHELL = "${pkgs.fish}/bin/fish";
+    SHELL = lib.getExe pkgs.fish;
     DIRENV_LOG_FORMAT = "";
     ANKI_WAYLAND = "1";
     OZ_ENABLE_WAYLAND = "1";
