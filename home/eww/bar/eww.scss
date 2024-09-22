@@ -1,4 +1,4 @@
-$background: #1a1a19;
+$background: rgba(#1a1a19, 0.5);
 $text: #d1d1d1;
 /* Normal */
 $black: #333332;
@@ -45,7 +45,7 @@ $gray07: #b6b6b5;
 }
 
 .battery, .cpu, .ram, .disk, .calendar {
-  background-color: $gray01;
+  background-color: rgba($gray02, 0.5);
   padding: 1rem;
   border-radius: 5px;
   border-width: 0px;
