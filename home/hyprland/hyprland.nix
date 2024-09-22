@@ -23,8 +23,8 @@ in {
     layout = cfg.layout;
     gaps_in = 5;
     gaps_out = 20;
-    border_size = 0;
-    "col.active_border" = colors.yellow;
+    border_size = 1;
+    "col.active_border" = colors.none;
     "col.inactive_border" = colors.none;
   };
   master = {
