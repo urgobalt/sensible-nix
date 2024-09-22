@@ -2,6 +2,8 @@
   pkgs,
   lib,
   config,
+  user,
+  wallpaper,
   ...
 }:
 with lib; let
@@ -9,53 +11,36 @@ with lib; let
 in {
   options.modules.display-manager = {
     enable = mkEnableOption "display-manager";
-    pam_google_auth = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Enable pam_2fa with google authenticator";
-    };
-
-    theme = {
-      package = mkOption {
-        type = types.package;
-        default = pkgs.callPackage ../../assets/Blur-Glassy-V.2 {
-          inherit pkgs;
-          name = cfg.theme.name;
-        };
-        description = "Path to the default.nix file for the theme";
-      };
-      name = mkOption {
-        type = types.str;
-        default = "Blur-Glassy-V.2";
-        description = "The name of the theme";
-      };
-    };
+    # pam_google_auth = mkOption {
+    #   type = types.bool;
+    #   default = false;
+    #   description = "Enable pam_2fa with google authenticator";
+    # };
   };
-  config = mkIf cfg.enable (mkMerge [
+  config =
+    mkIf cfg.enable
     {
-      environment.systemPackages = [
-        cfg.theme.package
-      ];
-
-      services.displayManager.sddm = {
+      environment.systemPackages = with pkgs; [greetd.regreet];
+      programs.hyprland = {
         enable = true;
-        enableHidpi = true;
-        theme = cfg.theme.name;
-        wayland.enable = true;
+        xwayland.enable = true;
+      };
+      environment.etc = {
+        "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
+        # We use a home manager generator to define the hyprland configuration.
+        # We need to define the text field instead of a file.
+        "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib wallpaper;};
+      };
+      services.greetd = {
+        enable = true;
+        settings = {
+          default_session = {
+            command = "${lib.getExe config.programs.hyprland.package} --config /etc/greetd/hyprland.conf";
+            # command = "${lib.getExe pkgs.cage} regreet";
+            user = user;
+          };
+        };
       };
       boot.plymouth.enable = true;
-    }
-    (mkIf
-      cfg.pam_google_auth
-      {
-        environment.systemPackages = [
-          pkgs.google-authenticator
-          pkgs.qrencode
-        ];
-
-        security.pam.services.login = {
-          googleAuthenticator.enable = true;
-        };
-      })
-  ]);
+    };
 }

@@ -1,7 +1,7 @@
-{pkgs}:
+{pkgs, wallpaper}:
 (pkgs.formats.toml {}).generate "regreet.toml" {
   background = {
-    path = ../../wallpaper.png;
+    path = wallpaper;
     fit = "Cover";
   };
   GTK = {

@@ -12,6 +12,7 @@ in {
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
   exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m" "wl-paste --watch cliphist store"] ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"] ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"];
+  layerrule = ["blur, eww" "ignorezero, eww" "blur, rofi" "ignorezero, rofi"];
   input = {
     follow_mouse = 2;
     kb_layout = "se";
@@ -21,8 +22,8 @@ in {
   general = {
     layout = cfg.layout;
     gaps_in = 5;
-    gaps_out = 15;
-    border_size = 1;
+    gaps_out = 20;
+    border_size = 0;
     "col.active_border" = colors.yellow;
     "col.inactive_border" = colors.none;
   };
@@ -34,15 +35,11 @@ in {
     always_center_master = false;
     new_status = "master";
   };
-  misc = {
-    disable_splash_rendering = true;
-    disable_hyprland_logo = true;
-  };
   decoration = {
     rounding = 5;
-    drop_shadow = 0;
-    shadow_range = 60;
-    "col.shadow" = colors.gray02;
+    drop_shadow = "false";
+    shadow_range = 30;
+    "col.shadow" = "0x66000000";
     inactive_opacity = 1.0;
     blur = {
       size = 7;
@@ -65,6 +62,10 @@ in {
       };
     };
   };
+  misc = {
+    disable_splash_rendering = true;
+    disable_hyprland_logo = true;
+  };
   animations = {
     enabled = 1;
     animation = [
@@ -73,10 +74,10 @@ in {
       "windowsIn,1,3,default,popin"
     ];
   };
-
   "$mod" = "SUPER";
   "$smod" = "SUPER SHIFT";
   "$cmod" = "CTRL SUPER";
+
   bind =
     [
       # General

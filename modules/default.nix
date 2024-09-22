@@ -2,9 +2,8 @@
   imports = [
     ./declarative-password
     ./wifi
-    ./virtualisation
+    ./podman
     ./display-manager
-    ./hyprland
     ./steam
     ./plasma
   ];

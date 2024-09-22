@@ -12,7 +12,7 @@
   home-secrets ? "${outPath}/secrets/home.nix",
   host-base ? "${outPath}/hosts",
   sshPath ? "${outPath}/ssh.nix",
-  sddm_theme? .assets/sddm,
+  sddm_theme ? .assets/sddm,
   ...
 }: hostname: {
   system,
@@ -22,6 +22,7 @@
   wsl ? false,
 }: let
   host = file: (host-base + "/${hostname}/${file}");
+  lib = nixpkgs.lib.extend (final: prev: {hm = inputs.home-manager.lib.hm;});
 in
   nixpkgs.lib.nixosSystem {
     system = system;
@@ -130,7 +131,7 @@ in
       ++ extraModules;
     specialArgs =
       {
-        inherit user full-name wallpaper;
+        inherit lib user full-name wallpaper;
         inherit (inputs) agenix;
         ssh = import sshPath;
       }
