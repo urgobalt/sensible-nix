@@ -2,7 +2,8 @@
   imports = [
     ./declarative-password
     ./wifi
-    ./virtualisation
+    ./podman
+    ./qemu
     ./display-manager
     ./steam
     ./plasma
