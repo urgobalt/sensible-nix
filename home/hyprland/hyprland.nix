@@ -13,6 +13,7 @@ in {
   # "eww daemon" "eww open bar"
   exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m" "wl-paste --watch cliphist store"] ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"] ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"];
   layerrule = ["blur, eww" "ignorezero, eww" "blur, rofi" "ignorezero, rofi"];
+  env = ["HYPRCURSOR_THEME,${cfg.cursor.name}" "HYPRCURSOR_SIZE,${builtins.toString cfg.cursor.size}"];
   input = {
     follow_mouse = 2;
     kb_layout = "se";
@@ -74,6 +75,7 @@ in {
       "windowsIn,1,3,default,popin"
     ];
   };
+
   "$mod" = "SUPER";
   "$smod" = "SUPER SHIFT";
   "$cmod" = "CTRL SUPER";
