@@ -4,4 +4,5 @@ _final: prev: {
   hyprkool-bin = prev.callPackage ./hyprkool-bin.nix {};
   hyprkool-plugin = prev.callPackage ./hyprkool-plugin.nix {};
   zen-browser = prev.callPackage ./zen-browser {};
+  vimix-hyprcursor = prev.callPackage ./vimix-hyprcursor.nix {};
 }

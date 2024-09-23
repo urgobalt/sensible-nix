@@ -30,6 +30,8 @@ in {
       gnumake
       xdg-utils
 
+      wget
+
       # System management packages
       vim
       tldr

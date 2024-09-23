@@ -32,6 +32,40 @@ in {
       default = pkgs.firefox;
       description = "The browser that is used by default in hyprland commands and binds.";
     };
+    cursor = {
+      package = mkOption {
+        type = types.package;
+        default = pkgs.vimix-hyprcursor;
+        description = "The package that contain directories with hyprcursor themes at '$out/share/icons'.";
+      };
+      name = mkOption {
+        type = types.str;
+        default = "Vimix-cursor-normal";
+        description = "The cursor theme to use. Must match one of the folders at the root of the package that is being used.";
+      };
+      size = mkOption {
+        type = types.ints.positive;
+        default = 24;
+        description = "The size of the cursor.";
+      };
+    };
+    xcursor = {
+      package = mkOption {
+        type = types.package;
+        default = pkgs.vimix-cursors;
+        description = "The package that contain directories with hyprcursor themes at '$out/share/icons'.";
+      };
+      name = mkOption {
+        type = types.str;
+        default = "Vimix-cursors";
+        description = "The cursor theme to use. Must match one of the folders at the root of the package that is being used.";
+      };
+      size = mkOption {
+        type = types.ints.positive;
+        default = 24;
+        description = "The size of the cursor.";
+      };
+    };
   };
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
@@ -78,6 +112,9 @@ in {
     # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
     # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
 
+    home.pointerCursor = cfg.xcursor;
+
     xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
+    home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.name}";
   };
 }
