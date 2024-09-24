@@ -74,6 +74,7 @@ in {
       wl-clipboard
       cliphist
       hyprkool-bin
+      hyprpicker
       # unstable.hyprpaper
       # unstable.hyprland
     ];
@@ -112,7 +113,12 @@ in {
     # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
     # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
 
-    home.pointerCursor = cfg.xcursor;
+    home.pointerCursor =
+      cfg.xcursor
+      // {
+        gtk.enable = true;
+        x11.enable = true;
+      };
 
     xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
     home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.name}";

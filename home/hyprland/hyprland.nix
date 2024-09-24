@@ -91,6 +91,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
+      "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
       "$mod,p,layoutmsg,rollprev"
@@ -132,6 +133,7 @@ in {
     ++ lib.optionals modules.rofi.enable [
       "$mod,R,exec,rofi -show drun"
       "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+      "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
     ];
   debug.disable_logs = true;
 }
