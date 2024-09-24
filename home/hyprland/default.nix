@@ -75,6 +75,7 @@ in {
       cliphist
       hyprkool-bin
       hyprpicker
+      hyprshot
       # unstable.hyprpaper
       # unstable.hyprland
     ];

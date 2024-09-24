@@ -131,9 +131,14 @@ in {
       ",XF86AudioLowerVolume,exec,pamixer -d 5"
     ]
     ++ lib.optionals modules.rofi.enable [
+      # Application runner
       "$mod,R,exec,rofi -show drun"
+      # Clipboard history
       "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
       "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
+      # Screenshot
+      "$mod,S,exec,echo -ne 'output\\nwindow\\nregion' | rofi -dmenu | xargs hyprshot -m"
+      "$smod,S,exec,hyprshot -cm output"
     ];
   debug.disable_logs = true;
 }
