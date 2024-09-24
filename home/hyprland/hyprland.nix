@@ -138,6 +138,7 @@ in {
       "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
       # Screenshot
       "$mod,S,exec,echo -ne 'output\\nwindow\\nregion' | rofi -dmenu | xargs hyprshot -m"
+      "$smod,S,exec,hyprshot -cm output"
     ];
   debug.disable_logs = true;
 }
