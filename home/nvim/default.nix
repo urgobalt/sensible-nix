@@ -10,8 +10,8 @@ with lib; let
 in {
   options.modules.nvim = {enable = mkEnableOption "nvim";};
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      unstable.neovim
+    home.packages = with pkgs.unstable; [
+      neovim
 
       # Rust build systems
       rustup
@@ -26,24 +26,26 @@ in {
       nodejs_22
       go
       ocaml
-      unstable.zig
+      zig
 
       # Erlang
-      unstable.gleam
+      gleam
       erlang
       rebar3
       elixir
 
       # Python
-      ruff
-      pylyzer
+      # ruff
+      # pylyzer
+      python312Packages.python-lsp-server
+      python312Packages.pylsp-rope
 
       # Lsp
       lua-language-server
       nil
       elixir-ls
       tailwindcss-language-server
-      unstable.zls
+      zls
 
       # Linters
       eslint_d

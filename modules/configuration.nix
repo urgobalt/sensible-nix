@@ -100,7 +100,6 @@
   # Set environment variables
   environment.variables = {
     XDG_CONFIG_HOME = "$HOME/.config";
-    EDITOR = "nvim";
     SHELL = lib.getExe pkgs.fish;
     DIRENV_LOG_FORMAT = "";
     ANKI_WAYLAND = "1";
