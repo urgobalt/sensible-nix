@@ -84,8 +84,9 @@ in {
     [
       # General
       "$mod,Q,killactive,"
-      "$smod,F,togglefloating,"
-      "$mod,F,fullscreen,0"
+      "$mod,F,fullscreen,1"
+      "$smod,F,fullscreen,0"
+      "$cmod,F,togglefloating,"
       "$mod,Tab,exec,hyprkool toggle-overview"
       "CTRL SHIFT,Escape,exec,${terminal} btop"
       # Applications
