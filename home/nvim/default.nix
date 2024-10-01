@@ -19,7 +19,6 @@ in {
       tailwindcss
 
       # Package managers
-      opam
       yarn
 
       # Programming languages
@@ -55,7 +54,7 @@ in {
       alejandra
     ];
 
-    systemd.user.sessionVariables = {
+    home.sessionVariables = {
       EDITOR = "nvim";
       MANPAGER = "nvim +Man!";
       MANWIDTH = 999;
