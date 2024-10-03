@@ -126,6 +126,8 @@ in {
       "$smod, k, exec, hyprkool move-up -c -w"
       # Volume
       ",XF86AudioMute,exec,pamixer --toggle-mute"
+      # Airplane mode
+      ",XF86WLAN,exec,if [ \$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
     ]
     ++ lib.optionals modules.rofi.enable [
       # Application runner
@@ -137,8 +139,6 @@ in {
       "$mod,S,exec,echo -ne 'output\\nwindow\\nregion' | rofi -dmenu | xargs hyprshot -m"
       "$smod,S,exec,hyprshot -cm output"
       ",Print,exec,hyprshot -cm output"
-      # Airplane mode
-      ",XF86WLAN,exec,if [ \$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
     ];
   # Repeating keybinds
   binde = [
