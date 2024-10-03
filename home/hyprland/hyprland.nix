@@ -124,12 +124,8 @@ in {
       "$smod, l, exec, hyprkool move-right -c -w"
       "$smod, j, exec, hyprkool move-down -c -w"
       "$smod, k, exec, hyprkool move-up -c -w"
-      # Brightness
-      ",XF86MonBrightnessUp,exec,brightnessctl set +5%"
-      ",XF86MonBrightnessDown,exec,brightnessctl set 5%-"
       # Volume
-      ",XF86AudioRaiseVolume,exec,pamixer -i 5"
-      ",XF86AudioLowerVolume,exec,pamixer -d 5"
+      ",XF86AudioMute,exec,pamixer --toggle-mute"
     ]
     ++ lib.optionals modules.rofi.enable [
       # Application runner
@@ -140,6 +136,18 @@ in {
       # Screenshot
       "$mod,S,exec,echo -ne 'output\\nwindow\\nregion' | rofi -dmenu | xargs hyprshot -m"
       "$smod,S,exec,hyprshot -cm output"
+      ",Print,exec,hyprshot -cm output"
+      # Airplane mode
+      ",XF86WLAN,exec,if [ \$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
     ];
+  # Repeating keybinds
+  binde = [
+    # Brightness
+    ",XF86MonBrightnessUp,exec,brightnessctl set +5%"
+    ",XF86MonBrightnessDown,exec,brightnessctl set 5%-"
+    # Volume
+    ",XF86AudioRaiseVolume,exec,pamixer -i 5"
+    ",XF86AudioLowerVolume,exec,pamixer -d 5"
+  ];
   debug.disable_logs = true;
 }

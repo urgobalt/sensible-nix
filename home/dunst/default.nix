@@ -9,7 +9,12 @@ with lib; let
   cfg = config.modules.dunst;
   c = colors.regular;
 in {
-  options.modules.dunst = {enable = mkEnableOption "dunst";};
+  options.modules.dunst = {
+    enable = mkOption {
+      type = types.bool;
+      default = config.modules.hyprland.enable;
+    };
+  };
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       dunst
