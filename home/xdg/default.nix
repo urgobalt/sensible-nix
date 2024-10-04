@@ -9,6 +9,9 @@
     ["firefox.desktop"]
     ++ lib.optional modules.zen.enable "zen.desktop"
     ++ lib.optional modules.chromium.enable "chromium.desktop";
+  defaultBrowser =
+    ["firefox.desktop"]
+    ++ lib.optional (cfg.defaultBrowser != null) cfg.defaultBrowser;
 in {
   options.modules.xdg = with lib; {
     enable = mkEnableOption "xdg";
@@ -42,8 +45,8 @@ in {
       mimeApps = {
         enable = true;
         defaultApplications = {
-          "x-scheme-handler/http" = [cfg.defaultBrowser "firefox.desktop"];
-          "x-scheme-handler/https" = [cfg.defaultBrowser "firefox.desktop"];
+          "x-scheme-handler/http" = defaultBrowser;
+          "x-scheme-handler/https" = defaultBrowser;
         };
       };
     };
