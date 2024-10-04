@@ -31,5 +31,6 @@
     ./xdg
     ./gtk
     ./packages
+    ./ssh
   ];
 }
