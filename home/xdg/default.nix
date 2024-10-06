@@ -10,8 +10,8 @@
     ++ lib.optional modules.zen.enable "zen.desktop"
     ++ lib.optional modules.chromium.enable "chromium.desktop";
   defaultBrowser =
-    ["firefox.desktop"]
-    ++ lib.optional (cfg.defaultBrowser != null) cfg.defaultBrowser;
+    lib.optional (cfg.defaultBrowser != null) cfg.defaultBrowser
+    ++ ["firefox.desktop"];
 in {
   options.modules.xdg = with lib; {
     enable = mkEnableOption "xdg";
