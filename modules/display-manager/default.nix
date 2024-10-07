@@ -16,7 +16,7 @@ in {
       description = "Enable the sddm display manager.";
     };
     greeter = mkOption {
-      type = with types; enumOf ["sddm" "greetd"];
+      type = with types; enum ["sddm" "greetd"];
       default = "sddm";
       description = "The greeter that will be used.";
     };
@@ -48,14 +48,14 @@ in {
         ];
         description = "Extra Qt plugins and/or QML libraries to add to the environment.";
       };
-      autoNumlock = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Enable numlock at login";
-      };
+    };
+    autoNumlock = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable numlock at login";
     };
   };
-  config = mkIf cfg.enable mkMerge [
+  config = mkIf cfg.enable (mkMerge [
     {
       environment.systemPackages = [cfg.theme.package];
       programs.hyprland = {
@@ -91,5 +91,5 @@ in {
         };
       };
     })
-  ];
+  ]);
 }
