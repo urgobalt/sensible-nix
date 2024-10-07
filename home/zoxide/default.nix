@@ -6,9 +6,6 @@
 }:
 with lib; let
   cfg = config.modules.zoxide;
-  shellAliases = {
-    "cd" = "z";
-  };
 in {
   options.modules.zoxide = {
     enable = mkOption {
@@ -24,10 +21,6 @@ in {
       enableBashIntegration = true;
       enableFishIntegration = false; # Alias come before init breaking zoxide
     };
-
-    programs.fish.shellAliases = shellAliases;
-    programs.zsh.shellAliases = shellAliases;
-    programs.bash.shellAliases = shellAliases;
 
     programs.fish.shellInit = ''
       ${lib.getExe pkgs.zoxide} init fish | source
