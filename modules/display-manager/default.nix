@@ -15,6 +15,11 @@ in {
       default = false;
       description = "Enable the sddm display manager.";
     };
+    greeter = mkOption {
+      type = with types; enumOf ["sddm" "greetd"];
+      default = "sddm";
+      description = "The greeter that will be used.";
+    };
     autologin = {
       enable = mkOption {
         type = types.bool;
@@ -50,14 +55,16 @@ in {
       };
     };
   };
-  config =
-    mkIf cfg.enable
+  config = mkIf cfg.enable mkMerge [
     {
       environment.systemPackages = [cfg.theme.package];
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
       };
+      boot.plymouth.enable = true;
+    }
+    (mkIf (cfg.greeter == "sddm") {
       services.displayManager.sddm = {
         enable = true;
         extraPackages = cfg.theme.extraPackages;
@@ -65,6 +72,24 @@ in {
         wayland.enable = true;
         autoNumlock = cfg.autoNumlock;
       };
-      boot.plymouth.enable = true;
-    };
+    })
+    (mkIf (cfg.greeter == "greetd") {
+      environment.etc = {
+        "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
+        # We use a home manager generator to define the hyprland configuration.
+        # We need to define the text field instead of a file.
+        "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib wallpaper;};
+      };
+      services.greetd = {
+        enable = true;
+        settings = {
+          default_session = {
+            command = "${lib.getExe config.programs.hyprland.package} --config /etc/greetd/hyprland.conf";
+            # command = "${lib.getExe pkgs.cage} regreet";
+            user = user;
+          };
+        };
+      };
+    })
+  ];
 }
