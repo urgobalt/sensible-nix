@@ -15,6 +15,13 @@ in {
       default = false;
       description = "Enable the sddm display manager.";
     };
+    autologin = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable autologin for the current user.";
+      };
+    };
     theme = {
       package = mkOption {
         type = types.package;
@@ -36,6 +43,11 @@ in {
         ];
         description = "Extra Qt plugins and/or QML libraries to add to the environment.";
       };
+      autoNumlock = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Enable numlock at login";
+      };
     };
   };
   config =
@@ -51,6 +63,7 @@ in {
         extraPackages = cfg.theme.extraPackages;
         theme = cfg.theme.name;
         wayland.enable = true;
+        autoNumlock = cfg.autoNumlock;
       };
       boot.plymouth.enable = true;
     };
