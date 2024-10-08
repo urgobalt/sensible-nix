@@ -6,7 +6,7 @@
   user,
   full-name,
   email,
-  wallpaper ? ./assets/wallpaper.png,
+  wallpaper ? ./assets/image-sierra.jpg,
   nvim-config,
   system-secrets ? "${outPath}/secrets/system.nix",
   home-secrets ? "${outPath}/secrets/home.nix",
