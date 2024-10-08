@@ -64,7 +64,7 @@ Item {
 
         readonly property real contrast: 0.65 * wallpaperFader.factor + (1 - wallpaperFader.factor)
         readonly property real saturation: 1.6 * wallpaperFader.factor + (1 - wallpaperFader.factor)
-        readonly property real intensity: (wallpaperFader.lightBackground ? 1.7 : 0.6) * wallpaperFader.factor + (1 - wallpaperFader.factor)
+        readonly property real intensity: (wallpaperFader.lightBackground ? 1.7 : 0.7) * wallpaperFader.factor + (1 - wallpaperFader.factor)
 
         readonly property real transl: (1.0 - contrast) / 2.0;
         readonly property real rval: (1.0 - saturation) * 0.2126;
@@ -85,7 +85,7 @@ Item {
                     0,         0,         intensity, 0,
                     0,         0,         0,         1
                 ));
-    
+
 
         fragmentShader: "
             uniform mediump mat4 colorMatrix;
