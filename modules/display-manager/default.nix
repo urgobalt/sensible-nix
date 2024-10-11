@@ -4,10 +4,12 @@
   config,
   user,
   wallpaper,
+  colors,
   ...
 }:
 with lib; let
   cfg = config.modules.display-manager;
+  c = colors.regular;
 in {
   options.modules.display-manager = {
     enable = mkOption {
@@ -74,22 +76,25 @@ in {
       };
     })
     (mkIf (cfg.greeter == "greetd") {
+      environment.systemPackages = with pkgs; [regreet rose-pine-gtk-theme];
       environment.etc = {
         "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
-        # We use a home manager generator to define the hyprland configuration.
-        # We need to define the text field instead of a file.
-        "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib wallpaper;};
+        "greetd/regreet.css".text = import ./regreet-css.nix {colors = c;};
       };
       services.greetd = {
         enable = true;
         settings = {
           default_session = {
-            command = "${lib.getExe config.programs.hyprland.package} --config /etc/greetd/hyprland.conf";
-            # command = "${lib.getExe pkgs.cage} regreet";
-            user = user;
+            command = "${lib.getExe pkgs.cage} -s -- ${lib.getExe pkgs.regreet}";
+            user = "greeter";
           };
         };
       };
+
+      systemd.tmpfiles.rules = [
+        "d /var/log/regreet 0755 greeter greeter - -"
+        "d /var/cache/regreet 0755 greeter greeter - -"
+      ];
     })
   ]);
 }
