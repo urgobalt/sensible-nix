@@ -16,11 +16,23 @@ in {
       userName = full-name;
       userEmail = email;
       extraConfig = {
-        core.editor = "nvim";
+        core = {
+          editor = "nvim";
+          fsmonitor = true;
+          untrackedCache = true;
+        };
+        gpg.format = "ssh";
         safe.directory = [
           "/etc/nixos"
         ];
         push.autoSetupRemote = true;
+        rerere.enabled = true;
+        column.ui = "auto";
+        branch.sort = "-committerdate";
+        fetch.writeCommitGraph = true;
+      };
+      aliases = {
+        fp = "push --force-with-lease";
       };
     };
   };
