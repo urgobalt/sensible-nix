@@ -57,7 +57,7 @@
     ]);
 in
   pkgs.stdenv.mkDerivation rec {
-    version = "1.0.1-a.6";
+    version = "1.0.1-a.9";
     pname = "zen-browser";
 
     src = builtins.fetchTarball {
