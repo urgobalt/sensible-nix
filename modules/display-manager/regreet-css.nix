@@ -13,26 +13,37 @@ css
     color: ${colors.text};
   }
 
-  .text-button {
+  button {
+    background-color: ${colors.gray02};
+    background-image: none;
+  }
+
+  button.text-button {
     background-color: ${colors.gray02};
     background-image: none;
     font-weight: bold;
   }
 
-  .text-button:hover {
+  button.text-button:hover {
     background-color: ${colors.gray03};
   }
 
-  .default {
+  button.default {
     color: ${colors.cyan};
   }
 
-  .destructive-action {
+  button.destructive-action {
     color: ${colors.red};
   }
 
-  combobox {
+  combobox button.combo {
     background-color: ${colors.gray02};
     background-image: none;
+  }
+
+  combobox arrow {
+    min-width: 16px;
+    min-height: 16px;
+    padding: 1.5px;
   }
 ''

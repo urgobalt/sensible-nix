@@ -14,5 +14,6 @@
   appearance.greeting_msg = "I use NixOS btw.";
   GTK = {
     application_prefer_dark_theme = true;
+    icon_theme_name = "Adwaita";
   };
 }

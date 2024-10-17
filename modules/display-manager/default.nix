@@ -75,26 +75,29 @@ in {
         autoNumlock = cfg.autoNumlock;
       };
     })
-    (mkIf (cfg.greeter == "greetd") {
-      environment.systemPackages = with pkgs; [regreet rose-pine-gtk-theme];
-      environment.etc = {
-        "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
-        "greetd/regreet.css".text = import ./regreet-css.nix {colors = c;};
-      };
-      services.greetd = {
-        enable = true;
-        settings = {
-          default_session = {
-            command = "${lib.getExe pkgs.cage} -s -- ${lib.getExe pkgs.regreet}";
-            user = "greeter";
+    (
+      mkIf (cfg.greeter == "greetd") {
+        environment.systemPackages = with pkgs; [regreet adwaita-icon-theme-legacy];
+        environment.etc = {
+          "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
+          "greetd/regreet.css".text = import ./regreet-css.nix {colors = c;};
+          "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib;};
+        };
+        services.greetd = {
+          enable = true;
+          settings = {
+            default_session = {
+              command = "${lib.getExe config.programs.hyprland.package} -c /etc/greetd/hyprland.conf";
+              user = "greeter";
+            };
           };
         };
-      };
 
-      systemd.tmpfiles.rules = [
-        "d /var/log/regreet 0755 greeter greeter - -"
-        "d /var/cache/regreet 0755 greeter greeter - -"
-      ];
-    })
+        systemd.tmpfiles.rules = [
+          "d /var/log/regreet 0755 greeter greeter - -"
+          "d /var/cache/regreet 0755 greeter greeter - -"
+        ];
+      }
+    )
   ]);
 }
