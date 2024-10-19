@@ -45,6 +45,9 @@ in {
       elixir-ls
       tailwindcss-language-server
       zls
+      htmx-lsp
+      vscode-langservers-extracted
+      emmet-ls
 
       # Linters
       eslint_d
