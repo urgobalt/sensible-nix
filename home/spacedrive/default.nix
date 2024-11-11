@@ -10,7 +10,7 @@ in {
   options.modules.spacedrive = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
   config = mkIf cfg.enable {
