@@ -9,7 +9,13 @@
 with lib; let
   cfg = config.modules.git;
 in {
-  options.modules.git = {enable = mkEnableOption "git";};
+  options.modules.git = {
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable git on your system.";
+    };
+  };
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
