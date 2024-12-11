@@ -12,7 +12,7 @@ pkgs.unstable.rustPlatform.buildRustPackage rec {
     owner = "thrombe";
     repo = "hyprkool";
     rev = version;
-    sha256 = "sha256-HHmJey9l4+BW+5PYMLfeqcHwtIZcJ8ZI42ARgRRNC+E=";
+    sha256 = "sha256-II9j5IplV6tWg7AKsKIGkFSeDby+AJgB+nNHv3cU16k=";
   };
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
