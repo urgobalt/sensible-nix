@@ -6,7 +6,7 @@
 }:
 pkgs.unstable.rustPlatform.buildRustPackage rec {
   pname = "hyprkool";
-  version = "e0ae6c6b6513eaa70540fea200031743e4b62165";
+  version = "1263ad8800213b7ac5088a1a1ad3b309ddd0bd92";
 
   src = fetchFromGitHub {
     owner = "thrombe";
