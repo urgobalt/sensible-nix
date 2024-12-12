@@ -1,6 +1,4 @@
 {
-  lib,
-  stdenv,
   fetchFromGitHub,
   pkgs,
 }:
@@ -20,7 +18,20 @@ pkgs.unstable.rustPlatform.buildRustPackage rec {
       "hyprland-0.4.0-alpha.2" = "sha256-7GRj0vxsQ4ORp0hSBAorjFYvWDy+edGU2IL3DhFDLvQ=";
     };
   };
+  buildInputs = [
+  ];
   nativeBuildInputs = with pkgs; [
     pkg-config
+    hyprland
   ];
+  dontUseMesonConfigure = true;
+  dontUseCmakeConfigure = true;
+  buildPhase = ''
+    make plugin
+    mv ./plugin/build/lib${pname}.so .
+  '';
+  installPhase = ''
+    mkdir -p $out/lib
+    mv ./lib${pname}.so $out/lib/lib${pname}.so
+  '';
 }
