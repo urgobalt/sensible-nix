@@ -19,7 +19,6 @@
     isNormalUser = true;
     home = "/home/${user}";
     createHome = true;
-    initialPassword = "root";
     description = full-name;
     extraGroups = ["wheel" "networkmanager"];
     shell = pkgs.fish;
@@ -126,9 +125,6 @@
     protectKernelImage = true;
   };
 
-  # System sound
-  sound.enable = true;
-
   hardware.pulseaudio.enable = true;
   security.rtkit.enable = true;
 
@@ -146,10 +142,9 @@
       powerOnBoot = true;
       hsphfpd.enable = true;
     };
-    opengl = lib.mkMerge [
+    graphics = lib.mkMerge [
       {
         enable = true;
-        driSupport = true;
         extraPackages = with pkgs; [
           vaapiVdpau
           libvdpau-va-gl
@@ -157,7 +152,6 @@
       }
       (lib.mkIf pkgs.stdenv.isx86_64 {
         extraPackages = with pkgs; [intel-media-driver];
-        driSupport32Bit = true;
       })
     ];
   };
