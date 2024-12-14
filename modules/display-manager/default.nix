@@ -107,10 +107,6 @@ in {
             };
           };
         };
-<<<<<<< HEAD
-      };
-    })
-=======
 
         systemd.tmpfiles.rules = [
           "d /var/log/regreet 0755 greeter greeter - -"
@@ -118,6 +114,5 @@ in {
         ];
       }
     )
->>>>>>> greetd
   ]);
 }
