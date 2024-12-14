@@ -5,4 +5,5 @@ _final: prev: {
   zen-browser = prev.callPackage ./zen-browser {};
   vimix-hyprcursor = prev.callPackage ./vimix-hyprcursor.nix {};
   sddm-glassy = prev.callPackage ./sddm-glassy {};
+  regreet = prev.callPackage ./regreet.nix {};
 }

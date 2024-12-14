@@ -23,6 +23,7 @@
 }: let
   host = file: (host-base + "/${hostname}/${file}");
   lib = nixpkgs.lib.extend (final: prev: {hm = inputs.home-manager.lib.hm;});
+  colors = import ./lib/colors.nix;
 in
   nixpkgs.lib.nixosSystem {
     system = system;
@@ -50,9 +51,8 @@ in
             useGlobalPkgs = true;
             useUserPackages = true;
             extraSpecialArgs = {
-              inherit full-name user email wallpaper nvim-config;
+              inherit full-name user email wallpaper nvim-config colors;
               inherit (inputs) agenix;
-              colors = import ./lib/colors.nix;
               ssh = import sshPath;
             };
 
@@ -132,7 +132,7 @@ in
       ++ extraModules;
     specialArgs =
       {
-        inherit lib user full-name wallpaper;
+        inherit lib user full-name wallpaper colors;
         inherit (inputs) agenix;
         ssh = import sshPath;
       }

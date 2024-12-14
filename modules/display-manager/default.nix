@@ -4,10 +4,12 @@
   config,
   user,
   wallpaper,
+  colors,
   ...
 }:
 with lib; let
   cfg = config.modules.display-manager;
+  c = colors.regular;
 in {
   options.modules.display-manager = {
     enable = mkOption {
@@ -82,14 +84,40 @@ in {
       };
       services.greetd = {
         enable = true;
-        settings = {
-          default_session = {
-            command = "${lib.getExe config.programs.hyprland.package} --config /etc/greetd/hyprland.conf";
-            # command = "${lib.getExe pkgs.cage} regreet";
-            user = user;
-          };
-        };
+        extraPackages = cfg.theme.extraPackages;
+        theme = cfg.theme.name;
+        wayland.enable = true;
+        autoNumlock = cfg.autoNumlock;
       };
     })
+    (
+      mkIf (cfg.greeter == "greetd") {
+        environment.systemPackages = with pkgs; [regreet adwaita-icon-theme-legacy];
+        environment.etc = {
+          "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
+          "greetd/regreet.css".text = import ./regreet-css.nix {colors = c;};
+          "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib;};
+        };
+        services.greetd = {
+          enable = true;
+          settings = {
+            default_session = {
+              command = "${lib.getExe config.programs.hyprland.package} -c /etc/greetd/hyprland.conf";
+              user = "greeter";
+            };
+          };
+        };
+<<<<<<< HEAD
+      };
+    })
+=======
+
+        systemd.tmpfiles.rules = [
+          "d /var/log/regreet 0755 greeter greeter - -"
+          "d /var/cache/regreet 0755 greeter greeter - -"
+        ];
+      }
+    )
+>>>>>>> greetd
   ]);
 }

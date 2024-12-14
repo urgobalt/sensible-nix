@@ -1,11 +1,10 @@
 {
   pkgs,
   lib,
-  wallpaper,
 }:
 lib.hm.generators.toHyprconf {
   attrs = {
-    exec-once = with pkgs; ["${lib.getExe greetd.regreet}; hyprctl dispatch exit"];
+    exec-once = ["${lib.getExe pkgs.regreet}; hyprctl dispatch exit"];
     monitor = [",preferred, auto, 1"];
     misc = {
       disable_splash_rendering = true;
