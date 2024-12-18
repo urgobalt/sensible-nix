@@ -4,10 +4,12 @@
   config,
   user,
   wallpaper,
+  colors,
   ...
 }:
 with lib; let
   cfg = config.modules.display-manager;
+  c = colors.regular;
 in {
   options.modules.display-manager = {
     enable = mkOption {
@@ -17,7 +19,7 @@ in {
     };
     greeter = mkOption {
       type = with types; enum ["sddm" "greetd"];
-      default = "sddm";
+      default = "greetd";
       description = "The greeter that will be used.";
     };
     autologin = {
@@ -49,11 +51,6 @@ in {
         description = "Extra Qt plugins and/or QML libraries to add to the environment.";
       };
     };
-    autoNumlock = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Enable numlock at login";
-    };
   };
   config = mkIf cfg.enable (mkMerge [
     {
@@ -70,26 +67,30 @@ in {
         extraPackages = cfg.theme.extraPackages;
         theme = cfg.theme.name;
         wayland.enable = true;
-        autoNumlock = cfg.autoNumlock;
       };
     })
-    (mkIf (cfg.greeter == "greetd") {
-      environment.etc = {
-        "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
-        # We use a home manager generator to define the hyprland configuration.
-        # We need to define the text field instead of a file.
-        "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib wallpaper;};
-      };
-      services.greetd = {
-        enable = true;
-        settings = {
-          default_session = {
-            command = "${lib.getExe config.programs.hyprland.package} --config /etc/greetd/hyprland.conf";
-            # command = "${lib.getExe pkgs.cage} regreet";
-            user = user;
+    (
+      mkIf (cfg.greeter == "greetd") {
+        environment.systemPackages = with pkgs; [regreet adwaita-icon-theme-legacy];
+        environment.etc = {
+          "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
+          "greetd/regreet.css".text = import ./regreet-css.nix {colors = c;};
+          "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib;};
+        };
+        services.greetd = {
+          enable = true;
+          settings = {
+            default_session = {
+              command = "${lib.getExe config.programs.hyprland.package} -c /etc/greetd/hyprland.conf";
+            };
           };
         };
-      };
-    })
+
+        systemd.tmpfiles.rules = [
+          "d /var/log/regreet 0755 greeter greeter - -"
+          "d /var/cache/regreet 0755 greeter greeter - -"
+        ];
+      }
+    )
   ]);
 }

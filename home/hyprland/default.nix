@@ -73,7 +73,7 @@ in {
       wlsunset
       wl-clipboard
       cliphist
-      hyprkool-bin
+      hyprkool
       hyprpicker
       hyprshot
       # unstable.hyprpaper
@@ -86,7 +86,7 @@ in {
       xwayland.enable = true;
       plugins = with pkgs; [
         # hyprspace
-        hyprkool-plugin
+        hyprkool
       ];
       settings = import ./hyprland.nix {
         inherit cfg lib config;

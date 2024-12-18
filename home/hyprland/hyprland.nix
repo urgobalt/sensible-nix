@@ -11,7 +11,7 @@ in {
   monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
-  exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m" "wl-paste --watch cliphist store"] ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"] ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"];
+  exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"] ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"] ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"];
   layerrule = ["blur, eww" "ignorezero, eww" "blur, rofi" "ignorezero, rofi"];
   env = ["HYPRCURSOR_THEME,${cfg.cursor.name}" "HYPRCURSOR_SIZE,${builtins.toString cfg.cursor.size}"];
   input = {
@@ -31,16 +31,17 @@ in {
   master = {
     mfact = 0.6;
     inherit_fullscreen = 1;
-    no_gaps_when_only = 0;
     orientation = "center";
     always_center_master = false;
     new_status = "master";
   };
   decoration = {
     rounding = 5;
-    drop_shadow = "false";
-    shadow_range = 30;
-    "col.shadow" = "0x66000000";
+    shadow = {
+      enabled = "false";
+      range = 30;
+      color = "0x66000000";
+    };
     inactive_opacity = 1.0;
     blur = {
       size = 7;
@@ -149,5 +150,5 @@ in {
     ",XF86AudioRaiseVolume,exec,pamixer -i 5"
     ",XF86AudioLowerVolume,exec,pamixer -d 5"
   ];
-  debug.disable_logs = true;
+  debug.disable_logs = false;
 }

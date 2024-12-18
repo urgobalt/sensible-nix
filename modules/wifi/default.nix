@@ -20,7 +20,7 @@ in {
     networking.networkmanager.enable = false;
 
     networking.wireless.userControlled.enable = true;
-    networking.wireless.environmentFile = config.age.secrets.wifi-env.path;
+    networking.wireless.secretsFile = config.age.secrets.wifi-env.path;
     networking.wireless.networks = cfg.networks;
   };
 }
