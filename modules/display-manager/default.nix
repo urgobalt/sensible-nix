@@ -59,6 +59,17 @@ in {
         enable = true;
         xwayland.enable = true;
       };
+      boot.kernelParams = [
+        "quiet"
+        "splash"
+        "vga=current"
+        "rd.systemd.show_status=false"
+        "rd.udev.log_level=3"
+        "udev.log_priority=3"
+      ];
+      boot.consoleLogLevel = 0;
+      # https://github.com/NixOS/nixpkgs/pull/108294
+      boot.initrd.verbose = false;
       boot.plymouth.enable = true;
     }
     (mkIf (cfg.greeter == "sddm") {
