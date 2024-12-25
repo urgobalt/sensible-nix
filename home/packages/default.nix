@@ -22,6 +22,7 @@ in {
       inotify-tools
       fd
       mlocate
+      bluetui
       bluetuith
       brightnessctl
       pamixer

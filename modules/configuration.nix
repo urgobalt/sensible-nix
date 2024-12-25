@@ -134,10 +134,20 @@
 
   # Enable bluetooth, enable pulseaudio, enable opengl (for Wayland)
   hardware = {
+    keyboard.qmk.enable = true;
     bluetooth = {
       enable = true;
       powerOnBoot = true;
       hsphfpd.enable = true;
+      settings = {
+        General = {
+          MultiProfile = "multiple";
+          FastConnectable = true;
+          ReconnectAttempts = 0;
+          ReconnectIntervals = "1, 2, 3";
+          ReverseServiceDiscovery = true;
+        };
+      };
     };
     graphics = lib.mkMerge [
       {
