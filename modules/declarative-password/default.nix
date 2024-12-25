@@ -13,7 +13,7 @@ in {
     (mkIf (cfg.enable) {
       users.mutableUsers = false;
 
-      users.users.${user}.hashedPasswordFile = path;
+      users.users.${user}.hashedPasswordFile = config.age.secrets.user-password.path;
     })
     (mkIf (cfg.enable == false) {
       users.users.${user}.password = "root";
