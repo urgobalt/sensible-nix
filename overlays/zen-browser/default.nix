@@ -61,7 +61,7 @@ in
     pname = "zen-browser";
     src = builtins.fetchTarball {
       url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.bz2";
-      sha256 = "sha256:10iwdyxgcfbkl6fxn99x2ba5z1ywbc1mkpq9i35m8h8aalfgj2r7";
+      sha256 = "sha256:130khmplv5qcqlf2g4mlky30mw9lrwsryk6g779icbaxrv4ffk6a";
     };
 
     desktopSrc = ./.;
