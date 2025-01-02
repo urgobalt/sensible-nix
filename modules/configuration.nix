@@ -143,7 +143,7 @@
         General = {
           MultiProfile = "multiple";
           FastConnectable = true;
-          ReconnectAttempts = 0;
+          ReconnectAttempts = 7;
           ReconnectIntervals = "1, 2, 3";
           ReverseServiceDiscovery = true;
         };
