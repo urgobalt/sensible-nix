@@ -132,6 +132,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
 
   services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
@@ -139,7 +140,8 @@
       "bluez5.enable-sbc-xq" = true;
       "bluez5.enable-msbc" = true;
       "bluez5.enable-hw-volume" = true;
-      "bluez5.roles" = ["hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag"];
+      "bluez5.hfphsp-backend" = "native";
+      "bluez5.roles" = ["hfp_ag" "hfp_hf" "a2dp_sink" "a2dp_source" "bap_sink" "bap_source"];
     };
   };
   # Enable bluetooth, enable pulseaudio, enable opengl (for Wayland)
