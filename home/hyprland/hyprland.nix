@@ -19,6 +19,8 @@ in {
     kb_layout = "se";
     sensitivity = 1;
     natural_scroll = false;
+    scroll_method = "on_button_down";
+    scroll_button = 274;
   };
   general = {
     layout = cfg.layout;
@@ -27,6 +29,7 @@ in {
     border_size = 1;
     "col.active_border" = colors.none;
     "col.inactive_border" = colors.none;
+    resize_on_border = false;
   };
   master = {
     mfact = 0.6;
@@ -42,7 +45,7 @@ in {
       range = 30;
       color = "0x66000000";
     };
-    inactive_opacity = 1.0;
+    inactive_opacity = 0.7;
     blur = {
       size = 7;
       vibrancy = 1;
@@ -88,6 +91,7 @@ in {
       "$mod,F,fullscreen,1"
       "$smod,F,fullscreen,0"
       "$cmod,F,togglefloating,"
+      "CTRL SUPER SHIFT,F,exec, hyprctl dispatch workspaceopt allfloat"
       "$mod,Tab,exec,hyprkool toggle-overview"
       "CTRL SHIFT,Escape,exec,${terminal} btop"
       # Applications
@@ -97,6 +101,7 @@ in {
       # Movement
       "$mod,n,layoutmsg,rollnext"
       "$mod,p,layoutmsg,rollprev"
+      "$mod,m,layoutmsg,focusmaster"
       # Move window
       "$smod,h,movewindow,l"
       "$smod,l,movewindow,r"
@@ -140,6 +145,9 @@ in {
       "$mod,S,exec,echo -ne 'output\\nwindow\\nregion' | rofi -dmenu | xargs hyprshot -m"
       "$smod,S,exec,hyprshot -cm output"
       ",Print,exec,hyprshot -cm output"
+      # Floating windows movement and resize
+      "$mod, mouse_up, resizeactive, 5% 5%"
+      "$mod, mouse_down, resizeactive, -5% -5%"
     ];
   # Repeating keybinds
   binde = [
@@ -149,6 +157,11 @@ in {
     # Volume
     ",XF86AudioRaiseVolume,exec,pamixer -i 5"
     ",XF86AudioLowerVolume,exec,pamixer -d 5"
+  ];
+  bindm = [
+    # Floating windows movement and resize
+    "$mod, mouse:272, movewindow"
+    "$mod, mouse:273, resizewindow"
   ];
   debug.disable_logs = false;
 }
