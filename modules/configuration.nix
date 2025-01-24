@@ -95,6 +95,9 @@
   # Boot settings
   boot.tmp.cleanOnBoot = true;
 
+  # Allow mounting ntfs drives
+  boot.supportedFilesystems = ["ntfs"];
+
   # Set environment variables
   environment.variables = {
     XDG_CONFIG_HOME = "$HOME/.config";
@@ -102,6 +105,7 @@
     DIRENV_LOG_FORMAT = "";
     ANKI_WAYLAND = "1";
     OZ_ENABLE_WAYLAND = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
     DISABLE_QT5_COMPAT = "0";
     NIXOS_OZONE_WL = "1";
   };
