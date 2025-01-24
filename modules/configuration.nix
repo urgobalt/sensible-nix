@@ -8,11 +8,13 @@
   ...
 }: {
   environment.defaultPackages = [];
+  environment.systemPackages = with pkgs; [openssl];
   services.xserver.desktopManager.xterm.enable = false;
 
   # Ensure fish is enabled for user even if the configuration is inactive
   programs.fish.enable = true;
 
+  services.fwupd = {enable = true;};
   # User
   users.users.${user} = {
     uid = 1000;
@@ -20,7 +22,7 @@
     home = "/home/${user}";
     createHome = true;
     description = full-name;
-    extraGroups = ["wheel" "networkmanager"];
+    extraGroups = ["audio" "wheel" "networkmanager"];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = ssh.users;
   };
@@ -122,23 +124,33 @@
     protectKernelImage = true;
   };
 
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   services.pipewire = {
-    enable = false;
+    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    jack.enable = true;
   };
 
+  services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
+    "monitor.bluez.properties" = {
+      "bluez5.enable-sbc-xq" = true;
+      "bluez5.enable-msbc" = true;
+      "bluez5.enable-hw-volume" = true;
+      "bluez5.hfphsp-backend" = "native";
+      "bluez5.roles" = ["hfp_ag" "hfp_hf" "a2dp_sink" "a2dp_source" "bap_sink" "bap_source"];
+    };
+  };
   # Enable bluetooth, enable pulseaudio, enable opengl (for Wayland)
   hardware = {
     keyboard.qmk.enable = true;
     bluetooth = {
       enable = true;
       powerOnBoot = true;
-      hsphfpd.enable = true;
+      hsphfpd.enable = false;
       settings = {
         General = {
           MultiProfile = "multiple";
@@ -161,6 +173,7 @@
         extraPackages = with pkgs; [intel-media-driver];
       })
     ];
+    enableAllFirmware = true;
   };
 
   # SSH
