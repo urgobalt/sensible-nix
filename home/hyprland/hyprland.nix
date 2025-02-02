@@ -12,7 +12,14 @@ in {
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
   exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"] ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"] ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"];
-  layerrule = ["blur, eww" "ignorezero, eww" "blur, rofi" "ignorezero, rofi"];
+  layerrule = [
+    "blur, eww"
+    "ignorezero, eww"
+
+    "blur, rofi"
+    "ignorezero, rofi"
+    "noanim, rofi"
+  ];
   env = ["HYPRCURSOR_THEME,${cfg.cursor.name}" "HYPRCURSOR_SIZE,${builtins.toString cfg.cursor.size}"];
   input = {
     follow_mouse = 2;
@@ -21,6 +28,7 @@ in {
     natural_scroll = false;
     scroll_method = "on_button_down";
     scroll_button = 274;
+    special_fallthrough = true;
   };
   general = {
     layout = cfg.layout;
@@ -30,13 +38,22 @@ in {
     "col.active_border" = colors.none;
     "col.inactive_border" = colors.none;
     resize_on_border = false;
+
+    snap = {
+      enabled = true;
+      window_gap = 20;
+      monitor_gap = 5;
+    };
   };
   master = {
-    mfact = 0.6;
+    mfact = 0.5;
     inherit_fullscreen = 1;
     orientation = "center";
     always_center_master = false;
     new_status = "master";
+  };
+  group = {
+    merge_floated_into_tiled_on_groupbar = true;
   };
   decoration = {
     rounding = 5;
@@ -45,9 +62,10 @@ in {
       range = 30;
       color = "0x66000000";
     };
-    inactive_opacity = 0.7;
+    inactive_opacity = 0.95;
+    active_opacity = 0.95;
     blur = {
-      size = 7;
+      size = 4;
       vibrancy = 1;
       passes = 3;
     };
@@ -70,6 +88,9 @@ in {
   misc = {
     disable_splash_rendering = true;
     disable_hyprland_logo = true;
+    exit_window_retains_fullscreen = true;
+    enable_swallow = true;
+    swallow_regex = "^(${lib.strings.getName cfg.terminal})$";
   };
   animations = {
     enabled = 1;
@@ -79,6 +100,16 @@ in {
       "windowsIn,1,3,default,popin"
     ];
   };
+
+  windowrulev2 = [
+    # Window tags
+    "tag +plain,class:(steam_app)(.*)"
+
+    # Rules
+    "opacity 1 override, tag:plain"
+    "noblur, tag:plain"
+    "noanim, tag:plain"
+  ];
 
   "$mod" = "SUPER";
   "$smod" = "SUPER SHIFT";
@@ -102,6 +133,9 @@ in {
       "$mod,n,layoutmsg,rollnext"
       "$mod,p,layoutmsg,rollprev"
       "$mod,m,layoutmsg,focusmaster"
+      # Focus switching
+      "ALT,Tab,cyclenext"
+      "ALT,Tab,bringactivetotop"
       # Move window
       "$smod,h,movewindow,l"
       "$smod,l,movewindow,r"
@@ -142,9 +176,9 @@ in {
       "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
       "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
       # Screenshot
-      "$mod,S,exec,echo -ne 'output\\nwindow\\nregion' | rofi -dmenu | xargs hyprshot -m"
-      "$smod,S,exec,hyprshot -cm output"
-      ",Print,exec,hyprshot -cm output"
+      "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --cursor --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      "$smod,S,exec,grimblast --cursor --notify --freeze copysave area ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      ",Print,exec,grimblast --cursor --notify --freeze copysave screen ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
       # Floating windows movement and resize
       "$mod, mouse_up, resizeactive, 5% 5%"
       "$mod, mouse_down, resizeactive, -5% -5%"
