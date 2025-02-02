@@ -28,6 +28,7 @@ in {
     natural_scroll = false;
     scroll_method = "on_button_down";
     scroll_button = 274;
+    special_fallthrough = true;
   };
   general = {
     layout = cfg.layout;
@@ -37,6 +38,12 @@ in {
     "col.active_border" = colors.none;
     "col.inactive_border" = colors.none;
     resize_on_border = false;
+
+    snap = {
+      enabled = true;
+      window_gap = 20;
+      monitor_gap = 5;
+    };
   };
   master = {
     mfact = 0.5;
@@ -44,6 +51,9 @@ in {
     orientation = "center";
     always_center_master = false;
     new_status = "master";
+  };
+  group = {
+    merge_floated_into_tiled_on_groupbar = true;
   };
   decoration = {
     rounding = 5;
@@ -78,6 +88,9 @@ in {
   misc = {
     disable_splash_rendering = true;
     disable_hyprland_logo = true;
+    exit_window_retains_fullscreen = true;
+    enable_swallow = true;
+    swallow_regex = "^(${lib.strings.getName cfg.terminal})$";
   };
   animations = {
     enabled = 1;
@@ -120,6 +133,9 @@ in {
       "$mod,n,layoutmsg,rollnext"
       "$mod,p,layoutmsg,rollprev"
       "$mod,m,layoutmsg,focusmaster"
+      # Focus switching
+      "ALT,Tab,cyclenext"
+      "ALT,Tab,bringactivetotop"
       # Move window
       "$smod,h,movewindow,l"
       "$smod,l,movewindow,r"
@@ -160,9 +176,9 @@ in {
       "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
       "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
       # Screenshot
-      "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
-      "$smod,S,exec,grimblast --notify --freeze copysave area ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
-      ",Print,exec,grimblast --notify --freeze copysave screen ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --cursor --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      "$smod,S,exec,grimblast --cursor --notify --freeze copysave area ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      ",Print,exec,grimblast --cursor --notify --freeze copysave screen ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
       # Floating windows movement and resize
       "$mod, mouse_up, resizeactive, 5% 5%"
       "$mod, mouse_down, resizeactive, -5% -5%"
