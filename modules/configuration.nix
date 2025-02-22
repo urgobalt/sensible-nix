@@ -92,6 +92,8 @@
     '';
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   # Boot settings
   boot.tmp.cleanOnBoot = true;
 
