@@ -75,9 +75,7 @@ in {
       cliphist
       hyprkool
       hyprpicker
-      hyprshot
-      # unstable.hyprpaper
-      # unstable.hyprland
+      grimblast
     ];
 
     wayland.windowManager.hyprland = {
