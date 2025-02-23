@@ -1,12 +1,9 @@
 builtins.toJSON {
   margin = "10 20 0 20";
-  modules-left = ["hyprland/window" "custom/nix-packages" "custom/nix-store" "disk"];
+  modules-left = ["custom/nix-packages" "custom/nix-store" "disk"];
   modules-center = ["clock"];
-  modules-right = ["network" "bluetooth" "custom/volume" "custom/mem" "battery"];
+  modules-right = ["hyprland/window" "network" "bluetooth" "custom/volume" "custom/mem" "battery"];
 
-  "hyprland/window" = {
-    format = "{initialTitle}";
-  };
   "custom/nix-packages" = {
     format = "{} 󱄅 ";
     intervall = 60;
@@ -28,6 +25,9 @@ builtins.toJSON {
     timezone = "Europe/Stockholm";
     format = "{:%a %d %b %H:%M}";
     tooltip = false;
+  };
+  "hyprland/window" = {
+    format = "{initialTitle}";
   };
   network = {
     interval = 10;
