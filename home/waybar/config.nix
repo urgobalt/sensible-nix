@@ -1,18 +1,14 @@
 builtins.toJSON {
-  margin = "20 20 0 20";
-  modules-left = ["keyboard-state" "custom/nix-packages" "custom/nix-store"];
+  margin = "10 20 0 20";
+  modules-left = ["hyprland/window" "custom/nix-packages" "custom/nix-store"];
   modules-center = ["clock"];
-  modules-right = ["custom/volume" "custom/mem" "battery" "tray"];
-  keyboard-state = {
-    capslock = true;
-    format = "{name} {icon}";
-    format-icons = {
-      locked = "";
-      unlocked = "";
-    };
+  modules-right = ["network" "bluetooth" "custom/volume" "custom/mem" "battery"];
+
+  "hyprland/window" = {
+    format = "{initialTitle}";
   };
   "custom/nix-packages" = {
-    format = "{} 󱄅";
+    format = "{} 󱄅 ";
     intervall = 3600;
     exec = "ls -l /nix/store | rg .drv | wc -l";
     exec-if = "exit 0";
@@ -20,7 +16,7 @@ builtins.toJSON {
     tooltip = false;
   };
   "custom/nix-store" = {
-    format = "{} ";
+    format = "{}  ";
     intervall = 3600;
     exec = "dust -d 0 /nix | cut -d ' ' -f 1";
     exec-if = "exit 0";
@@ -29,22 +25,38 @@ builtins.toJSON {
   };
   clock = {
     timezone = "Europe/Stockholm";
-    tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-    format = "{:%a, %d %b, %I:%M %p}";
+    format = "{:%a %d %b %H:%M}";
+    tooltip = false;
+  };
+  network = {
+    interval = 10;
+    format-ethernet = "󰈁";
+    format-wifi = "{essid} {icon}";
+    format-disconnected = "󰤮 ";
+    format-linked = "󰤫 ";
+    format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "];
+    tooltip = false;
+  };
+  bluetooth = {
+    format-on = "󰂯";
+    format-off = "󰂲";
+    format-connected = "󰂱";
   };
   "custom/volume" = {
     format = "{percentage}% {icon}";
     return-type = "json";
-    signal = 10;
-    interval = 5;
+    signal = 11;
+    interval = 1;
     format-icons = {
-      mute = "";
-      default = "";
+      mute = " ";
+      default = " ";
     };
     exec = "pw-volume status";
+    on-click = "pavucontrol";
+    tooltip = false;
   };
   "custom/mem" = {
-    format = "{} ";
+    format = "{}  ";
     interval = 3;
     exec = "free -h | awk '/Mem:/{printf $3}'";
     tooltip = false;
@@ -60,9 +72,5 @@ builtins.toJSON {
     format-alt = "{time} {icon}";
     format-icons = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
     on-update = "bash $HOME/.config/waybar/scripts/battery.sh";
-  };
-  tray = {
-    icon-size = 16;
-    spacing = 0;
   };
 }

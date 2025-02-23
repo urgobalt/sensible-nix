@@ -151,4 +151,40 @@
     gray06 = "767675FF";
     gray07 = "B6B6B5FF";
   };
+  rgba = {
+    background = "rgba(26, 26, 25, 0.89)";
+    text = "rgba(209, 209, 209, 1)";
+    /*
+    Normal
+    */
+    black = "rgba(51, 51, 50, 1)";
+    red = "rgba(255, 150, 140, 1)";
+    green = "rgba(97, 149, 127, 1)";
+    yellow = "rgba(255, 197, 145, 1)";
+    blue = "rgba(141, 180, 212, 1)";
+    magenta = "rgba(222, 155, 200, 1)";
+    cyan = "rgba(123, 176, 153, 1)";
+    white = "rgba(209, 209, 209, 1)";
+    /*
+    Bright
+    */
+    bright_black = "rgba(76, 76, 75, 1)";
+    bright_red = "rgba(255, 175, 165, 1)";
+    bright_green = "rgba(122, 174, 152, 1)";
+    bright_yellow = "rgba(255, 222, 170, 1)";
+    bright_blue = "rgba(166, 205, 237, 1)";
+    bright_magenta = "rgba(247, 180, 225, 1)";
+    bright_cyan = "rgba(148, 201, 178, 1)";
+    bright_white = "rgba(234, 234, 234, 1)";
+    /*
+    Grays
+    */
+    gray01 = "rgba(34, 34, 33, 1)";
+    gray02 = "rgba(42, 42, 41, 1)";
+    gray03 = "rgba(50, 50, 49, 1)";
+    gray04 = "rgba(58, 58, 57, 1)";
+    gray05 = "rgba(106, 106, 105, 1)";
+    gray06 = "rgba(118, 118, 117, 1)";
+    gray07 = "rgba(182, 182, 181, 1)";
+  };
 }
