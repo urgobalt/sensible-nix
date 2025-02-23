@@ -41,6 +41,12 @@ in {
         background: ${c.background};
       }
 
+      window#waybar.empty #window {
+        background: transparent;
+        padding: 0px;
+        margin: 0px;
+      }
+
       #custom-nix-packages {
         padding: 5px 8px 5px 16px;
         border-radius: 5px 0px 0px 5px;
@@ -52,6 +58,15 @@ in {
       #custom-nix-store {
         padding: 5px 16px 5px 8px;
         border-radius: 0px 5px 5px 0px;
+        transition: none;
+        color: ${c.text};
+        background: ${c.background};
+      }
+
+      #disk {
+        padding: 5px 16px;
+        margin-left: 20px;
+        border-radius: 5px;
         transition: none;
         color: ${c.text};
         background: ${c.background};
