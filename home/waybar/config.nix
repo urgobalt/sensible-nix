@@ -10,16 +10,14 @@ builtins.toJSON {
   "custom/nix-packages" = {
     format = "{} 󱄅 ";
     intervall = 60;
-    exec = "ls -l /nix/store | rg .drv | wc -l";
-    exec-if = "exit 0";
+    exec = "sqlite3 'file:/nix/var/nix/db/db.sqlite?readonly=true&immutable=true' 'SELECT COUNT(DISTINCT drv) FROM DerivationOutputs'";
     signal = 8;
     tooltip = false;
   };
   "custom/nix-store" = {
     format = "{}  ";
     intervall = 60;
-    exec = "dust -d 0 /nix | cut -d ' ' -f 1";
-    exec-if = "exit 0";
+    exec = "sqlite3 'file:/nix/var/nix/db/db.sqlite?readonly=true&immutable=true' 'SELECT SUM(narSize) FROM ValidPaths' | numfmt --to iec";
     signal = 9;
     tooltip = false;
   };
