@@ -99,6 +99,15 @@ in {
         color: ${c.text};
         background: ${c.background};
       }
+
+      #battery {
+        padding: 5px 16px;
+        margin-left: 20px;
+        border-radius: 5px;
+        transition: none;
+        color: ${c.text};
+        background: ${c.background};
+      }
     '';
 
     xdg.configFile."waybar/scripts/battery.sh".source = ./battery.sh;
