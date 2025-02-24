@@ -6,6 +6,7 @@
     ./eww
     ./dunst
     ./waybar
+    ./swaync
 
     # Applets
     ./fuzzel
