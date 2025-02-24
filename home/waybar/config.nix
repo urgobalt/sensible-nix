@@ -1,35 +1,36 @@
 builtins.toJSON {
   margin = "10 20 0 20";
-  modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "custom/mem" "cpu"];
+  modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "memory" "cpu"];
   modules-center = ["clock"];
   modules-right = ["hyprland/window" "network" "bluetooth" "custom/volume" "battery"];
 
   "custom/nix-packages" = {
     format = "{} 󱄅 ";
-    intervall = 60;
+    interval = 60;
     exec = "sqlite3 'file:/nix/var/nix/db/db.sqlite?readonly=true&immutable=true' 'SELECT COUNT(DISTINCT drv) FROM DerivationOutputs'";
     signal = 8;
     tooltip = false;
   };
   "custom/nix-store" = {
     format = "{}  ";
-    intervall = 60;
+    interval = 60;
     exec = "sqlite3 'file:/nix/var/nix/db/db.sqlite?readonly=true&immutable=true' 'SELECT SUM(narSize) FROM ValidPaths' | numfmt --to iec";
     signal = 9;
     tooltip = false;
   };
   disk = {
     format = "{used} / {total}  ";
+    tooltip-format = "{used} used out of {total} ({percentage})";
   };
-  "custom/mem" = {
-    format = "{}  ";
+  "memory" = {
+    format = "{used:0.1f}GiB / {total:0.1f}GiB  ";
     interval = 3;
-    exec = "free -h | awk '/Mem:/{printf $3}'";
-    tooltip = false;
+    tooltip = true;
+    tooltip-format = "{used:0.1f}GiB used out of {total:0.1f}GiB ({percentage}%)";
   };
   cpu = {
     format = "{usage}%  ";
-    interval = 10;
+    interval = 3;
   };
   clock = {
     timezone = "Europe/Stockholm";
