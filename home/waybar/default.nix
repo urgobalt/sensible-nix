@@ -81,6 +81,15 @@ in {
         background: ${c.background};
       }
 
+      #cpu {
+        padding: 5px 16px;
+        border-radius: 5px;
+        margin-left: 20px;
+        transition: none;
+        color: ${c.text};
+        background: ${c.background};
+      }
+
       #clock {
         padding: 5px 16px;
         border-radius: 5px;
