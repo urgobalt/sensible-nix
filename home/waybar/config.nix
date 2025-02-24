@@ -1,6 +1,6 @@
 builtins.toJSON {
   margin = "10 20 0 20";
-  modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "custom/mem"];
+  modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "custom/mem" "cpu"];
   modules-center = ["clock"];
   modules-right = ["hyprland/window" "network" "bluetooth" "custom/volume" "battery"];
 
@@ -19,13 +19,17 @@ builtins.toJSON {
     tooltip = false;
   };
   disk = {
-    format = "{used} / {total}  ";
+    format = "{used} / {total}  ";
   };
   "custom/mem" = {
     format = "{}  ";
     interval = 3;
     exec = "free -h | awk '/Mem:/{printf $3}'";
     tooltip = false;
+  };
+  cpu = {
+    format = "{usage}%  ";
+    interval = 10;
   };
   clock = {
     timezone = "Europe/Stockholm";
