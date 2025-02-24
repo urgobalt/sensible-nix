@@ -1,8 +1,8 @@
 builtins.toJSON {
   margin = "10 20 0 20";
-  modules-left = ["custom/nix-packages" "custom/nix-store" "disk"];
+  modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "custom/mem"];
   modules-center = ["clock"];
-  modules-right = ["hyprland/window" "network" "bluetooth" "custom/volume" "custom/mem" "battery"];
+  modules-right = ["hyprland/window" "network" "bluetooth" "custom/volume" "battery"];
 
   "custom/nix-packages" = {
     format = "{} 󱄅 ";
@@ -20,6 +20,12 @@ builtins.toJSON {
   };
   disk = {
     format = "{used} / {total}  ";
+  };
+  "custom/mem" = {
+    format = "{}  ";
+    interval = 3;
+    exec = "free -h | awk '/Mem:/{printf $3}'";
+    tooltip = false;
   };
   clock = {
     timezone = "Europe/Stockholm";
@@ -54,12 +60,6 @@ builtins.toJSON {
     };
     exec = "pw-volume status";
     on-click = "pavucontrol";
-    tooltip = false;
-  };
-  "custom/mem" = {
-    format = "{}  ";
-    interval = 3;
-    exec = "free -h | awk '/Mem:/{printf $3}'";
     tooltip = false;
   };
   battery = {

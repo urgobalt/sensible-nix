@@ -72,6 +72,15 @@ in {
         background: ${c.background};
       }
 
+      #custom-mem {
+        padding: 5px 16px;
+        border-radius: 5px;
+        margin-left: 20px;
+        transition: none;
+        color: ${c.text};
+        background: ${c.background};
+      }
+
       #clock {
         padding: 5px 16px;
         border-radius: 5px;
@@ -99,15 +108,6 @@ in {
       }
 
       #custom-volume {
-        padding: 5px 16px;
-        margin-right: 20px;
-        border-radius: 5px;
-        transition: none;
-        color: ${c.text};
-        background: ${c.background};
-      }
-
-      #custom-mem {
         padding: 5px 16px;
         border-radius: 5px;
         transition: none;
