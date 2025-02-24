@@ -191,6 +191,9 @@ in {
     ]
     ++ lib.optionals modules.waybar.enable [
       "$mod,Z,exec,pkill waybar || waybar"
+    ]
+    ++ lib.optionals modules.swaync.enable [
+      "$smod,N,exec,swaync-client -t -sw"
     ];
   # Repeating keybinds
   binde = [
