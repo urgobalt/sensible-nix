@@ -72,7 +72,7 @@ in {
         background: ${c.background};
       }
 
-      #custom-mem {
+      #memory {
         padding: 5px 16px;
         border-radius: 5px;
         margin-left: 20px;
