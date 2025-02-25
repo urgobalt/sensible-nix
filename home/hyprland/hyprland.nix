@@ -21,6 +21,11 @@ in {
     "blur, eww"
     "ignorezero, eww"
 
+    "blur, swaync"
+    "ignorezero, swaync"
+    "animation slide right, swaync"
+    "dimaround, swaync-control-center"
+
     "blur, rofi"
     "ignorezero, rofi"
     "noanim, rofi"
@@ -103,6 +108,7 @@ in {
       "windows,1,3,default,slide"
       "workspaces,1,2,default,slide"
       "windowsIn,1,3,default,popin"
+      "layers,1,3,default,fade"
     ];
   };
 

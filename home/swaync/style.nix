@@ -1,11 +1,12 @@
 {color}: let
   border-radius = "5px";
+  margin = "10px";
 in
   /*
   css
   */
   ''
-    @define-color cc-bg ${color.background};
+    @define-color cc-bg rgba(26, 26, 25, 0.5);
     @define-color noti-border-color rgba(255, 255, 255, 0.05);
     @define-color noti-bg ${color.background};
     @define-color noti-bg-opaque ${color.black};
@@ -18,6 +19,7 @@ in
     @define-color text-color ${color.text};
     @define-color text-color-disabled rgb(150, 150, 150);
     @define-color bg-selected rgb(0, 128, 255);
+
     .notification-row {
       outline: none;
     }
@@ -55,7 +57,7 @@ in
     .notification-row .notification-background .notification {
       /* The actual notification */
       border-radius: ${border-radius};
-      border: 1px solid @noti-border-color;
+      border: 2px solid @noti-border-color;
       padding: 0;
       transition: background 0.15s ease-in-out;
       background: @noti-bg;
@@ -170,7 +172,7 @@ in
       background: @noti-bg-darker;
       color: @text-color;
       caret-color: @text-color;
-      border: 1px solid @noti-border-color;
+      border: 2px solid @noti-border-color;
       border-radius: ${border-radius};
     }
 
@@ -185,7 +187,7 @@ in
     .notification-row .notification-background .notification .notification-default-action .notification-content .inline-reply .inline-reply-button:disabled {
       background: initial;
       color: @text-color-disabled;
-      border: 1px solid @noti-border-color;
+      border: 2px solid @noti-border-color;
       border-color: transparent;
     }
 
@@ -270,11 +272,12 @@ in
       background: @cc-bg;
       color: @text-color;
       border-radius: ${border-radius};
+      border: 2px solid @noti-border-color;
     }
 
     .control-center .control-center-list-placeholder {
       /* The placeholder when there are no notifications */
-      opacity: 0.5;
+      opacity: 0.2;
     }
 
     .control-center .control-center-list {
@@ -322,7 +325,7 @@ in
       color: @text-color;
       text-shadow: none;
       background: @noti-bg;
-      border: 1px solid @noti-border-color;
+      border: 2px solid @noti-border-color;
       box-shadow: none;
       border-radius: ${border-radius};
     }
