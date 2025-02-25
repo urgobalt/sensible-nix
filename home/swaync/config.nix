@@ -30,14 +30,10 @@ builtins.toJSON {
   "text-empty" = "No Notifications";
   "script-fail-notify" = true;
   "scripts" = {
-    "example-script" = {
-      "exec" = "echo 'Do something...'";
-      "urgency" = "Normal";
-    };
-    "example-action-script" = {
-      "exec" = "echo 'Do something actionable!'";
-      "urgency" = "Normal";
-      "run-on" = "action";
+    "hyprland-focus" = {
+      exec = "bash -c 'hyprctl dispatch focuswindow \"$SWAYNC_APP_NAME\"'";
+      urgency = "Normal";
+      run-on = "action";
     };
   };
   "notification-visibility" = {
