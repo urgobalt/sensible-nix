@@ -23,7 +23,7 @@ in {
     home.packages = with pkgs; [
       acpi
       dust
-      pavucontrol
+      pwvucontrol
       pw-volume
     ];
   };

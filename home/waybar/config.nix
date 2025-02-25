@@ -68,7 +68,7 @@ builtins.toJSON {
       default = " ";
     };
     exec = "pw-volume status";
-    on-click = "pavucontrol";
+    on-click = "pwvucontrol";
     tooltip = false;
   };
   battery = {
