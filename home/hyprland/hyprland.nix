@@ -15,10 +15,16 @@ in {
     ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"]
     ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"]
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
+    ++ lib.optionals modules.swaync.enable ["swaync"]
     ++ lib.optionals modules.waybar.enable ["waybar"];
   layerrule = [
     "blur, eww"
     "ignorezero, eww"
+
+    "blur, swaync"
+    "ignorezero, swaync"
+    "animation slide right, swaync"
+    "dimaround, swaync-control-center"
 
     "blur, rofi"
     "ignorezero, rofi"
@@ -102,6 +108,7 @@ in {
       "windows,1,3,default,slide"
       "workspaces,1,2,default,slide"
       "windowsIn,1,3,default,popin"
+      "layers,1,3,default,fade"
     ];
   };
 
@@ -190,6 +197,9 @@ in {
     ]
     ++ lib.optionals modules.waybar.enable [
       "$mod,Z,exec,pkill waybar || waybar"
+    ]
+    ++ lib.optionals modules.swaync.enable [
+      "$smod,N,exec,swaync-client -t -sw"
     ];
   # Repeating keybinds
   binde = [
