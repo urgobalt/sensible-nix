@@ -8,10 +8,14 @@
   terminal = lib.getExe cfg.terminal;
   browser = lib.getExe cfg.browser;
 in {
-  monitor = cfg.monitors ++ [",addreserved,40,0,0,0"];
+  monitor = cfg.monitors ++ lib.optionals modules.eww.enable [",addreserved,40,0,0,0"];
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
-  exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"] ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"] ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"];
+  exec-once =
+    ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"]
+    ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"]
+    ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
+    ++ lib.optionals modules.waybar.enable ["waybar"];
   layerrule = [
     "blur, eww"
     "ignorezero, eww"
@@ -128,6 +132,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
+      "$mod,D,exec,discord"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
@@ -182,6 +187,9 @@ in {
       # Floating windows movement and resize
       "$mod, mouse_up, resizeactive, 5% 5%"
       "$mod, mouse_down, resizeactive, -5% -5%"
+    ]
+    ++ lib.optionals modules.waybar.enable [
+      "$mod,Z,exec,pkill waybar || waybar"
     ];
   # Repeating keybinds
   binde = [
