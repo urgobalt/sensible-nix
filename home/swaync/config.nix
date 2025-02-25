@@ -5,9 +5,9 @@ builtins.toJSON {
   "control-center-layer" = "top";
   "layer-shell" = true;
   "cssPriority" = "application";
-  "control-center-margin-top" = 0;
-  "control-center-margin-bottom" = 0;
-  "control-center-margin-right" = 0;
+  "control-center-margin-top" = 10;
+  "control-center-margin-bottom" = 10;
+  "control-center-margin-right" = 10;
   "control-center-margin-left" = 0;
   "notification-2fa-action" = true;
   "notification-inline-replies" = false;
@@ -19,13 +19,13 @@ builtins.toJSON {
   "timeout-critical" = 0;
   "fit-to-screen" = true;
   "relative-timestamps" = true;
-  "control-center-width" = 500;
+  "control-center-width" = 400;
   "control-center-height" = 600;
   "notification-window-width" = 500;
   "keyboard-shortcuts" = true;
   "image-visibility" = "when-available";
-  "transition-time" = 200;
-  "hide-on-clear" = false;
+  "transition-time" = 100;
+  "hide-on-clear" = true;
   "hide-on-action" = true;
   "text-empty" = "No Notifications";
   "script-fail-notify" = true;
@@ -41,15 +41,20 @@ builtins.toJSON {
     };
   };
   "notification-visibility" = {
-    "example-name" = {
+    "Music" = {
       "state" = "muted";
       "urgency" = "Low";
       "app-name" = "Spotify";
     };
+    "Music Premium" = {
+      "state" = "muted";
+      "urgency" = "Low";
+      "app-name" = "Spotify Premium";
+    };
   };
   "widgets" = [
-    "inhibitors"
     "title"
+    "mpris"
     "dnd"
     "notifications"
   ];
