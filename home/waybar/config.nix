@@ -2,7 +2,7 @@ builtins.toJSON {
   margin = "10 20 0 20";
   modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "memory" "cpu"];
   modules-center = ["clock"];
-  modules-right = ["hyprland/window" "network" "bluetooth" "custom/volume" "battery"];
+  modules-right = ["hyprland/window" "tray" "network" "bluetooth" "custom/volume" "battery"];
 
   "custom/nix-packages" = {
     format = "{} 󱄅 ";
@@ -39,6 +39,10 @@ builtins.toJSON {
   };
   "hyprland/window" = {
     format = "{initialTitle}";
+  };
+  tray = {
+    icon-size = 16;
+    spacing = 2;
   };
   network = {
     interval = 10;
