@@ -6,4 +6,5 @@ _final: prev: {
   vimix-hyprcursor = prev.callPackage ./vimix-hyprcursor.nix {};
   sddm-glassy = prev.callPackage ./sddm-glassy {};
   regreet = prev.callPackage ./regreet.nix {};
+  hypr-zoom = prev.callPackage ./hypr-zoom.nix {};
 }

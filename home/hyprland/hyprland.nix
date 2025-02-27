@@ -136,6 +136,8 @@ in {
       "CTRL SUPER SHIFT,F,exec, hyprctl dispatch workspaceopt allfloat"
       "$mod,Tab,exec,hyprkool toggle-overview"
       "CTRL SHIFT,Escape,exec,${terminal} btop"
+      "$smod,z,exec,hypr-zoom -easing=OutBack -easingOut=OutExpo"
+      ", mouse:275, exec, hypr-zoom -easing=OutBack -easingOut=OutExpo"
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
