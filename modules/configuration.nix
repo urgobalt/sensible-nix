@@ -57,7 +57,7 @@
 
     fontconfig.defaultFonts = {
       serif = [
-        "SourceCodePro Nerd Font"
+        "SauceCodePro Nerd Font"
       ];
       sansSerif = [
         "SauceCodePro Nerd Font"
