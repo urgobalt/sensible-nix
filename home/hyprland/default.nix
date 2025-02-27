@@ -76,6 +76,7 @@ in {
       hyprkool
       hyprpicker
       grimblast
+      hypr-zoom
     ];
 
     wayland.windowManager.hyprland = {
