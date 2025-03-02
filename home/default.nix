@@ -12,6 +12,7 @@
     ./fuzzel
     ./rofi
     ./kitty
+    ./ghostty
     ./wezterm
     ./chromium
     ./zen
