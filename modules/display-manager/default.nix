@@ -15,10 +15,10 @@ in {
     enable = mkOption {
       type = types.bool;
       default = false;
-      description = "Enable the sddm display manager.";
+      description = "Enable the display manager.";
     };
     greeter = mkOption {
-      type = with types; enum ["sddm" "greetd"];
+      type = with types; enum ["greetd"];
       default = "greetd";
       description = "The greeter that will be used.";
     };
@@ -29,32 +29,9 @@ in {
         description = "Enable autologin for the current user.";
       };
     };
-    theme = {
-      package = mkOption {
-        type = types.package;
-        default = pkgs.sddm-glassy;
-        description = "The package that contain the theme.";
-      };
-      name = mkOption {
-        type = types.str;
-        default = "sddm-glassy";
-        description = "The name of the package. It is the name of the folder within /share/sddm/themes.";
-      };
-      extraPackages = mkOption {
-        type = with types; listOf package;
-        default = with pkgs.libsForQt5; [
-          qt5.qtgraphicaleffects
-          plasma-workspace
-          plasma-framework
-          kconfig
-        ];
-        description = "Extra Qt plugins and/or QML libraries to add to the environment.";
-      };
-    };
   };
   config = mkIf cfg.enable (mkMerge [
     {
-      environment.systemPackages = [cfg.theme.package];
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
@@ -72,14 +49,6 @@ in {
       boot.initrd.verbose = false;
       boot.plymouth.enable = true;
     }
-    (mkIf (cfg.greeter == "sddm") {
-      services.displayManager.sddm = {
-        enable = true;
-        extraPackages = cfg.theme.extraPackages;
-        theme = cfg.theme.name;
-        wayland.enable = true;
-      };
-    })
     (
       mkIf (cfg.greeter == "greetd") {
         environment.systemPackages = with pkgs; [regreet adwaita-icon-theme-legacy];

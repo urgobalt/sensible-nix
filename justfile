@@ -8,7 +8,7 @@ boot:
   reboot
 
 check:
-  nix flake check /etc/nixos --override-input sensible-nix $PWD
+  nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace
 
 eww: default
   eww daemon --restart

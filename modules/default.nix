@@ -5,6 +5,5 @@
     ./podman
     ./display-manager
     ./steam
-    ./plasma
   ];
 }
