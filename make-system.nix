@@ -12,7 +12,6 @@
   home-secrets ? "${outPath}/secrets/home.nix",
   host-base ? "${outPath}/hosts",
   sshPath ? "${outPath}/ssh.nix",
-  sddm_theme ? .assets/sddm,
   ...
 }: hostname: {
   system,

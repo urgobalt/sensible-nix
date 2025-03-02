@@ -60,8 +60,8 @@ in
     version = "twilight";
     pname = "zen-browser";
     src = builtins.fetchTarball {
-      url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.bz2";
-      sha256 = "sha256:130khmplv5qcqlf2g4mlky30mw9lrwsryk6g779icbaxrv4ffk6a";
+      url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz";
+      sha256 = "sha256:1kjmlyhpx285marlav9dp9m8wkpy0x6kp0yqghv6pchjv2v0z2rl";
     };
 
     desktopSrc = ./.;
