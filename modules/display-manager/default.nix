@@ -44,10 +44,10 @@ in {
         "rd.udev.log_level=3"
         "udev.log_priority=3"
       ];
-      boot.consoleLogLevel = 0;
+      boot.consoleLogLevel = lib.mkDefault 0;
       # https://github.com/NixOS/nixpkgs/pull/108294
-      boot.initrd.verbose = false;
-      boot.plymouth.enable = true;
+      boot.initrd.verbose = lib.mkDefault false;
+      boot.plymouth.enable = lib.mkDefault true;
     }
     (
       mkIf (cfg.greeter == "greetd") {
