@@ -36,7 +36,7 @@ in {
         enable = true;
         xwayland.enable = true;
       };
-      boot.kernelParams = [
+      boot.kernelParams = lib.mkDefault [
         "quiet"
         "splash"
         "vga=current"
