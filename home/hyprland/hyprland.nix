@@ -45,6 +45,7 @@ in {
     layout = cfg.layout;
     gaps_in = 5;
     gaps_out = 20;
+    gaps_out = "0,20,20,20";
     border_size = 1;
     "col.active_border" = colors.none;
     "col.inactive_border" = colors.none;
@@ -114,6 +115,12 @@ in {
   };
 
   workspace = [
+    "w[t1], gapsout:0"
+    "w[t1], border:0"
+    "w[t1], rounding:0"
+    "f[1], gapsout:0"
+    "f[1], border:0"
+    "f[1], rounding:0"
   ];
 
   windowrulev2 = [
@@ -147,7 +154,7 @@ in {
       "$mod,Tab,exec,hyprkool toggle-overview"
       "CTRL SHIFT,Escape,exec,${terminal} btop"
       "$smod,z,exec,hypr-zoom -easing=OutBack -easingOut=OutExpo"
-      ", mouse:275, exec, hypr-zoom -easing=OutBack -easingOut=OutExpo"
+      ", mouse:274, exec, hypr-zoom -easing=OutBack -easingOut=OutExpo"
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
@@ -208,7 +215,7 @@ in {
       "$mod, mouse_down, resizeactive, -5% -5%"
     ]
     ++ lib.optionals modules.waybar.enable [
-      "$mod,Z,exec,pkill waybar || waybar"
+      "$mod,Z,exec, pkill waybar && hyprctl keyword general:gaps_out 5 || { waybar & disown; hyprctl keyword general:gaps_out 0,20,20,20; }"
     ]
     ++ lib.optionals modules.swaync.enable [
       "$smod,N,exec,swaync-client -t -sw"
