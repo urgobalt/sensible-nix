@@ -77,6 +77,9 @@ in {
       hyprpicker
       grimblast
       hypr-zoom
+      zenity
+      mpvpaper
+      yt-dlp
     ];
 
     wayland.windowManager.hyprland = {
