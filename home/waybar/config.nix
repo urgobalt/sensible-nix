@@ -1,5 +1,5 @@
 builtins.toJSON {
-  margin = "10 20 0 20";
+  margin = "10 20 10 20";
   modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "memory" "cpu"];
   modules-center = ["clock"];
   modules-right = ["hyprland/window" "tray" "network" "bluetooth" "custom/volume" "battery"];
