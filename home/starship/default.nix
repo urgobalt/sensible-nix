@@ -19,6 +19,7 @@ in {
       enableFishIntegration = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
+      enableNushellIntegration = true;
       settings = {
         format = "$git_branch$username$directory$character";
         right_format = "$nix_shell$time";
