@@ -26,40 +26,34 @@ in {
         systempath = "printf %s\\n $PATH | grep -v /mnt | column";
       };
 
-      shellInit = ''
-        fish_vi_key_bindings
+      shellInit = lib.strings.concatStrings [
+        ''
+          fish_vi_key_bindings
 
-        function storePathForWindowsTerminal --on-variable PWD
-          if test -n "$WT_SESSION"
-            printf "\e]9;9;%s\e\\" (wslpath -w "$PWD")
-          end
-        end
-
-        function take
-          mkdir -p $argv && cd $argv
-        end
-
-        function clear
-          command clear
-          if test (tput cols) -ge 80
-            fastfetch
-          end
-        end
-
-        function custom_tab_completion
-            if test (commandline -c) -eq 0
-                # Do nothing if the command line is empty
-                return 0
-            else
-                # Perform the default tab completion
-                commandline -f complete
+          function storePathForWindowsTerminal --on-variable PWD
+            if test -n "$WT_SESSION"
+              printf "\e]9;9;%s\e\\" (wslpath -w "$PWD")
             end
-        end
+          end
 
-        bind \t custom_tab_completion
+          function take
+            mkdir -p $argv && cd $argv
+          end
 
-        fish_config theme choose Nord
-      '';
+
+          fish_config theme choose Nord
+        ''
+        (lib.strings.optionalString
+          config.modules.fastfetch.enable
+          ''
+            function clear
+              command clear
+              if test (tput cols) -ge 80
+                fastfetch
+              end
+            end
+          '')
+      ];
 
       interactiveShellInit = ''
         clear
