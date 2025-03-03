@@ -8,11 +8,8 @@
   ...
 }: {
   environment.defaultPackages = [];
-  environment.systemPackages = with pkgs; [openssl];
+  environment.systemPackages = [pkgs.openssl config.modules.shell];
   services.xserver.desktopManager.xterm.enable = false;
-
-  # Ensure fish is enabled for user even if the configuration is inactive
-  programs.fish.enable = true;
 
   services.fwupd = {enable = true;};
   # User
@@ -23,7 +20,7 @@
     createHome = true;
     description = full-name;
     extraGroups = ["audio" "video" "render" "wheel" "networkmanager"];
-    shell = pkgs.fish;
+    shell = config.modules.shell;
     openssh.authorizedKeys.keys = ssh.users;
   };
 
@@ -101,7 +98,7 @@
   # Set environment variables
   environment.variables = {
     XDG_CONFIG_HOME = "$HOME/.config";
-    SHELL = lib.getExe pkgs.fish;
+    SHELL = lib.getExe config.modules.shell;
     DIRENV_LOG_FORMAT = "";
     ANKI_WAYLAND = "1";
     OZ_ENABLE_WAYLAND = "1";

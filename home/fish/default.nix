@@ -4,6 +4,8 @@
   ...
 }: let
   cfg = config.modules.fish;
+  pfetch = config.modules.pfetch.enable;
+  fastfetch = config.modules.fastfetch.enable;
 in {
   options.modules.fish = {enable = lib.mkEnableOption "fish";};
 
@@ -14,14 +16,14 @@ in {
       shellAliases = {
         rm = "trash put";
         ls = "eza";
+        speedtest = "speedtest-rs";
+        st = "speedtest-rs";
       };
 
       shellAbbrs = {
         nvim-dev = "NVIM_APPNAME=nvim-dev nvim";
         ll = "ls -ahl";
         lt = "ls -hlTL 5";
-        speedtest = "speedtest-rs";
-        st = "speedtest-rs";
         printpath = "printf %s\\n $PATH | column";
         systempath = "printf %s\\n $PATH | grep -v /mnt | column";
       };
@@ -44,7 +46,7 @@ in {
           fish_config theme choose Nord
         ''
         (lib.strings.optionalString
-          config.modules.fastfetch.enable
+          fastfetch
           ''
             function clear
               command clear
@@ -53,12 +55,27 @@ in {
               end
             end
           '')
+        (lib.strings.optionalString
+          pfetch
+          ''
+            function clear
+              command clear
+              pfetch
+            end
+          '')
       ];
 
-      interactiveShellInit = ''
-        clear
-        set fish_greeting # Disable greeting
-      '';
+      interactiveShellInit = lib.strings.concatStrings [
+        (lib.strings.optionalString pfetch ''
+          pfetch
+        '')
+        (lib.strings.optionalString fastfetch ''
+          fastfetch
+        '')
+        ''
+          set fish_greeting # Disable greeting
+        ''
+      ];
     };
   };
 }

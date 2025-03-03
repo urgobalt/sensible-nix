@@ -29,6 +29,7 @@
     ./zoxide
     ./starship
     ./fastfetch
+    ./pfetch
 
     # system
     ./wsl

@@ -1,5 +1,6 @@
 {
   imports = [
+    ./shell.nix
     ./declarative-password
     ./wifi
     ./podman
