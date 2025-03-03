@@ -44,7 +44,6 @@ in {
   general = {
     layout = cfg.layout;
     gaps_in = 5;
-    gaps_out = 20;
     gaps_out = "0,20,20,20";
     border_size = 1;
     "col.active_border" = colors.none;
@@ -155,6 +154,7 @@ in {
       "CTRL SHIFT,Escape,exec,${terminal} btop"
       "$smod,z,exec,hypr-zoom -easing=OutBack -easingOut=OutExpo"
       ", mouse:274, exec, hypr-zoom -easing=OutBack -easingOut=OutExpo"
+      "$mod,u,exec,pkill .mpvpaper-wrapp || mpvpaper -f -o 'loop no-audio' DVI-D-1 $(zenity --entry --text=\"Enter your input:\" --title=\"Input Prompt\" 2>/dev/null)"
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
