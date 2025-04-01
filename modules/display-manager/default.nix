@@ -17,6 +17,11 @@ in {
       default = false;
       description = "Enable the display manager.";
     };
+    monitors = mkOption {
+      type = types.listOf types.str;
+      default = [",preferred,auto,1"];
+      description = "The monitors registred into hyprland.";
+    };
     greeter = mkOption {
       type = with types; enum ["greetd"];
       default = "greetd";
@@ -55,7 +60,10 @@ in {
         environment.etc = {
           "greetd/regreet.toml".source = import ./regreet.nix {inherit pkgs wallpaper;};
           "greetd/regreet.css".text = import ./regreet-css.nix {colors = c;};
-          "greetd/hyprland.conf".text = import ./hyprland.nix {inherit pkgs lib;};
+          "greetd/hyprland.conf".text = import ./hyprland.nix {
+            inherit pkgs lib;
+            monitors = cfg.monitors;
+          };
         };
         services.greetd = {
           enable = true;
