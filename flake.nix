@@ -53,5 +53,12 @@
     packages = eachSystem (system: {
       agenix = agenix.packages.${system}.agenix;
     });
+    devShells = eachSystem (system: let pkgs = import nixpkgs {inherit system; }; in {
+        default = pkgs.mkShell {
+        packages = with pkgs; [
+          gum
+        ];
+      };
+      });
   };
 }
