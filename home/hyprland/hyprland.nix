@@ -16,7 +16,8 @@ in {
     ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"]
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
-    ++ lib.optionals modules.waybar.enable ["waybar"];
+    ++ lib.optionals modules.waybar.enable ["waybar"]
+    ++ lib.optionals modules.social.enable ["[workspace special:discord silent] Discord"];
   layerrule = [
     "blur, eww"
     "ignorezero, eww"
@@ -100,7 +101,7 @@ in {
     disable_hyprland_logo = true;
     exit_window_retains_fullscreen = true;
     enable_swallow = true;
-    swallow_regex = "^(${lib.strings.getName cfg.terminal})$";
+    swallow_regex = "${lib.strings.getName cfg.terminal}";
   };
   animations = {
     enabled = 1;
@@ -141,7 +142,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
-      "$mod,D,exec,discord"
+      "$mod,D,togglespecialworkspace,discord"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
