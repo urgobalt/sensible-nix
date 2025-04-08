@@ -17,7 +17,7 @@ in {
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
     ++ lib.optionals modules.waybar.enable ["waybar"]
-    ++ lib.optionals modules.social.enable ["[workspace special:discord silent] Discord"];
+    ++ lib.optionals modules.social.enable ["[workspace special:discord silent] Discord --fullscreen"];
   layerrule = [
     "blur, eww"
     "ignorezero, eww"
