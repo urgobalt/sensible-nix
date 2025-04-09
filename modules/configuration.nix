@@ -180,6 +180,8 @@
     enableAllFirmware = true;
   };
 
+  powerManagement.powertop.enable = true;
+
   # SSH
   services.openssh = {
     enable = true;

@@ -113,6 +113,9 @@ in {
     ];
   };
 
+  workspace = [
+  ];
+
   windowrulev2 = [
     # Window tags
     "tag +plain,class:(steam_app)(.*)"
@@ -121,7 +124,12 @@ in {
     "opacity 1 override, tag:plain"
     "noblur, tag:plain"
     "noanim, tag:plain"
+
+    # Discord
     "workspace special:discord silent, class:discord"
+    "fullscreen, class:discord"
+    "suppressevent movewindow movewindowv2, class:discord"
+    "animation fade, class:discord"
   ];
 
   "$mod" = "SUPER";
@@ -143,7 +151,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
-      "ALT,D,togglespecialworkspace,discord"
+      "ALT,D,exec, hyprkool toggle-special-workspace --name discord"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
