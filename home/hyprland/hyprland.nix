@@ -121,6 +121,7 @@ in {
     "opacity 1 override, tag:plain"
     "noblur, tag:plain"
     "noanim, tag:plain"
+    "workspace special:discord silent, class:discord"
   ];
 
   "$mod" = "SUPER";
