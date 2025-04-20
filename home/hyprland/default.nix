@@ -34,7 +34,7 @@ in {
     };
     live_wallpaper = {
       enable = mkOption {
-        name = "Live wallpaper using mpvpaper";
+        description = "Live wallpaper using mpvpaper";
         type = types.bool;
         default = false;
       };
@@ -96,7 +96,7 @@ in {
         grimblast
         hypr-zoom
       ]
-      ++ lib.optionals modules.live_wallpaper.enable [
+      ++ lib.optionals cfg.live_wallpaper.enable [
         zenity
         mpvpaper
         yt-dlp

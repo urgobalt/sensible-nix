@@ -219,8 +219,8 @@ in {
     ++ lib.optionals modules.swaync.enable [
       "$smod,N,exec,swaync-client -t -sw"
     ]
-    ++ lib.optionals (modules.live_wallpaper.enable && (builtins.length modules.live_wallpaper.monitors) != 0)
-    ["$mod,u,exec,pkill .mpvpaper-wrapp || mpvpaper -f -o 'loop no-audio' ${lib.strings.concatStringsSep "," modules.live_wallpaper.monitors} $(zenity --entry --entry-text=${modules.live_wallpaper.default} --text=\"Enter your input:\" --title=\"Input Prompt\" 2>/dev/null)"];
+    ++ lib.optionals (modules.hyprland.live_wallpaper.enable && (builtins.length modules.hyprland.live_wallpaper.monitors) != 0)
+    ["$mod,u,exec,pkill .mpvpaper-wrapp || mpvpaper -f -o \"loop no-audio\" ${lib.strings.concatStringsSep "," modules.hyprland.live_wallpaper.monitors} $(zenity --entry --entry-text=${modules.hyprland.live_wallpaper.default} --text=\"Enter your input:\" --title=\"Input Prompt\" 2>/dev/null | sed \"s|~|$HOME|\")"];
   # Repeating keybinds
   binde = [
     # Brightness
