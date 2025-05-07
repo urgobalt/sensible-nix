@@ -17,7 +17,8 @@ in {
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
     ++ lib.optionals modules.waybar.enable ["waybar"]
-    ++ lib.optionals modules.social.enable ["[workspace special:discord silent] Discord --fullscreen"];
+    ++ lib.optionals modules.social.enable ["[workspace special:discord silent] Discord --fullscreen"]
+    ++ lib.optionals modules.hyprland.live_wallpaper.auto_start ["mpvpaper -f -o \"loop no-audio\" ${lib.strings.concatStringsSep "," modules.hyprland.live_wallpaper.monitors} $(${modules.hyprland.live_wallpaper.default} sed \"s|~|$HOME|\")"];
   layerrule = [
     "blur, eww"
     "ignorezero, eww"

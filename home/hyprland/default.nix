@@ -38,6 +38,11 @@ in {
         type = types.bool;
         default = false;
       };
+      auto_start = mkOption {
+        description = "autostart live wallpaper using mpvpaper";
+        type = types.bool;
+        default = false;
+      };
       monitors = mkOption {
         type = types.listOf types.str;
         default = [];
