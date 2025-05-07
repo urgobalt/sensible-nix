@@ -81,7 +81,7 @@
     settings.auto-optimise-store = true;
     settings.allowed-users = [user];
     settings.experimental-features = ["nix-command" "flakes"];
-    settings.keep-outputs = true;
+    settings.keep-outputs = false;
     gc = {
       automatic = true;
       dates = "weekly";
