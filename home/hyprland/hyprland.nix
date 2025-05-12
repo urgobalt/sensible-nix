@@ -154,7 +154,6 @@ in {
       "CTRL SHIFT,Escape,exec,${terminal} btop"
       "$smod,z,exec,hypr-zoom -easing=OutBack -easingOut=OutExpo"
       ", mouse:274, exec, hypr-zoom -easing=OutBack -easingOut=OutExpo"
-      "$mod,u,exec,pkill .mpvpaper-wrapp || mpvpaper -f -o 'loop no-audio' DVI-D-1 $(zenity --entry --text=\"Enter your input:\" --title=\"Input Prompt\" 2>/dev/null)"
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
@@ -219,7 +218,9 @@ in {
     ]
     ++ lib.optionals modules.swaync.enable [
       "$smod,N,exec,swaync-client -t -sw"
-    ];
+    ]
+    ++ lib.optionals (modules.live_wallpaper.enable && (builtins.length modules.live_wallpaper.monitors) != 0)
+    ["$mod,u,exec,pkill .mpvpaper-wrapp || mpvpaper -f -o 'loop no-audio' ${lib.strings.concatStringsSep "," modules.live_wallpaper.monitors} $(zenity --entry --entry-text=${modules.live_wallpaper.default} --text=\"Enter your input:\" --title=\"Input Prompt\" 2>/dev/null)"];
   # Repeating keybinds
   binde = [
     # Brightness

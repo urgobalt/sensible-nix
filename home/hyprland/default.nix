@@ -32,6 +32,23 @@ in {
       default = pkgs.firefox;
       description = "The browser that is used by default in hyprland commands and binds.";
     };
+    live_wallpaper = {
+      enable = mkOption {
+        name = "Live wallpaper using mpvpaper";
+        type = types.bool;
+        default = false;
+      };
+      monitors = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "The monitors registred into mpvpaper.";
+      };
+      default = mkOption {
+        type = types.str;
+        default = "";
+        description = "The monitors registred into mpvpaper.";
+      };
+    };
     cursor = {
       package = mkOption {
         type = types.package;
@@ -68,20 +85,22 @@ in {
     };
   };
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      swaybg
-      wlsunset
-      wl-clipboard
-      cliphist
-      hyprkool
-      hyprpicker
-      grimblast
-      hypr-zoom
-      zenity
-      mpvpaper
-      yt-dlp
-    ];
-
+    home.packages = with pkgs;
+      [
+        swaybg
+        wlsunset
+        wl-clipboard
+        cliphist
+        hyprkool
+        hyprpicker
+        grimblast
+        hypr-zoom
+      ]
+      ++ lib.optionals modules.live_wallpaper.enable [
+        zenity
+        mpvpaper
+        yt-dlp
+      ];
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.variables = ["--all"];
