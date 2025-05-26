@@ -19,7 +19,7 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-AjkB3Ob88igPXTpkQ3zc10mOc+aukriGOFIAh69NpcU=";
   };
 
-  cargoHash = "sha256-D6rv21oR7UZDawE55rU9lT2/DDVssB2VI0Yxc+NaHoM=";
+  cargoHash = "sha256-N0+peYav2JhsEHTTVV5a4eOAMpdo9/gOGpduEofYr7w=";
 
   buildFeatures = ["gtk4_8"];
 
