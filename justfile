@@ -9,7 +9,8 @@ default:
 boot:
   just require-sudo -- nixos-rebuild boot --fast --override-input sensible-nix $PWD --show-trace
   reboot
-
+upgrade:
+  just require-sudo -- nixos-rebuild switch --fast --override-input sensible-nix $PWD --show-trace --upgrade
 check:
   nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace
 
