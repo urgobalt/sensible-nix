@@ -17,6 +17,11 @@ in {
       default = [",preferred,auto,1"];
       description = "The monitors registred into hyprland.";
     };
+    avatar = mkOption {
+      type = types.path;
+      default = ./../../assets/nix-snowflake-rainbow.png;
+      description = "The avatar for hyprlock";
+    };
     layout = mkOption {
       type = with types; enum ["master" "dwindle"];
       default = "master";
@@ -30,7 +35,7 @@ in {
     browser = mkOption {
       type = with types; package;
       default = pkgs.firefox;
-      description = "The browser that is used by default in hyprland commands and binds.";
+      description = "the browser that is used by default in hyprland commands and binds.";
     };
     live_wallpaper = {
       enable = mkOption {
@@ -54,6 +59,7 @@ in {
         description = "The monitors registred into mpvpaper.";
       };
     };
+
     cursor = {
       package = mkOption {
         type = types.package;
