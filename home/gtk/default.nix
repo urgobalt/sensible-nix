@@ -19,7 +19,7 @@ in {
       font = {
         name = "SourceCodePro Nerd Font";
         size = 12;
-        package = pkgs.nerdfonts.override {fonts = ["SourceCodePro"];};
+        package = pkgs.source-code-pro;
       };
     };
   };

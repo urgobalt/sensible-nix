@@ -19,6 +19,7 @@ in {
     xdg.configFile."waybar/style.css".text = import ./style.nix {inherit color;};
 
     xdg.configFile."waybar/scripts/battery.sh".source = ./battery.sh;
+    xdg.configFile."waybar/scripts/volume.sh".source = ./volume.sh;
 
     home.packages = with pkgs; [
       acpi
