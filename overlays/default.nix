@@ -3,7 +3,7 @@ _final: prev: {
   hyprspace = prev.callPackage ./hyprspace.nix {};
   hyprkool = prev.callPackage ./hyprkool.nix {};
   zen-browser = prev.callPackage ./zen-browser {};
-  vimix-hyprcursor = prev.callPackage ./vimix-hyprcursor.nix {};
+  #vimix-hyprcursor = prev.callPackage ./vimix-hyprcursor.nix {};
   sddm-glassy = prev.callPackage ./sddm-glassy {};
   regreet = prev.callPackage ./regreet.nix {};
   hypr-zoom = prev.callPackage ./hypr-zoom.nix {};

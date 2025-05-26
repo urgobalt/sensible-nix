@@ -61,7 +61,7 @@ in {
     mfact = 0.5;
     inherit_fullscreen = 1;
     orientation = "center";
-    always_center_master = false;
+    slave_count_for_center_master = 2;
     new_status = "master";
   };
   group = {
@@ -142,7 +142,6 @@ in {
   "$mod" = "SUPER";
   "$smod" = "SUPER SHIFT";
   "$cmod" = "CTRL SUPER";
-
   bind =
     [
       # General
@@ -154,7 +153,6 @@ in {
       "$mod,Tab,exec,hyprkool toggle-overview"
       "CTRL SHIFT,Escape,exec,${terminal} btop"
       "$smod,z,exec,hypr-zoom -easing=OutBack -easingOut=OutExpo"
-      ", mouse:274, exec, hypr-zoom -easing=OutBack -easingOut=OutExpo"
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
@@ -207,9 +205,9 @@ in {
       "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
       "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
       # Screenshot
-      "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --cursor --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
-      "$smod,S,exec,grimblast --cursor --notify --freeze copysave area ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
-      ",Print,exec,grimblast --cursor --notify --freeze copysave screen ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      "$smod,S,exec,grimblast --notify --freeze copysave area ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      ",Print,exec,grimblast --notify --freeze copysave screen ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
       # Floating windows movement and resize
       "$mod, mouse_up, resizeactive, 5% 5%"
       "$mod, mouse_down, resizeactive, -5% -5%"

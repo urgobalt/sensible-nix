@@ -18,16 +18,17 @@
   hyprland-protocols,
   cairo,
   aquamarine,
+  hyprgraphics,
 }:
 pkgs.unstable.rustPlatform.buildRustPackage rec {
   pname = "hyprkool";
-  version = "1263ad8800213b7ac5088a1a1ad3b309ddd0bd92";
+  version = "51e3042205a6172acc55b7d4e95f0b3e71ba5e35";
 
   src = fetchFromGitHub {
     owner = "thrombe";
     repo = "hyprkool";
     rev = version;
-    sha256 = "sha256-S14EGhrnHVz00KdEyIYPiBYrFxsmOyaDwU19+QDXR9M=";
+    sha256 = "sha256-RdRXwmLdnJivbuP+c3P4tdF0DYjzpAJzG9wwqb3r3To=";
   };
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
@@ -42,6 +43,7 @@ pkgs.unstable.rustPlatform.buildRustPackage rec {
     hyprland
     hyprutils
     wayland-protocols
+    hyprgraphics.dev
     wayland-utils
     wayland
     libinput

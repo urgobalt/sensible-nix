@@ -57,12 +57,17 @@ in {
     cursor = {
       package = mkOption {
         type = types.package;
-        default = pkgs.vimix-hyprcursor;
+        default = pkgs.rose-pine-hyprcursor;
         description = "The package that contain directories with hyprcursor themes at '$out/share/icons'.";
+      };
+      path = mkOption {
+        type = types.str;
+        default = cfg.cursor.name;
+        description = "The path to the manifest";
       };
       name = mkOption {
         type = types.str;
-        default = "Vimix-cursor-normal";
+        default = "rose-pine-hyprcursor";
         description = "The cursor theme to use. Must match one of the folders at the root of the package that is being used.";
       };
       size = mkOption {
@@ -74,12 +79,12 @@ in {
     xcursor = {
       package = mkOption {
         type = types.package;
-        default = pkgs.vimix-cursors;
+        default = pkgs.rose-pine-cursor;
         description = "The package that contain directories with hyprcursor themes at '$out/share/icons'.";
       };
       name = mkOption {
         type = types.str;
-        default = "Vimix-cursors";
+        default = "rose-pine-cursor";
         description = "The cursor theme to use. Must match one of the folders at the root of the package that is being used.";
       };
       size = mkOption {
@@ -119,7 +124,16 @@ in {
         colors = c;
       };
     };
-
+    programs.hyprlock = {
+      enable = true;
+      settings = import ./hyprlock.nix {
+        inherit cfg lib config wallpaper;
+        colors = c;
+      };
+    };
+    services.hypridle = {
+      enable = true;
+    };
     services.hyprpaper = {
       enable = true;
       settings = {
@@ -130,12 +144,6 @@ in {
         ];
       };
     };
-
-    # programs.hyprlock = {
-    #   enable = true;
-    #   settings = {
-    #   };
-    # };
 
     # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
     # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
@@ -148,6 +156,6 @@ in {
       };
 
     xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
-    home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.name}";
+    home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.path}";
   };
 }
