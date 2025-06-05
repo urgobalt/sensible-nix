@@ -12,7 +12,7 @@ in {
   };
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      discord
+      unstable.discord
       unstable.discord-canary
       webcord
       whatsapp-for-linux

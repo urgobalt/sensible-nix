@@ -39,6 +39,7 @@
   xwayland,
   meson,
   hyprland,
+  hyprgraphics,
   enableXWayland ? true,
   withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
 }:
@@ -56,6 +57,7 @@ gcc13Stdenv.mkDerivation rec {
   nativeBuildInputs = [
     pkg-config
     hyprland
+    hyprgraphics
   ];
 
   buildInputs = lib.concatLists [
@@ -91,6 +93,7 @@ gcc13Stdenv.mkDerivation rec {
       ninja
       cmake
       meson
+      hyprgraphics.dev
     ]
     (lib.optionals stdenv.hostPlatform.isMusl [libexecinfo])
     (lib.optionals enableXWayland [

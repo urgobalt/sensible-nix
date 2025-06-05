@@ -32,10 +32,10 @@
   # Locale settings
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    supportedLocales = ["en_US.UTF-8/UTF-8"];
+    extraLocales = ["en_US.UTF-8/UTF-8"];
     extraLocaleSettings = {
       LANGUAGE = "en_US.UTF-8";
-      LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+      #LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     };
   };
 
@@ -52,7 +52,7 @@
   fonts = {
     packages = with pkgs; [
       # Add all fonts to be installed here
-      (nerdfonts.override {fonts = ["SourceCodePro"];})
+      nerd-fonts.sauce-code-pro
     ];
 
     fontconfig.defaultFonts = {
@@ -128,7 +128,7 @@
     protectKernelImage = true;
   };
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   services.pipewire = {

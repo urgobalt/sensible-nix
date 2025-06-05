@@ -17,7 +17,7 @@ in {
       eww
       jq
       socat
-      (nerdfonts.override {fonts = ["SourceCodePro"];})
+      source-code-pro
     ];
 
     xdg.configFile."eww" = {
