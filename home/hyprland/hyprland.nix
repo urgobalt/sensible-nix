@@ -158,7 +158,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
-      "ALT,D,exec, hyprkool toggle-special-workspace --name discord"
+      "$mod,D,exec, hyprkool toggle-special-workspace --name discord"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"

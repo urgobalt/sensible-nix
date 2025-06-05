@@ -67,7 +67,7 @@ builtins.toJSON {
       mute = " ";
       default = " ";
     };
-    exec = "pw-volume status";
+    exec = "bash $HOME/.config/waybar/scripts/volume.sh";
     on-click = "pwvucontrol";
     tooltip = false;
   };

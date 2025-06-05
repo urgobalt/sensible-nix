@@ -4,7 +4,7 @@
 }:
 stdenvNoCC.mkDerivation rec {
   name = "vimix-hyprcursor";
-  version = "c2314d02e9dfe592c4c1281bbf2c8d5873fb03e9";
+  version = "97d6cff72a64c22f10680f68293f916a69edbed4";
 
   src = fetchFromGitHub {
     repo = "vimix-hyprcursor";
@@ -15,6 +15,8 @@ stdenvNoCC.mkDerivation rec {
 
   installPhase = ''
     mkdir -p $out/share/icons
+    mkdir -p $out/src
+    cp -r $src/* $out/src
     cp -r $src/themes/* $out/share/icons
   '';
 }
