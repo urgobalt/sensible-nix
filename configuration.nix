@@ -85,9 +85,9 @@
       dates = "weekly";
       options = "--delete-older-than 2d";
     };
-    extraOptions = ''
+    extraOptions = if builtins.hasAttr "nix-access-tokens" config.age.secrets then ''
       !include ${config.age.secrets.nix-access-tokens.path}
-    '';
+    '' else "";
   };
 
   # Boot settings

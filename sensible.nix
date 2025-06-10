@@ -19,44 +19,31 @@
       then set.${name}
       else builtins.throw msg;
     system = systemConfig.system;
+
+    # Application predicate that is allowed to be marked insecure
     insecure =
       [
         "electron"
       ]
       ++ systemConfig.insecurePredicate;
     opt = flag: module: nixpkgs.lib.optionals (builtins.hasAttr flag systemConfig && systemConfig.${flag}) module;
-    importUnit = import ./lib/importUnit.nix;
-    pkgs = import nixpkgs {
-      inherit system;
-      nixpkgs.overlays = [
-        (final: prev: {
-          unstable = import nixpkgs-unstable {
-            system = system;
-            config.allowUnfree = true;
-          };
-        })
-        (import ./overlays)
-      ];
-      nixpkgs.config = {
-        allowUnfree = true;
-        allowInsecurePredicate = pkg:
-          builtins.elem (nixpkgs.lib.getName pkg) insecure;
-      };
-    };
   in
     nixpkgs.lib.nixosSystem {
       system = system;
 
-      pkgs = pkgs;
-
       modules = nixpkgs.lib.flatten [
         ./configuration.nix
-        (import ./modules {
-          inherit importUnit;
-          root = self.outPath;
-          lib = nixpkgs.lib;
-        })
+        (
+          input @ {pkgs, ...}:
+            nixpkgs.lib.foldl nixpkgs.lib.recursiveUpdate {} (import ./modules {
+              inherit input;
+              importUnit = (import ./lib/importUnit.nix) input;
+              root = self.outPath;
+              lib = nixpkgs.lib;
+            })
+        )
 
+        agenix.nixosModules.default
         nix-index-database.nixosModules.nix-index
         home-manager.nixosModules.home-manager
 
@@ -69,11 +56,27 @@
             then systemConfig.packages
             else [];
         }
+        {
+          nixpkgs.overlays = [
+            (final: prev: {
+              unstable = import nixpkgs-unstable {
+                system = system;
+                config.allowUnfree = true;
+              };
+            })
+            (import ./overlays)
+          ];
+          nixpkgs.config = {
+            allowUnfree = true;
+            allowInsecurePredicate = pkg:
+              builtins.elem (nixpkgs.lib.getName pkg) insecure;
+          };
+        }
         (nixpkgs.lib.optionals (builtins.hasAttr "modules" systemConfig) systemConfig.modules)
       ];
 
       specialArgs = {
-        inherit agenix importUnit pkgs;
+        inherit agenix;
         user = userConfig.user;
         wallpaper =
           if builtins.hasAttr "wallpaper" systemConfig

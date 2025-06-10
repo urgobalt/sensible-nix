@@ -1,6 +1,9 @@
-root: directory: let
-  unit = import ./unit.nix;
+input: root: directory: let
+  unitUtils = rec {
+    unit = (import ./unit.nix) input;
+    units = (import ./units.nix) input.lib unit;
+  };
 in [
-  "${root}/modules/${directory}/options.nix"
-  (import "${root}/modules/${directory}/unit.nix" unit)
+  (import "${root}/modules/${directory}/options.nix" input)
+  (import "${root}/modules/${directory}/unit.nix" unitUtils)
 ]

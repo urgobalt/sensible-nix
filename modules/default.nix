@@ -2,7 +2,9 @@
   lib,
   importUnit,
   root,
-}: [
-  ./options.nix
+  input,
+}:
+lib.flatten [
+  (import ./options.nix input)
   (importUnit root "cli")
 ]

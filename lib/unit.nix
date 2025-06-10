@@ -1,8 +1,8 @@
-module: input @ {
+input @ {
   user,
   lib,
   ...
-}: let
+}: module: let
   configuration = module input;
 in {
   config = lib.mkIf configuration.condition ({
