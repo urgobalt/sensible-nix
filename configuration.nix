@@ -8,7 +8,7 @@
   ...
 }: {
   environment.defaultPackages = [];
-  environment.systemPackages = [pkgs.openssl config.sensible.shell];
+  environment.systemPackages = [pkgs.openssl config.sensible.shell.package];
   services.xserver.desktopManager.xterm.enable = false;
 
   services.fwupd = {enable = true;};
@@ -20,7 +20,7 @@
     home = "/home/${user}";
     createHome = true;
     extraGroups = ["audio" "wheel" "networkmanager"];
-    shell = config.sensible.shell;
+    shell = config.sensible.shell.package;
     ignoreShellProgramCheck = true;
     openssh.authorizedKeys.keys = ssh.users;
   };
@@ -99,7 +99,7 @@
   # Set environment variables
   environment.variables = {
     XDG_CONFIG_HOME = "$HOME/.config";
-    SHELL = lib.getExe config.sensible.shell;
+    SHELL = lib.getExe config.sensible.shell.package;
     DIRENV_LOG_FORMAT = "";
     ANKI_WAYLAND = "1";
     OZ_ENABLE_WAYLAND = "1";
