@@ -35,28 +35,15 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Secrets
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        systems.follows = "systems";
-      };
-    };
   };
   outputs = inputs @ {
     nixpkgs,
-    agenix,
     systems,
     ...
   }: let
     eachSystem = nixpkgs.lib.genAttrs (import systems);
   in {
     nixosModules.sensible = import ./sensible.nix inputs;
-    packages = eachSystem (system: {
-      agenix = agenix.packages.${system}.agenix;
-    });
     devShells = eachSystem (system: let
       pkgs = import nixpkgs {inherit system;};
     in {

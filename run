@@ -1,0 +1,54 @@
+#! /usr/bin/env elixir
+# vim: ft=elixir
+
+Mix.install([{:muontrap, "~> 1.0"}])
+
+defmodule Script do
+  @moduledoc """
+  This is a simple functional script that allow you to test, update
+  and install sensible nix with ease. It primarilly exist to help
+  during development, but can also be used for a more rolling
+  release approach.
+
+  Commands:
+  test          Test a systems with the locally downloaded version of sensible-nix.
+  """
+
+  @flags [help: :boolean, flake: :string]
+  def main(args) do
+    Process.flag(:trap_exit, true)
+    {flags, args} = OptionParser.parse!(args, strict: @flags)
+    cmd(args, flags)
+  end
+
+  @spec cmd(list, list) :: :ok
+
+  defp cmd(_, help: true), do: IO.puts(@moduledoc)
+
+  @test_flake "./test_system"
+  defp cmd(["test" | _], flags) do
+    flake = Path.absname(Keyword.get(flags, :flake, @test_flake))
+
+    if not File.exists?(flake, raw: true) or not File.dir?(flake, raw: true) or
+         not File.exists?(Path.join([flake, "flake.nix"]), raw: true) do
+      raise "Invalid flake: Flake must be a directory where the flake is located and flake.nix must exist. Found: " <>
+              flake <> ". Expected a directory path."
+    end
+
+    _pid =
+      spawn_link(fn ->
+        MuonTrap.cmd("nix", ["flake", "check", "--override-input", "sensible", File.cwd!()],
+          cd: flake,
+          into: IO.stream(:stdio, :line)
+        )
+
+        System.stop()
+      end)
+
+    Process.sleep(:infinity)
+  end
+
+  defp check_
+end
+
+Script.main(System.argv())

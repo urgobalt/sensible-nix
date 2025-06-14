@@ -3,7 +3,6 @@
   config,
   lib,
   pkgs,
-  ssh,
   hostname,
   ...
 }: {
@@ -22,10 +21,10 @@
     extraGroups = ["audio" "wheel" "networkmanager"];
     shell = config.sensible.shell.package;
     ignoreShellProgramCheck = true;
-    openssh.authorizedKeys.keys = ssh.users;
+    # openssh.authorizedKeys.keys = ssh.users;
   };
 
-  users.users.root.openssh.authorizedKeys.keys = ssh.users;
+  # users.users.root.openssh.authorizedKeys.keys = ssh.users;
 
   # Locale settings
   i18n = {
@@ -85,9 +84,6 @@
       dates = "weekly";
       options = "--delete-older-than 2d";
     };
-    extraOptions = if builtins.hasAttr "nix-access-tokens" config.age.secrets then ''
-      !include ${config.age.secrets.nix-access-tokens.path}
-    '' else "";
   };
 
   # Boot settings
@@ -101,11 +97,11 @@
     XDG_CONFIG_HOME = "$HOME/.config";
     SHELL = lib.getExe config.sensible.shell.package;
     DIRENV_LOG_FORMAT = "";
-    ANKI_WAYLAND = "1";
-    OZ_ENABLE_WAYLAND = "1";
-    ELECTRON_OZONE_PLATFORM_HINT = "auto";
-    DISABLE_QT5_COMPAT = "0";
-    NIXOS_OZONE_WL = "1";
+    # ANKI_WAYLAND = "1";
+    # OZ_ENABLE_WAYLAND = "1";
+    # ELECTRON_OZONE_PLATFORM_HINT = "auto";
+    # DISABLE_QT5_COMPAT = "0";
+    # NIXOS_OZONE_WL = "1";
   };
 
   # Security

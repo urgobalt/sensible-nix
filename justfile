@@ -12,10 +12,10 @@ boot:
 
 [working-directory("./test_system")]
 test:
-  nix flake check --override-input sensible $PWD/.. --show-trace --impure
+  nix flake check  --override-input sensible $PWD/.. --show-trace --impure
 
 check:
-  nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace
+  nix flake check /etc/nixos --override-input sensible $PWD --show-trace
 
 eww: default
   eww daemon --restart

@@ -2,9 +2,10 @@
   lib,
   importUnit,
   root,
-  input,
-}:
-lib.flatten [
-  (import ./options.nix input)
-  (importUnit root "cli")
-]
+}: let
+  module = importUnit root;
+in
+  lib.flatten [
+    (module "cli")
+    (module "secrets")
+  ]

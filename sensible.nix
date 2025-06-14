@@ -5,7 +5,6 @@
   disko,
   home-manager,
   stylix,
-  agenix,
   nix-index-database,
   self,
   ...
@@ -36,14 +35,12 @@
         (
           input @ {pkgs, ...}:
             nixpkgs.lib.foldl nixpkgs.lib.recursiveUpdate {} (import ./modules {
-              inherit input;
               importUnit = (import ./lib/importUnit.nix) input;
               root = self.outPath;
               lib = nixpkgs.lib;
             })
         )
 
-        agenix.nixosModules.default
         nix-index-database.nixosModules.nix-index
         home-manager.nixosModules.home-manager
 
@@ -76,7 +73,6 @@
       ];
 
       specialArgs = {
-        inherit agenix;
         user = userConfig.user;
         wallpaper =
           if builtins.hasAttr "wallpaper" systemConfig
