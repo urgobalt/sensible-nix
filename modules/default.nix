@@ -8,4 +8,5 @@ in
   lib.flatten [
     (module "cli")
     (module "secrets")
+    (module "neovim")
   ]
