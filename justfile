@@ -3,35 +3,17 @@ export GUM_CONFIRM_PROMPT_FOREGROUND := "#a4bca6"
 export GUM_CONFIRM_SELECTED_BACKGROUND := "#4b7c7b"
 export GUM_CONFIRM_UNSELECTED_BACKGROUND := "#2c4d4e"
 
-default:
-  just require-sudo -- nixos-rebuild switch --fast --override-input sensible $PWD --show-trace
+default: switch
+switch path="/etc/nixos":
+  nh os switch {{path}} -- --override-input sensible $PWD
 
-boot:
-  just require-sudo -- nixos-rebuild boot --fast --override-input sensible $PWD --show-trace
+boot path="/etc/nixos":
+  nh os boot {{path}} -- --override-input sensible $PWD
   reboot
 
 [working-directory("./test_system")]
 test:
-  nix flake check  --override-input sensible $PWD/.. --show-trace --impure
+  nix flake check --override-input sensible $PWD/.. --impure
 
-check:
-  nix flake check /etc/nixos --override-input sensible $PWD --show-trace
-
-eww: default
-  eww daemon --restart
-  eww open bar
-  eww logs
-
-hyprland: default
-  hyprctl reload
-
-require-sudo *args="":
-  #!/usr/bin/env -S bash
-  if [ $EUID -ne 0 ]; then
-    gum confirm "This command require sudo, do you want to proceed?"
-    if [ $? -eq 0 ]; then
-      sudo $@
-      exit 0
-    fi
-  fi
-
+check path="/etc/nixos":
+  nix flake check {{path}} --override-input sensible $PWD

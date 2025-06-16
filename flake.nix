@@ -49,7 +49,7 @@
     in {
       default = pkgs.mkShell {
         packages = with pkgs; [
-          gum
+          nh
         ];
       };
     });
