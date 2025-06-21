@@ -14,7 +14,7 @@ with lib; {
   };
   wifi = {
     enable = mkOption {
-      type = types.boolean;
+      type = types.bool;
       default = false;
       description = "Enable a declarative wifi management solution through wpa_supplicant.";
     };
