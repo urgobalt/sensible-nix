@@ -29,7 +29,7 @@ with lib; {
   };
   starship = {
     enable = mkOption {
-      type = types.boolean;
+      type = types.bool;
       default = false;
       description = "Customizable shell that works on bash, zsh, fish and many others.";
     };
