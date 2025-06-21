@@ -67,10 +67,11 @@
 
   # Wayland stuff: enable XDG integration, allow sway to use brillo
   xdg = {
-    portal = {
+    portal = lib.mkDefault {
       enable = true;
       wlr.enable = true;
       extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+      config.common.default = "*";
     };
   };
 
@@ -153,9 +154,10 @@
         General = {
           MultiProfile = "multiple";
           FastConnectable = true;
-          ReconnectAttempts = 0;
+          ReconnectAttempts = 1;
           ReconnectIntervals = "1, 2, 3";
           ReverseServiceDiscovery = true;
+          ControllerMode = "bredr";
         };
       };
     };
@@ -183,6 +185,11 @@
     settings.PasswordAuthentication = false;
   };
 
-  # Do not touch
-  system.stateVersion = "23.11";
+  # Stylix
+  stylix = lib.mkDefault {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    targets = {
+    };
+  };
 }
