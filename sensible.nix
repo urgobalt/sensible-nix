@@ -33,19 +33,30 @@
       modules = nixpkgs.lib.flatten [
         ./configuration.nix
         (
-          input @ {pkgs, ...}:
-            nixpkgs.lib.foldl nixpkgs.lib.recursiveUpdate {} (import ./modules {
-              importUnit = (import ./lib/importUnit.nix) input;
+          input @ {pkgs, ...}: {
+            imports = import ./modules {
+              importUnits = (import ./lib/importUnits.nix) input;
               root = self.outPath;
               lib = nixpkgs.lib;
-            })
+            };
+          }
         )
 
+        stylix.nixosModules.stylix
         nix-index-database.nixosModules.nix-index
+
         home-manager.nixosModules.home-manager
 
         (opt "wsl" wsl.nixosModules.wsl)
         (opt "disko" disko.nixosModules.disko)
+
+        rec {
+          system.stateVersion =
+            if builtins.hasAttr "stateVersion" systemConfig
+            then systemConfig.stateVersion
+            else builtins.throw "All system should have a stateVersion. The reason is connected to system compatability and making sure that things stay working when upgrading. Bumping stateVersion MAY be irreversable if the system has become incompatible.";
+          home-manager.users.${userConfig.user}.home.stateVersion = system.stateVersion;
+        }
 
         {
           environment.systemPackages =
@@ -69,6 +80,7 @@
               builtins.elem (nixpkgs.lib.getName pkg) insecure;
           };
         }
+
         (nixpkgs.lib.optionals (builtins.hasAttr "modules" systemConfig) systemConfig.modules)
       ];
 
@@ -79,7 +91,7 @@
           then systemConfig.wallpaper
           else if builtins.hasAttr "defaultWallpaper" userConfig
           then userConfig.defaultWallpaper
-          else "";
+          else null;
         ssh = getAttr "ssh" userConfig "SSH is required to be setup. Find instructions here: https://example.com";
         root = self.outPath;
         hostname = systemConfig.hostname;

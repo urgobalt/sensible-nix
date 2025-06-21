@@ -1,12 +1,11 @@
 {
   lib,
-  importUnit,
+  importUnits,
   root,
-}: let
-  module = importUnit root;
-in
-  lib.flatten [
-    (module "cli")
-    (module "secrets")
-    (module "neovim")
-  ]
+}:
+lib.flatten (importUnits root [
+  "cli"
+  "secrets"
+  "neovim"
+  "hyprland"
+])

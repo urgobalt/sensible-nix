@@ -1,0 +1,5 @@
+{
+  sensible = {
+    hyprland.enable = true;
+  };
+}
