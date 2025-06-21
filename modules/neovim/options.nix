@@ -2,7 +2,7 @@
 with lib; {
   neovim = {
     enable = mkOption {
-      type = types.boolean;
+      type = types.bool;
       default = false;
       description = "Enable sensible to manage neovim for you.";
     };
