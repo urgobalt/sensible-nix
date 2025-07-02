@@ -23,8 +23,8 @@ in {
       description = "The monitors registred into hyprland.";
     };
     greeter = mkOption {
-      type = with types; enum ["greetd"];
-      default = "greetd";
+      type = with types; enum ["greetd" "auto_login"];
+      default = "auto_login";
       description = "The greeter that will be used.";
     };
     autologin = {
@@ -37,10 +37,6 @@ in {
   };
   config = mkIf cfg.enable (mkMerge [
     {
-      programs.hyprland = {
-        enable = true;
-        xwayland.enable = true;
-      };
       boot.kernelParams = lib.mkDefault [
         "quiet"
         "splash"
@@ -53,7 +49,17 @@ in {
       # https://github.com/NixOS/nixpkgs/pull/108294
       boot.initrd.verbose = lib.mkDefault false;
       boot.plymouth.enable = lib.mkDefault true;
+      programs.hyprland = {
+        enable = true;
+        xwayland.enable = true;
+      };
     }
+    (mkIf
+      (cfg.greeter == "auto_login")
+      {
+        environment.loginShellInit = ''if uwsm check may-start; then exec uwsm start hyprland.desktop fi '';
+        programs.hyprland.withUWSM = true;
+      })
     (
       mkIf (cfg.greeter == "greetd") {
         environment.systemPackages = with pkgs; [regreet adwaita-icon-theme-legacy];
