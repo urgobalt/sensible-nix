@@ -17,11 +17,18 @@ in {
       default = [",preferred,auto,1"];
       description = "The monitors registred into hyprland.";
     };
+    hypridle = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "using hypridle to autmatically lock on idle";
+      };
+    };
     hyprlock = {
       enable = mkOption {
         type = types.bool;
         default = true;
-        description = "Installing hyprlock";
+        description = "locking greeter";
       };
       auto_start = mkOption {
         description = "auto starting hyprlock upon entering hyprland";
@@ -58,7 +65,7 @@ in {
       auto_start = mkOption {
         description = "autostart live wallpaper using mpvpaper";
         type = types.bool;
-        default = false;
+        default = true;
       };
       monitors = mkOption {
         type = types.listOf types.str;
@@ -113,7 +120,14 @@ in {
     };
   };
   config = mkIf cfg.enable (
+
     mkMerge [
+      (mkIf (cfg.hypridle.enable) {
+        services.hypridle = {
+          enable = true;
+          settings = import ./hypridle.nix;
+        };
+      })
       (mkIf (cfg.hyprlock.enable) {
         programs.hyprlock = {
           enable = true;
@@ -162,11 +176,6 @@ in {
             inherit cfg lib config;
             colors = c;
           };
-        };
-
-        services.hypridle = {
-          enable = true;
-          settings = import ./hypridle.nix;
         };
 
         # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
