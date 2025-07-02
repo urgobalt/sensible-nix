@@ -137,12 +137,6 @@ in {
           };
         };
       })
-      (mkIf
-        (cfg.greeter == "auto_login")
-        {
-          # Autologin to tty1
-          services.getty.autologinUser = coinfig.user.name;
-        })
       (
         mkIf true {
           home.packages = with pkgs;
