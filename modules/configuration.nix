@@ -22,7 +22,7 @@
     home = "/home/${user}";
     createHome = true;
     description = full-name;
-    extraGroups = ["audio" "wheel" "networkmanager"];
+    extraGroups = ["audio" "video" "render" "wheel" "networkmanager"];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = ssh.users;
   };
@@ -73,7 +73,7 @@
     portal = {
       enable = true;
       wlr.enable = true;
-      extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+      extraPortals = with pkgs; [xdg-desktop-portal-gtk xdg-desktop-portal-wlr];
     };
   };
 
