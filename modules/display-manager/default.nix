@@ -59,6 +59,7 @@ in {
       {
         environment.loginShellInit = ''if uwsm check may-start; then exec uwsm start hyprland.desktop fi '';
         programs.hyprland.withUWSM = true;
+        services.getty.autologinUser = user;
       })
     (
       mkIf (cfg.greeter == "greetd") {
