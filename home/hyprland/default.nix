@@ -164,9 +164,10 @@ in {
           };
         };
 
-          services.hypridle = {
-            enable = true;
-          };
+        services.hypridle = {
+          enable = true;
+          settings = import ./hypridle.nix;
+        };
 
         # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
         # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
