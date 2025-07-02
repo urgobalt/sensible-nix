@@ -13,7 +13,7 @@ with lib; let
   autostart-hyprland = pkgs.writeShellScriptBin "autostart-hyprland" ''
     if [ -z "$DISPLAY" ] && [ "$(fgconsole 2>/dev/null || echo 1)" = "1" ]; then
         echo "launching"
-        exec (hyprland &; login ${user})
+        exec ${lib.getExe pkgs.hyprland} || login ${user}
     else
       echo "failed to launch"
     fi
