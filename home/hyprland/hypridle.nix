@@ -7,8 +7,8 @@
 
   listener = [
     {
-      timeout = 150; # 2.5min.
-      on-timeout = "rightnessctl -s set 10"; # set monitor backlight to minimum, avoid 0 on OLED monitor.
+      timeout = 150; # 2.5 min.
+      on-timeout = "brightnessctl -s set 10"; # set monitor backlight to minimum, avoid 0 on OLED monitor.
       on-resume = "brightnessctl -r"; # monitor backlight restore.
     }
 
@@ -27,11 +27,6 @@
       timeout = 330; # 5.5min
       on-timeout = "hyprctl dispatch dpms off"; # screen off when timeout has passed
       on-resume = "hyprctl dispatch dpms on && brightnessctl -r"; # screen on when activity is detected after timeout has fired.
-    }
-
-    {
-      timeout = 1800; # 30min
-      on-timeout = "systemctl suspend"; # suspend pc
     }
   ];
 }
