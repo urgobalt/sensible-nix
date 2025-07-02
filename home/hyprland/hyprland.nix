@@ -12,7 +12,8 @@ in {
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
   exec-once =
-    ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"]
+    lib.optionals modules.hyprland.hyprlock.auto_start ["hyprlock || hyprctl dispatch exit"]
+    ++ ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"]
     ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"]
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
@@ -38,8 +39,8 @@ in {
     kb_layout = "se";
     sensitivity = 1;
     natural_scroll = false;
-    scroll_method = "on_button_down";
-    scroll_button = 274;
+    #scroll_method = "on_button_down";
+    #scroll_button = 274;
     special_fallthrough = true;
   };
   general = {

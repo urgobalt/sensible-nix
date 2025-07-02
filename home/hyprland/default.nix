@@ -17,6 +17,18 @@ in {
       default = [",preferred,auto,1"];
       description = "The monitors registred into hyprland.";
     };
+    hyprlock = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Installing hyprlock";
+      };
+      auto_start = mkOption {
+        description = "auto starting hyprlock upon entering hyprland";
+        type = types.bool;
+        default = true;
+      };
+    };
     avatar = mkOption {
       type = types.path;
       default = ./../../assets/nix-snowflake-rainbow.png;
@@ -100,68 +112,87 @@ in {
       };
     };
   };
-  config = mkIf cfg.enable {
-    home.packages = with pkgs;
-      [
-        swaybg
-        wlsunset
-        wl-clipboard
-        cliphist
-        hyprkool
-        hyprpicker
-        grimblast
-        hypr-zoom
-      ]
-      ++ lib.optionals cfg.live_wallpaper.enable [
-        zenity
-        mpvpaper
-        yt-dlp
-      ];
-    wayland.windowManager.hyprland = {
-      enable = true;
-      systemd.variables = ["--all"];
-      xwayland.enable = true;
-      plugins = with pkgs; [
-        # hyprspace
-        hyprkool
-      ];
-      settings = import ./hyprland.nix {
-        inherit cfg lib config;
-        colors = c;
-      };
-    };
-    programs.hyprlock = {
-      enable = true;
-      settings = import ./hyprlock.nix {
-        inherit cfg lib config wallpaper;
-        colors = c;
-      };
-    };
-    services.hypridle = {
-      enable = true;
-    };
-    services.hyprpaper = {
-      enable = true;
-      settings = {
-        ipc = "on";
-        preload = ["${wallpaper}"];
-        wallpaper = [
-          ",${wallpaper}"
-        ];
-      };
-    };
+  config = mkIf cfg.enable (
+    mkMerge [
+      (
+        mkIf (cfg.live_wallpaper.enable) {
+          services.hyprpaper = {
+            enable = true;
+            settings = {
+              ipc = "on";
+              preload = ["${wallpaper}"];
+              wallpaper = [
+                ",${wallpaper}"
+              ];
+            };
+          };
+        }
+      )
+      (mkIf (cfg.hyprlock.enable) {
+        programs.hyprlock = {
+          enable = true;
+          settings = import ./hyprlock.nix {
+            inherit cfg lib config wallpaper;
+            colors = c;
+          };
+        };
+      })
+      (mkIf
+        (cfg.greeter == "auto_login")
+        {
+          # Autologin to tty1
+          services.getty.autologinUser = coinfig.user.name;
+        })
+      (
+        mkIf true {
+          home.packages = with pkgs;
+            [
+              swaybg
+              wlsunset
+              wl-clipboard
+              cliphist
+              hyprkool
+              hyprpicker
+              grimblast
+              hypr-zoom
+            ]
+            ++ lib.optionals cfg.live_wallpaper.enable [
+              zenity
+              mpvpaper
+              yt-dlp
+            ];
+          wayland.windowManager.hyprland = {
+            enable = true;
+            systemd.variables = ["--all"];
+            xwayland.enable = true;
+            plugins = with pkgs; [
+              # hyprspace
+              hyprkool
+            ];
+            settings = import ./hyprland.nix {
+              inherit cfg lib config;
+              colors = c;
+            };
+          };
 
-    # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
-    # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
+          services.hypridle = {
+            enable = true;
+          };
 
-    home.pointerCursor =
-      cfg.xcursor
-      // {
-        gtk.enable = true;
-        x11.enable = true;
-      };
+          # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
+          # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
 
-    xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
-    home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.path}";
-  };
+          home.pointerCursor =
+            cfg.xcursor
+            // {
+              gtk.enable = true;
+              x11.enable = true;
+            };
+
+          xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
+          home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.path}";
+        }
+      )
+    ]
+  );
 }
