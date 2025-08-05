@@ -8,8 +8,10 @@ switch path="/etc/nixos":
   nh os switch {{path}} -- --override-input sensible $PWD
 
 boot path="/etc/nixos":
-  nh os boot {{path}} -- --override-input sensible $PWD
-  reboot
+  nh os boot {{path}} -- --override-input sensible $PWD && reboot
+
+dry path="/etc/nixos":
+  nh os switch {{path}} -n -- --override-input sensible $PWD
 
 [working-directory("./test_system")]
 test:
