@@ -8,7 +8,7 @@ with lib; {
     };
     features = mkOption {
       type = with types;
-        listOf enumOf [
+        listOf (enum [
           "rust"
           "go"
           "ocaml"
@@ -18,7 +18,7 @@ with lib; {
           "python"
           "html-css-js"
           "tailwindcss"
-        ];
+        ]);
       default = [];
       description = "Programs used for development in the languages specified.";
     };

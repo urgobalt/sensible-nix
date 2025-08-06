@@ -17,7 +17,7 @@ with lib; {
       description = "List of commands that should be executed at Hyprland launch.";
     };
     layout = mkOption {
-      type = types.enumOf ["master" "dwindle"];
+      type = types.enum ["master" "dwindle"];
       default = "master";
       description = "Hyprland window layout.";
     };
