@@ -81,21 +81,27 @@
           };
         }
 
+        # TODO: create some sort of generator attribute for the host files
+
         (nixpkgs.lib.optionals (builtins.hasAttr "modules" systemConfig) systemConfig.modules)
+        (nixpkgs.lib.optionals (builtins.hasAttr "defaultModules" userConfig) userConfig.defaultModules)
       ];
 
-      specialArgs = {
-        user = userConfig.user;
-        wallpaper =
-          if builtins.hasAttr "wallpaper" systemConfig
-          then systemConfig.wallpaper
-          else if builtins.hasAttr "defaultWallpaper" userConfig
-          then userConfig.defaultWallpaper
-          else null;
-        ssh = getAttr "ssh" userConfig "SSH is required to be setup. Find instructions here: https://example.com";
-        root = self.outPath;
-        hostname = systemConfig.hostname;
-      };
+      specialArgs =
+        {
+          user = userConfig.user;
+          wallpaper =
+            if builtins.hasAttr "wallpaper" systemConfig
+            then systemConfig.wallpaper
+            else if builtins.hasAttr "defaultWallpaper" userConfig
+            then userConfig.defaultWallpaper
+            else null;
+          ssh = getAttr "ssh" userConfig "SSH is required to be setup. Find instructions here: https://example.com";
+          root = self.outPath;
+          hostname = systemConfig.hostname;
+        }
+        // (nixpkgs.lib.optional (builtins.hasAttr "specialArgs" systemConfig) systemConfig.specialArgs)
+        // (nixpkgs.lib.optional (builtins.hasAttr "defaultSpecialArgs" userConfig) userConfig.defaultSpecialArgs);
     };
 in {
   nixosConfigurations = nixpkgs.lib.genAttrs systemNames (name: (config (systems.${name} // {hostname = name;})));
