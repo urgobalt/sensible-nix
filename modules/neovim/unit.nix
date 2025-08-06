@@ -11,7 +11,7 @@ unit ({
     else [];
 in {
   condition = config.sensible.neovim.enable;
-  home.packages = with pkgs;
+  home.home.packages = with pkgs;
     lib.flatten [
       neovim
 
