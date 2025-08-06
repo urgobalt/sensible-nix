@@ -100,8 +100,8 @@
           root = self.outPath;
           hostname = systemConfig.hostname;
         }
-        // (nixpkgs.lib.optional (builtins.hasAttr "specialArgs" systemConfig) systemConfig.specialArgs)
-        // (nixpkgs.lib.optional (builtins.hasAttr "defaultSpecialArgs" userConfig) userConfig.defaultSpecialArgs);
+        // (nixpkgs.lib.attrsets.optionalAttrs (builtins.hasAttr "specialArgs" systemConfig) systemConfig.specialArgs)
+        // (nixpkgs.lib.attrsets.optionalAttrs (builtins.hasAttr "defaultSpecialArgs" userConfig) userConfig.defaultSpecialArgs);
     };
 in {
   nixosConfigurations = nixpkgs.lib.genAttrs systemNames (name: (config (systems.${name} // {hostname = name;})));
