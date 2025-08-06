@@ -1,8 +1,8 @@
 {config, ...}: {
-  condition = config.sensible.secrets.nix-secret-options != null;
+  condition = config.sensible.secrets.nixSecretOptions != null;
   system = {
     nix.extraOptions = ''
-      !include ${config.sensible.secrets.nix-secret-options}
+      !include ${config.sensible.secrets.nixSecretOptions}
     '';
   };
 }

@@ -1,12 +1,12 @@
 {lib, ...}:
 with lib; {
   secrets = {
-    nix-secret-options = mkOption {
+    nixSecretOptions = mkOption {
       type = with types; nullOr path;
       default = null;
       description = "Secret file that will be imported at the end of nix.conf.";
     };
-    password-file = mkOption {
+    passwordFile = mkOption {
       type = with types; nullOr path;
       default = null;
       description = "Secret file that holds the hashed user password. OBS: This option will make the users immutable.";

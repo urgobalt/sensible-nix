@@ -3,10 +3,10 @@
   config,
   ...
 }: {
-  condition = config.sensible.secrets.password-file != null;
+  condition = config.sensible.secrets.passwordFile != null;
   system = {
     users.mutableUsers = false;
 
-    users.users.${user}.hashedPasswordFile = config.sensible.secrets.password-file;
+    users.users.${user}.hashedPasswordFile = config.sensible.secrets.passwordFile;
   };
 }
