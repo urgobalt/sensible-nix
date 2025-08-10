@@ -116,12 +116,8 @@ in {
   };
 
   workspace = [
-    "w[t1], gapsout:0"
-    "w[t1], border:0"
-    "w[t1], rounding:0"
-    "f[1], gapsout:0"
-    "f[1], border:0"
-    "f[1], rounding:0"
+    "w[t1], gapsout:0, border:0, rounding:0"
+    "f[1], gapsout:0, border:0, rounding:0"
   ];
 
   windowrulev2 = [
@@ -136,8 +132,12 @@ in {
     # Discord
     "workspace special:discord silent, class:discord"
     "fullscreen, class:discord"
-    "suppressevent movewindow movewindowv2, class:discord"
     "animation fade, class:discord"
+
+    # Steam
+    "workspace special:steam silent, initialClass:steam"
+    "float, initialClass:steam"
+    "animation fade, initialClass:steam"
   ];
 
   "$mod" = "SUPER";
@@ -158,6 +158,7 @@ in {
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
       "$mod,D,exec, hyprkool toggle-special-workspace --name discord"
+      "$mod,G,exec, hyprkool toggle-special-workspace --name steam"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
