@@ -14,6 +14,7 @@ boot:
 
 upgrade:
   just require-sudo -- nixos-rebuild switch --fast --override-input sensible-nix $PWD --show-trace --upgrade
+  just require-sudo -- nixos-rebuild boot --fast --override-input sensible-nix $PWD --show-trace && reboot
 
 check:
   nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace
