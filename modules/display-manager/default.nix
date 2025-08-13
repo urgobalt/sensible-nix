@@ -18,6 +18,18 @@ with lib; let
       echo "failed to launch"
     fi
   '';
+  autostart-hyprland =
+    /*
+    bash
+    */
+    ''
+      if [ -z "$DISPLAY" ] && [ "$(fgconsole 2>/dev/null || echo 1)" = "1" ]; then
+          echo "launching"
+          exec ${lib.getExe pkgs.hyprland} || login ${user}
+      else
+        echo "failed to launch"
+      fi
+    '';
 in {
   options.modules.display-manager = {
     enable = mkOption {
@@ -67,6 +79,7 @@ in {
         systemd.services."getty@tty1" = {
           enable = true;
           unitConfig = {
+            Wants = "multi-user.target";
           };
           overrideStrategy = "asDropin";
           serviceConfig = {
@@ -76,14 +89,14 @@ in {
             ];
           };
         };
-        environment.loginShellInit = ''sh ${autostart-hyprland}/bin/autostart-hyprland'';
+        environment.loginShellInit = autostart-hyprland;
       }
     )
     (mkIf
       (cfg.greeter == "auto_login" && cfg.global_auto_login)
       {
         services.getty.autologinUser = lib.mkDefault user;
-        environment.loginShellInit = ''sh ${autostart-hyprland}/bin/autostart-hyprland'';
+        environment.loginShellInit = autostart-hyprland;
       })
     (
       mkIf (cfg.greeter == "greetd") {
