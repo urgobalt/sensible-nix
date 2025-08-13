@@ -22,13 +22,13 @@
 }:
 pkgs.unstable.rustPlatform.buildRustPackage rec {
   pname = "hyprkool";
-  version = "51e3042205a6172acc55b7d4e95f0b3e71ba5e35";
+  version = "1caf6fb7d7364bc79a0f863dbccdda6db8455203";
 
   src = fetchFromGitHub {
     owner = "thrombe";
     repo = "hyprkool";
     rev = version;
-    sha256 = "sha256-RdRXwmLdnJivbuP+c3P4tdF0DYjzpAJzG9wwqb3r3To=";
+    sha256 = "sha256-9Cb86YzSlHVSwmwYwhQCMX0xNQLZbPY7zx9RPfBWjY4=";
   };
   cargoLock = {
     lockFile = "${src}/Cargo.lock";

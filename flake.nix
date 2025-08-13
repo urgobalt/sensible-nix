@@ -40,6 +40,11 @@
         systems.follows = "systems";
       };
     };
+
+    stylix = {
+      url = "github:nix-community/stylix/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     nixpkgs,
@@ -53,12 +58,14 @@
     packages = eachSystem (system: {
       agenix = agenix.packages.${system}.agenix;
     });
-    devShells = eachSystem (system: let pkgs = import nixpkgs {inherit system; }; in {
-        default = pkgs.mkShell {
+    devShells = eachSystem (system: let
+      pkgs = import nixpkgs {inherit system;};
+    in {
+      default = pkgs.mkShell {
         packages = with pkgs; [
           gum
         ];
       };
-      });
+    });
   };
 }

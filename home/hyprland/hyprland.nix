@@ -12,7 +12,8 @@ in {
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
   exec-once =
-    ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"]
+    lib.optionals modules.hyprland.hyprlock.auto_start ["hyprlock || hyprctl dispatch exit"]
+    ++ ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"]
     ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"]
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
@@ -38,8 +39,8 @@ in {
     kb_layout = "se";
     sensitivity = 1;
     natural_scroll = false;
-    scroll_method = "on_button_down";
-    scroll_button = 274;
+    #scroll_method = "on_button_down";
+    #scroll_button = 274;
     special_fallthrough = true;
   };
   general = {
@@ -115,12 +116,8 @@ in {
   };
 
   workspace = [
-    "w[t1], gapsout:0"
-    "w[t1], border:0"
-    "w[t1], rounding:0"
-    "f[1], gapsout:0"
-    "f[1], border:0"
-    "f[1], rounding:0"
+    "w[t1], gapsout:0, border:0, rounding:0"
+    "f[1], gapsout:0, border:0, rounding:0"
   ];
 
   windowrulev2 = [
@@ -135,8 +132,12 @@ in {
     # Discord
     "workspace special:discord silent, class:discord"
     "fullscreen, class:discord"
-    "suppressevent movewindow movewindowv2, class:discord"
     "animation fade, class:discord"
+
+    # Steam
+    "workspace special:steam silent, initialClass:steam"
+    "float, initialClass:steam"
+    "animation fade, initialClass:steam"
   ];
 
   "$mod" = "SUPER";
@@ -157,6 +158,7 @@ in {
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
       "$mod,D,exec, hyprkool toggle-special-workspace --name discord"
+      "$mod,G,exec, hyprkool toggle-special-workspace --name steam"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
