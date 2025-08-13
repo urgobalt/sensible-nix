@@ -12,6 +12,7 @@
   # |_| |_|\__, | .__/|_|  |_|\___/ \___|_|\_\
   #        |___/|_|
   defaultLabelFont = "SourceCodePro";
+  modules = config.modules;
 in {
   general = {
     grace = 1;
@@ -89,7 +90,7 @@ in {
     {
       monitor = "";
       text = "cmd[update:1000] echo \"<b><big> \"$(date +'%H:%M:%S')\" </big></b>\"";
-      font_size = 94;
+      font_size = 44;
       position = "0, 0";
       halign = "center";
       valign = "top";
@@ -99,7 +100,7 @@ in {
     {
       monitor = "";
       text = "  ${config.home.username}";
-      font_size = 24;
+      font_size = 44;
       position = "0, 20";
       halign = "center";
       valign = "center";
@@ -110,11 +111,22 @@ in {
       monitor = "";
       text = "I use Sensible-Nix btw";
       font_size = 24;
-      position = "0, -20";
+      position = "0, -150";
       halign = "center";
       valign = "center";
       color = colors.text;
       font_family = defaultLabelFont;
+    }
+    {
+      # Caps Lock Warning
+      monitor = "";
+      text = "cmd[update:250] sh ${./check-capslock.sh}";
+      color = colors.red;
+      font_size = 13;
+      font_family = defaultLabelFont;
+      position = "0, -25";
+      halign = "center";
+      valign = "center";
     }
     {
       monitor = "";
@@ -130,7 +142,7 @@ in {
 
   image = {
     monitor = "";
-    path = toString wallpaper;
+    path = toString modules.hyprland.avatar;
     size = 280;
     rounding = 40;
     border_size = 4;

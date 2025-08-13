@@ -10,6 +10,14 @@
 with lib; let
   cfg = config.modules.display-manager;
   c = colors.regular;
+  autostart-hyprland = pkgs.writeShellScriptBin "autostart-hyprland" ''
+    if [ -z "$DISPLAY" ] && [ "$(fgconsole 2>/dev/null || echo 1)" = "1" ]; then
+        echo "launching"
+        exec ${lib.getExe pkgs.hyprland} || login ${user}
+    else
+      echo "failed to launch"
+    fi
+  '';
 in {
   options.modules.display-manager = {
     enable = mkOption {
@@ -23,24 +31,18 @@ in {
       description = "The monitors registred into hyprland.";
     };
     greeter = mkOption {
-      type = with types; enum ["greetd"];
-      default = "greetd";
+      type = with types; enum ["greetd" "auto_login"];
+      default = "auto_login";
       description = "The greeter that will be used.";
     };
-    autologin = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enable autologin for the current user.";
-      };
+    global_auto_login = mkOption {
+      type = types.bool;
+      default = false;
+      description = "This is dangerous and can give anyone access to login by just using another tty, if false this only allows auto_login if it is set and the tty is 1";
     };
   };
   config = mkIf cfg.enable (mkMerge [
     {
-      programs.hyprland = {
-        enable = true;
-        xwayland.enable = true;
-      };
       boot.kernelParams = lib.mkDefault [
         "quiet"
         "splash"
@@ -53,7 +55,36 @@ in {
       # https://github.com/NixOS/nixpkgs/pull/108294
       boot.initrd.verbose = lib.mkDefault false;
       boot.plymouth.enable = lib.mkDefault true;
+      programs.hyprland = {
+        enable = true;
+        xwayland.enable = true;
+      };
     }
+    (
+      mkIf
+      (cfg.greeter == "auto_login" && !cfg.global_auto_login)
+      {
+        systemd.services."getty@tty1" = {
+          enable = true;
+          unitConfig = {
+          };
+          overrideStrategy = "asDropin";
+          serviceConfig = {
+            ExecStart = lib.mkForce [
+              ""
+              "${pkgs.util-linux}/bin/agetty --autologin ${user} --noclear %I $TERM"
+            ];
+          };
+        };
+        environment.loginShellInit = ''sh ${autostart-hyprland}/bin/autostart-hyprland'';
+      }
+    )
+    (mkIf
+      (cfg.greeter == "auto_login" && cfg.global_auto_login)
+      {
+        services.getty.autologinUser = lib.mkDefault user;
+        environment.loginShellInit = ''sh ${autostart-hyprland}/bin/autostart-hyprland'';
+      })
     (
       mkIf (cfg.greeter == "greetd") {
         environment.systemPackages = with pkgs; [regreet adwaita-icon-theme-legacy];

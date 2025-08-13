@@ -17,6 +17,30 @@ in {
       default = [",preferred,auto,1"];
       description = "The monitors registred into hyprland.";
     };
+    hypridle = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "using hypridle to autmatically lock on idle";
+      };
+    };
+    hyprlock = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "locking greeter";
+      };
+      auto_start = mkOption {
+        description = "auto starting hyprlock upon entering hyprland";
+        type = types.bool;
+        default = true;
+      };
+    };
+    avatar = mkOption {
+      type = types.path;
+      default = ./../../assets/nix-snowflake-rainbow.png;
+      description = "The avatar for hyprlock";
+    };
     layout = mkOption {
       type = with types; enum ["master" "dwindle"];
       default = "master";
@@ -30,7 +54,7 @@ in {
     browser = mkOption {
       type = with types; package;
       default = pkgs.firefox;
-      description = "The browser that is used by default in hyprland commands and binds.";
+      description = "the browser that is used by default in hyprland commands and binds.";
     };
     live_wallpaper = {
       enable = mkOption {
@@ -41,7 +65,7 @@ in {
       auto_start = mkOption {
         description = "autostart live wallpaper using mpvpaper";
         type = types.bool;
-        default = false;
+        default = true;
       };
       monitors = mkOption {
         type = types.listOf types.str;
@@ -54,6 +78,7 @@ in {
         description = "The monitors registred into mpvpaper.";
       };
     };
+
     cursor = {
       package = mkOption {
         type = types.package;
@@ -94,68 +119,77 @@ in {
       };
     };
   };
-  config = mkIf cfg.enable {
-    home.packages = with pkgs;
-      [
-        swaybg
-        wlsunset
-        wl-clipboard
-        cliphist
-        hyprkool
-        hyprpicker
-        grimblast
-        hypr-zoom
-      ]
-      ++ lib.optionals cfg.live_wallpaper.enable [
-        zenity
-        mpvpaper
-        yt-dlp
-      ];
-    wayland.windowManager.hyprland = {
-      enable = true;
-      systemd.variables = ["--all"];
-      xwayland.enable = true;
-      plugins = with pkgs; [
-        # hyprspace
-        hyprkool
-      ];
-      settings = import ./hyprland.nix {
-        inherit cfg lib config;
-        colors = c;
-      };
-    };
-    programs.hyprlock = {
-      enable = true;
-      settings = import ./hyprlock.nix {
-        inherit cfg lib config wallpaper;
-        colors = c;
-      };
-    };
-    services.hypridle = {
-      enable = true;
-    };
-    services.hyprpaper = {
-      enable = true;
-      settings = {
-        ipc = "on";
-        preload = ["${wallpaper}"];
-        wallpaper = [
-          ",${wallpaper}"
-        ];
-      };
-    };
+  config = mkIf cfg.enable (
+    mkMerge [
+      (mkIf (cfg.hypridle.enable) {
+        services.hypridle = {
+          enable = true;
+          settings = import ./hypridle.nix;
+        };
+      })
+      (mkIf (cfg.hyprlock.enable) {
+        programs.hyprlock = {
+          enable = true;
+          settings = import ./hyprlock.nix {
+            inherit cfg lib config wallpaper;
+            colors = c;
+          };
+        };
+      })
+      {
+        services.hyprpaper = {
+          enable = true;
+          settings = {
+            ipc = "on";
+            preload = ["${wallpaper}"];
+            wallpaper = [
+              ",${wallpaper}"
+            ];
+          };
+        };
+        home.packages = with pkgs;
+          [
+            swaybg
+            wlsunset
+            wl-clipboard
+            cliphist
+            hyprkool
+            hyprpicker
+            grimblast
+            hypr-zoom
+          ]
+          ++ lib.optionals cfg.live_wallpaper.enable [
+            zenity
+            mpvpaper
+            yt-dlp
+          ];
+        wayland.windowManager.hyprland = {
+          enable = true;
+          systemd.variables = ["--all"];
+          xwayland.enable = true;
+          plugins = with pkgs; [
+            # hyprspace
+            hyprkool
+          ];
+          settings = import ./hyprland.nix {
+            inherit cfg lib config;
+            colors = c;
+          };
+        };
 
-    # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
-    # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
+        # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
+        # home.file."pictures/wallpaper.png".source = ./wallpaper.png;
 
-    home.pointerCursor =
-      cfg.xcursor
-      // {
-        gtk.enable = true;
-        x11.enable = true;
-      };
+        home.pointerCursor =
+          cfg.xcursor
+          // {
+            gtk.enable = true;
+            x11.enable = true;
+          };
 
-    xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
-    home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.path}";
-  };
+        xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
+        home.file.".local/share/icons/${cfg.cursor.name}".source = "${cfg.cursor.package}/share/icons/${cfg.cursor.path}";
+      }
+    ]
+  );
 }
