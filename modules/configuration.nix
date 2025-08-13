@@ -188,4 +188,38 @@
 
   # Do not touch
   system.stateVersion = "23.11";
+
+  stylix = {
+    enable = true;
+    base16Scheme = ./everforest-patch.yaml;
+
+    targets.plymouth = {
+      logo = "${pkgs.nixos-icons}/share/icons/hicolor/128x128/apps/nix-snowflake-white.png";
+      logoAnimated = false;
+    };
+
+    fonts = {
+      serif = config.stylix.fonts.monospace;
+      sansSerif = config.stylix.fonts.monospace;
+      monospace = {
+        name = "SourceCodePro Nerd Font";
+        package = pkgs.source-code-pro;
+      };
+      emoji = {
+        package = pkgs.noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
+    };
+  };
+
+  home-manager.users.${user}.stylix = {
+    enable = true;
+    base16Scheme = ./everforest-patch.yaml;
+
+    targets = {
+      hyprland.enable = false;
+      hyprlock.enable = false;
+      waybar.enable = false;
+    };
+  };
 }

@@ -44,6 +44,8 @@ in
         inputs.nix-index-database.nixosModules.nix-index
         # Home manager is the thing modularizing the configuration
         inputs.home-manager.nixosModules.home-manager
+        # Stylix
+        inputs.stylix.nixosModules.stylix
         {
           home-manager = {
             backupFileExtension = "bkp";
