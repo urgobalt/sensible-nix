@@ -30,7 +30,8 @@ uptime=${d:+$d, }${h:+$h, }$m
 uptime=${uptime%', '}
 uptime=${uptime:-$s seconds}
 
-echo "up $uptime"
+# echo "up $uptime"
+
 #!/usr/bin/env bash
 # Script parses /proc/uptime to get the system uptime
 # and prints it in a human-readable format
