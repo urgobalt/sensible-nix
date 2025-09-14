@@ -1,11 +1,7 @@
-{
-  lib,
-  importUnits,
-  root,
-}:
-lib.flatten (importUnits root [
-  "cli"
-  "secrets"
-  "neovim"
-  "hyprland"
-])
+[
+  "direnv"
+  # "cli"
+  # "secrets"
+  # "neovim"
+  # "hyprland"
+]

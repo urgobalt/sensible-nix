@@ -46,7 +46,7 @@
   }: let
     eachSystem = nixpkgs.lib.genAttrs (import systems);
   in {
-    nixosModules.sensible = import ./sensible.nix inputs;
+    nixosModules.sensible = import ./lib/sensible.nix inputs;
     devShells = eachSystem (system: let
       pkgs = import nixpkgs {inherit system;};
     in {

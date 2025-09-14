@@ -12,7 +12,7 @@
     ...
   }:
     sensible.nixosModules.sensible {
-      user = "test";
+      defaultUsername = "test";
       systems = {
         test = {
           system = "x86_64-linux";
@@ -23,15 +23,11 @@
             ./disk-config.nix
           ];
         };
-        # The following system enables as many options as possible
-        testBench = let
+        testBench = {
           system = "x86_64-linux";
-          pkgs = import nixpkgs {inherit system;};
-        in {
-          system = system;
           stateVersion = "25.05";
-          packages = [pkgs.fish];
           disko = true;
+          wsl = true;
           modules = [
             ./hardware-configuration.nix
             ./disk-config.nix
