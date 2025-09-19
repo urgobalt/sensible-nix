@@ -23,7 +23,7 @@ in {
       assertion = let
         all_systems_have_usernames = lib.lists.foldl (b: e: b && e.username != null) true systems;
       in
-        all_systems_have_usernames || config.defaultUsername != null;
+        all_systems_have_usernames || config.default.username != null;
       message = "Default username must be set if username is not set on all systems.";
     }
     {
@@ -43,13 +43,15 @@ in {
     {inherit (config) assertions warnings;}
   ];
 
-  defaultSpecialArgs = {
-    sensible_option = options: {options.sensible = options;};
-  };
+  defaultSpecialArgs =
+    {
+      sensible_option = options: {options.sensible = options;};
+    }
+    // config.default.specialArgs;
 
   systems =
     builtins.mapAttrs (hostname: system: let
-      user = fallback system.username config.defaultUsername;
+      user = fallback system.username config.default.username;
     in {
       system = system.system;
       modules = let
@@ -84,7 +86,7 @@ in {
       specialArgs =
         rec {
           inherit hostname user;
-          wallpaper = fallback system.wallpaper config.defaultWallpaper;
+          wallpaper = fallback system.wallpaper config.default.wallpaper;
           sensible_config = config:
             {
               assertions =

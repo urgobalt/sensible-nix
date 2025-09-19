@@ -12,7 +12,9 @@
     ...
   }:
     sensible.nixosModules.sensible {
-      defaultUsername = "test";
+      default = {
+        username = "test";
+      };
       systems = {
         test = {
           system = "x86_64-linux";
