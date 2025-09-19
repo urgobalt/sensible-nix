@@ -1,4 +1,9 @@
-{config, ...}: {
+{
+  config,
+  sensible_config,
+  ...
+}:
+sensible_config {
   condition = config.sensible.starship.enable;
   home.programs.starship = {
     enable = true;

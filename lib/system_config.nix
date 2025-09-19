@@ -1,16 +1,4 @@
-{
-  self,
-  lib,
-  config,
-  system,
-  home-manager,
-  stylix,
-  nix-index-database,
-  wsl,
-  disko,
-  nixos-unstable,
-  ...
-}: {
+{lib, ...}: {
   options = with lib; let
     system = {
       system = mkOption {
@@ -35,6 +23,13 @@
         default = {};
         type = types.attrs;
         description = "Extra arguments passed to the system's modules.";
+      };
+      wallpaper = mkOption {
+        default = null;
+        type = with types; nullOr path;
+        description = "The wallpaper that will be used to theme your system in various ways. This option is also passed to the modules of the system.
+
+        Obs! This option does not have any effect unless you enable the various options utilizing the wallpaper.";
       };
       wsl = mkOption {
         default = false;
@@ -66,114 +61,11 @@
     defaultWallpaper = mkOption {
       default = null;
       type = with types; nullOr path;
+      description = "This is the fallback wallpaper of all systems. See `systems.<name>.wallpaper` for more details.";
     };
     systems = mkOption {
       type = with types; attrsOf (submodule {options = system;});
       description = "The systems configured by hostname. Note: The hostname of your system is automatically set to the key of the attribute set.";
     };
-    _systems = mkOption {
-      type = with types; attrsOf (submodule {options = system;});
-      internal = true;
-      description = "The systems configured by hostname. Note: The hostname of your system is automatically set to the key of the attribute set.";
-    };
-  };
-  config = let
-    fallback = primary: secondary:
-      if primary == null
-      then secondary
-      else primary;
-    units = lib.flatten (map (name: ["${self.outPath}/modules/${name}/unit.nix" "${self.outPath}/modules/${name}/options.nix"]) (import ../modules));
-  in {
-    assertions = let
-      systems = builtins.attrValues config.systems;
-    in [
-      {
-        assertion = let
-          all_systems_have_usernames = lib.lists.foldl (b: e: b && e.username != null) true systems;
-        in
-          all_systems_have_usernames || config.default_username != null;
-        message = "Default username must be set if username is not set on all systems.";
-      }
-      {
-        assertion = lib.lists.foldl (b: e: b && (e.disko == null || e.wsl == null)) true systems;
-        message = "Disko and WSL should never be enabled together. You do not have partitions in a WSL installation.";
-      }
-    ];
-    defaultModules = let
-      meta-configuration = {
-        nixpkgs = {
-          overlays = [
-            (final: prev: {
-              unstable = import nixos-unstable {
-                inherit system;
-                config = {
-                  allowUnfree = true;
-                  allowInsecure = true;
-                };
-              };
-            })
-          ];
-          config = {
-            allowUnfree = true;
-            allowInsecure = true;
-          };
-        };
-        system.stateVersion = system.stateVersion;
-      };
-    in
-      lib.flatten [
-        meta-configuration
-        ../configuration.nix
-        home-manager.nixosModules.home-manager
-
-        stylix.nixosModules.stylix
-        # nix-index-database.nixosModules.nix-index
-
-        units
-
-        {inherit (config) assertions warnings;}
-      ];
-
-    defaultSpecialArgs = {
-      user = fallback system.username config.defaultUsername;
-      wallpaper = fallback system.wallpaper config.defaultWallpaper;
-      sensible_option = options: {options.sensible = options;};
-    };
-
-    _systems =
-      lib.mapAttrs (hostname: value: let
-        system = config.systems.${hostname};
-      in {
-        modules =
-          lib.flatten [
-            (lib.optional system.wsl wsl.nixosModules.wsl)
-            (lib.optional system.disko disko.nixosModules.disko)
-          ]
-          ++ system.modules;
-        specialArgs =
-          {
-            inherit hostname;
-            sensible_config = config: let
-              user = fallback system.username config.defaultUsername;
-            in
-              {
-                assertions =
-                  if builtins.hasAttr "assertions" config
-                  then config.assertions
-                  else [];
-                home-manager.users.${user} =
-                  if builtins.hasAttr "home" config
-                  then config.home
-                  else {};
-              }
-              // (
-                if builtins.hasAttr "system" config
-                then config.system
-                else {}
-              );
-          }
-          // system.specialArgs;
-      })
-      config.systems;
   };
 }

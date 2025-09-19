@@ -1,7 +1,7 @@
 [
   "direnv"
-  # "cli"
-  # "secrets"
-  # "neovim"
-  # "hyprland"
+  "cli"
+  "secrets"
+  "neovim"
+  "hyprland"
 ]

@@ -3,11 +3,13 @@
   lib,
   config,
   wallpaper,
+  sensible_config,
   ...
-}: {
+}:
+sensible_config {
   condition = config.sensible.hyprland.enable == true;
   system = {
-    warnings = lib.optional (wallpaper == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviours since the wallpaper is used in multiple different places.";
+    warnings = lib.optional (wallpaper == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviour since the wallpaper is used in multiple different places.";
   };
   home = {
     wayland.windowManager.hyprland = {

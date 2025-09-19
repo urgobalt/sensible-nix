@@ -1,5 +1,6 @@
-{units, ...}:
-units [
-  ./hyprland.nix
-  ./live_wallpaper.nix
-]
+{
+  imports = [
+    ./hyprland.nix
+    ./live_wallpaper.nix
+  ];
+}

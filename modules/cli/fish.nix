@@ -2,8 +2,10 @@
   pkgs,
   config,
   lib,
+  sensible_config,
   ...
-}: {
+}:
+sensible_config {
   condition = config.sensible.shell.name == "fish";
   system.sensible.shell.package = lib.mkDefault pkgs.fish;
   home.programs.fish =

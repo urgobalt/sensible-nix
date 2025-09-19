@@ -2,8 +2,10 @@
   pkgs,
   config,
   lib,
+  sensible_config,
   ...
-}: {
+}:
+sensible_config {
   condition = config.sensible.shell.name == "zsh";
   system.sensible.shell.package = lib.mkDefault pkgs.zsh;
   home.programs.zsh =
