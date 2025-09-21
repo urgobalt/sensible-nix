@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     systems = {
-      url = "github:nix-systems/default";
+      url = "github:nix-systems/default-linux";
       flake = false;
     };
     nix-index-database = {
@@ -46,7 +46,10 @@
   }: let
     eachSystem = nixpkgs.lib.genAttrs (import systems);
   in {
-    nixosModules.sensible = import ./lib/sensible.nix inputs;
+    nixosModules = rec {
+      sensible = import ./lib/sensible.nix inputs;
+      default = sensible;
+    };
     devShells = eachSystem (system: let
       pkgs = import nixpkgs {inherit system;};
     in {

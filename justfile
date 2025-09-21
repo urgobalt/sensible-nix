@@ -13,9 +13,11 @@ boot path="/etc/nixos":
 dry path="/etc/nixos":
   nh os switch {{path}} -n -- --override-input sensible $PWD
 
-[working-directory("./test_system")]
 test:
-  nix flake check --override-input sensible $PWD/.. --impure
+  #!/usr/bin/env -S bash -x
+  for f in ./tests/*/; do
+    nix flake check $f --all-systems --override-input sensible $PWD
+  done
 
 check path="/etc/nixos":
   nix flake check {{path}} --override-input sensible $PWD

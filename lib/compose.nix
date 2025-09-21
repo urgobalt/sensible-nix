@@ -15,33 +15,31 @@
     then secondary
     else primary;
   units = lib.flatten (map (name: ["${self.outPath}/modules/${name}/unit.nix" "${self.outPath}/modules/${name}/options.nix"]) (import ../modules));
+  systems = builtins.attrValues config.systems;
+  for_all_systems = condition: lib.lists.foldl (b: system: b && (condition system)) true systems;
 in {
-  assertions = let
-    systems = builtins.attrValues config.systems;
-  in [
+  assertions = [
     {
-      assertion = let
-        all_systems_have_usernames = lib.lists.foldl (b: e: b && e.username != null) true systems;
-      in
-        all_systems_have_usernames || config.default.username != null;
+      assertion = for_all_systems (system: system.username != null) || config.default.username != null;
       message = "Default username must be set if username is not set on all systems.";
     }
     {
-      assertion = lib.lists.foldl (b: e: b && (e.disko == null || e.wsl == null)) true systems;
+      assertion = for_all_systems (system: system.disko == false || system.wsl == false);
       message = "Disko and WSL should never be enabled together. You do not have partitions in a WSL installation.";
     }
   ];
-  defaultModules = lib.flatten [
-    ../configuration.nix
-    home-manager.nixosModules.home-manager
+  warnings = [];
+  defaultModules =
+    lib.flatten [
+      ../configuration.nix
+      home-manager.nixosModules.home-manager
 
-    stylix.nixosModules.stylix
-    nix-index-database.nixosModules.nix-index
+      stylix.nixosModules.stylix
+      nix-index-database.nixosModules.nix-index
 
-    units
-
-    {inherit (config) assertions warnings;}
-  ];
+      units
+    ]
+    ++ config.default.modules;
 
   defaultSpecialArgs =
     {
