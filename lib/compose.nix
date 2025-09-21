@@ -15,20 +15,7 @@
     then secondary
     else primary;
   units = lib.flatten (map (name: ["${self.outPath}/modules/${name}/unit.nix" "${self.outPath}/modules/${name}/options.nix"]) (import ../modules));
-  systems = builtins.attrValues config.systems;
-  for_all_systems = condition: lib.lists.foldl (b: system: b && (condition system)) true systems;
 in {
-  assertions = [
-    {
-      assertion = for_all_systems (system: system.username != null) || config.default.username != null;
-      message = "Default username must be set if username is not set on all systems.";
-    }
-    {
-      assertion = for_all_systems (system: system.disko == false || system.wsl == false);
-      message = "Disko and WSL should never be enabled together. You do not have partitions in a WSL installation.";
-    }
-  ];
-  warnings = [];
   defaultModules =
     lib.flatten [
       ../configuration.nix
@@ -50,6 +37,19 @@ in {
   systems =
     builtins.mapAttrs (hostname: system: let
       user = fallback system.username config.default.username;
+      assertions_and_warnings = {
+        assertions = [
+          {
+            assertion = system.username != null || config.default.username != null;
+            message = "Default username must be set if username is not set on all systems.";
+          }
+          {
+            assertion = system.disko == false || system.wsl == false;
+            message = "Disko and WSL should never be enabled together. You do not have partitions in a WSL installation.";
+          }
+        ];
+        warnings = [];
+      };
     in {
       system = system.system;
       modules = let
@@ -79,6 +79,7 @@ in {
           meta-configuration
           (lib.optional system.wsl wsl.nixosModules.wsl)
           (lib.optional system.disko disko.nixosModules.disko)
+          assertions_and_warnings
         ]
         ++ system.modules;
       specialArgs =

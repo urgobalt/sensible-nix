@@ -27,7 +27,8 @@
         attrsOf (submodule {
             options = {
               system = mkOption {
-                type = types.str;
+                default = null;
+                type = with types; nullOr str;
                 description = "The system type.";
               };
               stateVersion = mkOption {

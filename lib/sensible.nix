@@ -19,12 +19,7 @@ in {
       system = system.system;
       modules =
         config.defaultModules
-        ++ system.modules
-        ++ (
-          nixpkgs.lib.singleton {
-            inherit (config) assertions warnings;
-          }
-        );
+        ++ system.modules;
       specialArgs =
         config.defaultSpecialArgs
         // system.specialArgs;
