@@ -56,6 +56,7 @@
       default = pkgs.mkShell {
         packages = with pkgs; [
           nh
+          gum
         ];
       };
     });
