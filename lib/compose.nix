@@ -92,6 +92,10 @@ in {
                 if builtins.hasAttr "assertions" config
                 then config.assertions
                 else [];
+              warnings =
+                if builtins.hasAttr "warnings" config
+                then config.warnings
+                else [];
               home-manager.users.${user} =
                 lib.mkIf config.condition
                 (
