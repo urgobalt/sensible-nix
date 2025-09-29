@@ -32,14 +32,4 @@ with lib;
         description = "Wether to enable to disable debug logs for hyprland. OBS: should not be kept enabled since the logs may leak important details.";
       };
     };
-    wallpaper = {
-      source = mkOption {
-        type = types.path;
-        description = "Wallpaper used in graphical environments";
-      };
-      resolved = mkOption {
-        type = types.path;
-        internal = true;
-      };
-    };
   }

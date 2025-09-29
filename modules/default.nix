@@ -5,4 +5,5 @@
   "neovim"
   "hyprland"
   "live_wallpaper"
+  "wallpaper"
 ]
