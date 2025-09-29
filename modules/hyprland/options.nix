@@ -32,18 +32,6 @@ with lib;
         description = "Wether to enable to disable debug logs for hyprland. OBS: should not be kept enabled since the logs may leak important details.";
       };
     };
-    live_wallpaper = {
-      autostart = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enable autostart for live wallpapers.";
-      };
-      default = mkOption {
-        type = with types; nullOr path;
-        default = null;
-        description = "Default live wallpaper to be displayed. Supports many video formats.";
-      };
-    };
     wallpaper = {
       source = mkOption {
         type = types.path;

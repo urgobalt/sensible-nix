@@ -4,4 +4,5 @@
   "secrets"
   "neovim"
   "hyprland"
+  "live_wallpaper"
 ]
