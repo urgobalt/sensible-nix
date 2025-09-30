@@ -6,7 +6,7 @@
   ...
 }: let
   f = feature: res:
-    if builtins.elem feature config.sensible.neovim.features
+    if lib.xor config.sensible.neovim.invert_features (builtins.elem feature config.sensible.neovim.features)
     then res
     else [];
 in
@@ -15,12 +15,6 @@ in
     home.home.packages = with pkgs;
       lib.flatten [
         neovim
-
-        lua-language-server
-        stylua
-
-        nil
-        alejandra
 
         emmet-ls
         eslint_d
@@ -39,6 +33,15 @@ in
         (f "tailwindcss" [
           tailwindcss
           tailwindcss-language-server
+        ])
+        (f "c" [clang-tools])
+        (f "lua" [
+          lua-language-server
+          stylua
+        ])
+        (f "nix" [
+          nil
+          alejandra
         ])
       ];
   }

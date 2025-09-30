@@ -27,5 +27,10 @@ with lib;
         default = [];
         description = "Programs used for development in the languages specified.";
       };
+      invert_features = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Invert the features. This means that the features option now exclude features.";
+      };
     };
   }
