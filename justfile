@@ -15,7 +15,7 @@ test:
   #!/usr/bin/env -S bash
   has_failed=0
   for f in ./tests/*/; do
-    gum spin --spinner dot --title "Testing $f..." -- \
+    gum spin --spinner dot --title "Testing $f..." --show-error -- \
       nix flake check $f --all-systems --override-input sensible $PWD
     if [ $? -ne 0 ]; then
       has_failed=1
