@@ -85,32 +85,38 @@ in {
       specialArgs =
         rec {
           inherit hostname user;
-          sensible_config = config:
-            {
-              assertions =
-                if builtins.hasAttr "assertions" config
-                then config.assertions
-                else [];
-              warnings =
-                if builtins.hasAttr "warnings" config
-                then config.warnings
-                else [];
-              home-manager.users.${user} =
+          sensible_config = config: {
+            imports =
+              if builtins.hasAttr "imports" config
+              then config.imports
+              else [];
+            config =
+              {
+                assertions =
+                  if builtins.hasAttr "assertions" config
+                  then config.assertions
+                  else [];
+                warnings =
+                  if builtins.hasAttr "warnings" config
+                  then config.warnings
+                  else [];
+                home-manager.users.${user} =
+                  lib.mkIf config.condition
+                  (
+                    if builtins.hasAttr "home" config
+                    then config.home
+                    else {}
+                  );
+              }
+              // (
                 lib.mkIf config.condition
                 (
-                  if builtins.hasAttr "home" config
-                  then config.home
+                  if builtins.hasAttr "system" config
+                  then config.system
                   else {}
-                );
-            }
-            // (
-              lib.mkIf config.condition
-              (
-                if builtins.hasAttr "system" config
-                then config.system
-                else {}
-              )
-            );
+                )
+              );
+          };
         }
         // system.specialArgs;
     })
