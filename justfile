@@ -27,6 +27,7 @@ test:
   done
 
   if [ $has_failed -ne 0 ]; then
+    echo "tests failed"
     exit 1
   fi
 

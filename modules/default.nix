@@ -1,4 +1,5 @@
 [
+  "browser"
   "direnv"
   "cli"
   "secrets"

@@ -10,7 +10,6 @@
     [
       libGL
       libGLU
-      libevent
       libffi
       libjpeg
       libpng
@@ -57,11 +56,11 @@
     ]);
 in
   pkgs.stdenv.mkDerivation rec {
-    version = "1.10.3b";
+    version = "1.16.2b";
     pname = "zen-browser";
     src = builtins.fetchTarball {
       url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz";
-      sha256 = "sha256:1vrxm5m4pylzhs6bilqswis0klkq7xcriwdkfl7dyv8lq4cafz1p";
+      sha256 = "sha256:12m5ymcm1iwg5jmd4p0cfx15hhv0kfrdqz78arv3lh20n3230ymn";
     };
 
     desktopSrc = ./.;
