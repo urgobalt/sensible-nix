@@ -2,7 +2,8 @@
   config,
   lib,
 }: let
-  terminal = lib.getExe config.sensible.terminal.resolved;
+  modules = config.modules;
+  terminal = lib.getExe config.sensible.terminal;
   browser = lib.getExe config.sensible.browser.package;
   colors = config.lib.stylix.colors;
 in {

@@ -6,8 +6,7 @@
   ...
 }:
 sensible_config {
-  condition = config.sensible.shell.name == "fish";
-  system.sensible.shell.package = lib.mkDefault pkgs.fish;
+  condition = config.sensible.shell.fish.enable;
   home.programs.fish =
     {
       enable = true;
@@ -31,7 +30,7 @@ sensible_config {
           end
 
           ${
-            if config.sensible.sysinfo.name != "none"
+            if config.sensible.sysinfo.sysinfo.package != null
             then ''
               function clear
                 command clear
@@ -43,7 +42,7 @@ sensible_config {
           }
 
           ${
-            if config.sensible.sysinfo.name != "none"
+            if config.sensible.sysinfo.name != null
             then lib.getExe config.sensible.sysinfo.package
             else ""
           }

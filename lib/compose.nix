@@ -29,10 +29,7 @@ in {
   defaultSpecialArgs =
     {
       sensible_option = options: {options.sensible = options;};
-    }
-    // import ./mk_package_selector.nix {
-      lib = lib;
-      config = config;
+      mkPackageSelector = import ./mk_package_selector.nix lib;
     }
     // config.default.specialArgs;
 

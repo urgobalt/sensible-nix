@@ -7,7 +7,7 @@ bash
 */
 ''
   ${
-    if config.sensible.sysinfo.name != "none"
+    if config.sensible.sysinfo.package != null
     then
       /*
       bash
@@ -23,7 +23,7 @@ bash
   }
 
   ${
-    if config.sensible.sysinfo.name != "none"
+    if config.sensible.sysinfo.package != null
     then lib.getExe config.sensible.sysinfo.package
     else ""
   }

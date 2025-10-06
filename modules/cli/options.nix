@@ -1,32 +1,47 @@
 {
   lib,
+  config,
   pkgs,
   sensible_option,
+  mkPackageSelector,
   ...
 }:
+let packageSelector = mkPackageSelector config; in
 with lib;
   sensible_option {
-    shell = {
-      name = mkOption {
-        type = types.enum ["fish" "bash" "zsh"];
-        default = "fish";
-        description = "The default shell that is used by the user.";
-      };
-      package = mkOption {
-        type = types.package;
-        default = pkgs.fish;
-        description = "The default shell package that is used by the user. Automatically set, but overridable.";
+    shell = packageSelector {
+      name = "browser";
+      packages = {
+        fish = {
+          name = "fish";
+          description = "fish shell";
+          package = pkgs.fish;
+        };
+        bash = {
+          name = "bash";
+          description = "bash shell";
+          package = pkgs.bash;
+        };
+        zsh = {
+          name = "zsh";
+          description = "zsh shell";
+          package = pkgs.zsh;
+        };
       };
     };
-    sysinfo = {
-      name = mkOption {
-        type = types.enum ["none" "pfetch" "fastfetch"];
-        default = "none";
-        description = "The system information tool that is automatically called by the shell at init.";
-      };
-      package = mkOption {
-        type = types.package;
-        description = "The default sysinfo package that is used. Automatically set, but overridable.";
+    sysinfo = packageSelector {
+      name = "sysinfo";
+      packages = {
+        pfetch = {
+          name = "pfetch";
+          description = "pfetch sysinfo";
+          package = pkgs.pkgs.pfetch-rs;
+        };
+        fastfetch = {
+          name = "fastfetch";
+          description = "fastfetch sysinfo";
+          package = pkgs.fastfetch;
+        };
       };
     };
     starship = {

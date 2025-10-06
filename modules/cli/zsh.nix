@@ -6,8 +6,7 @@
   ...
 }:
 sensible_config {
-  condition = config.sensible.shell.name == "zsh";
-  system.sensible.shell.package = lib.mkDefault pkgs.zsh;
+  condition =  config.sensible.shell.zsh.enable;
   home.programs.zsh =
     {
       enable = true;
