@@ -30,6 +30,10 @@ in {
     {
       sensible_option = options: {options.sensible = options;};
     }
+    // import ./mk_package_selector.nix {
+      lib = lib;
+      config = config;
+    }
     // config.default.specialArgs;
 
   systems =
