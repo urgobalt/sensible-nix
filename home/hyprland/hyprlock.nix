@@ -124,16 +124,16 @@ in {
       halign = "center";
       valign = "center";
     }
-    {
-      monitor = "";
-      text = "cmd[update:60000] echo \"$(sh ${./uptimeNixOS.sh})\"";
-      font_size = 10;
-      position = "0, 5";
-      halign = "center";
-      valign = "bottom";
-      color = colors.text;
-      font_family = defaultLabelFont;
-    }
+    # {
+    #   monitor = "";
+    #   text = "cmd[update:60000] echo \"$(sh ${./uptimeNixOS.sh})\"";
+    #   font_size = 10;
+    #   position = "0, 5";
+    #   halign = "center";
+    #   valign = "bottom";
+    #   color = colors.text;
+    #   font_family = defaultLabelFont;
+    # }
   ];
 
   # image = {

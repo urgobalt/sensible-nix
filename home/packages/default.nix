@@ -45,7 +45,7 @@ in {
 
       # Utils
       speedtest-rs
-      ripgrep
+      unstable.ripgrep
 
       # Databases
       sqlite

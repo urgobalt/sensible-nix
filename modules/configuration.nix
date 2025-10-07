@@ -5,6 +5,7 @@
   pkgs,
   ssh,
   full-name,
+  nixpkgs-unstable,
   ...
 }: {
   environment.defaultPackages = [];
@@ -19,7 +20,7 @@
     home = "/home/${user}";
     createHome = true;
     description = full-name;
-    extraGroups = ["audio" "video" "render" "wheel" "networkmanager"];
+    extraGroups = ["audio" "video" "render" "wheel" "networkmanager" "dialout"];
     shell = config.modules.shell;
     openssh.authorizedKeys.keys = ssh.users;
   };
@@ -79,6 +80,7 @@
     settings.allowed-users = [user];
     settings.experimental-features = ["nix-command" "flakes"];
     settings.keep-outputs = false;
+    registry.unstable.flake = nixpkgs-unstable;
     gc = {
       automatic = true;
       dates = "weekly";
@@ -166,7 +168,7 @@
       {
         enable = true;
         extraPackages = with pkgs; [
-          vaapiVdpau
+          libva-vdpau-driver
           libvdpau-va-gl
         ];
       }
@@ -206,7 +208,7 @@
         package = pkgs.source-code-pro;
       };
       emoji = {
-        package = pkgs.noto-fonts-emoji;
+        package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
     };

@@ -134,7 +134,7 @@ in
     specialArgs =
       {
         inherit lib user full-name wallpaper colors;
-        inherit (inputs) agenix;
+        inherit (inputs) agenix nixpkgs-unstable;
         ssh = import sshPath;
       }
       // specialArgs;

@@ -13,7 +13,7 @@ in {
   # "eww daemon" "eww open bar"
   exec-once =
     lib.optionals modules.hyprland.hyprlock.auto_start ["hyprlock || hyprctl dispatch exit"]
-    ++ ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"]
+    ++ ["wlsunset -l -23 -L -46" "hyprkool daemon" "wl-paste --watch cliphist store"]
     ++ lib.optionals modules.eww.enable ["eww daemon" "eww open bar"]
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
@@ -230,6 +230,9 @@ in {
     # Volume
     ",XF86AudioRaiseVolume,exec,pamixer -i 5"
     ",XF86AudioLowerVolume,exec,pamixer -d 5"
+    ",XF86AudioNext,exec,playerctl next"
+    ",XF86AudioPrev,exec,playerctl previous"
+    ",XF86AudioPlay,exec,playerctl play-pause"
   ];
   bindm = [
     # Floating windows movement and resize

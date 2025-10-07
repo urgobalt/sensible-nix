@@ -11,8 +11,6 @@
   wayland,
   libxkbcommon,
   libinput,
-  xwayland,
-  xorg,
   libGL,
   hyprlang,
   hyprland-protocols,
@@ -22,18 +20,18 @@
 }:
 pkgs.unstable.rustPlatform.buildRustPackage rec {
   pname = "hyprkool";
-  version = "1caf6fb7d7364bc79a0f863dbccdda6db8455203";
+  version = "0.9.2";
 
   src = fetchFromGitHub {
     owner = "thrombe";
     repo = "hyprkool";
     rev = version;
-    sha256 = "sha256-9Cb86YzSlHVSwmwYwhQCMX0xNQLZbPY7zx9RPfBWjY4=";
+    sha256 = "sha256-/u8YzjgiagERZhFa9eDvR7Z61913K/RZnpt/r3/4OfI=";
   };
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
     outputHashes = {
-      "hyprland-0.4.0-alpha.3" = "sha256-dUJOOQeh1iBC3W2DWmaHdbs9DnufeZzMOdrrhPFHf70=";
+      "hyprland-0.4.0-beta.2" = "sha256-Vvpb5BzzTjol6UmJjkqymLlARr4gRJaS5k4aONNlcsk=";
     };
   };
   buildInputs = [

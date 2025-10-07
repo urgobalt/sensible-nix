@@ -4,17 +4,16 @@ export GUM_CONFIRM_SELECTED_BACKGROUND := "#4b7c7b"
 export GUM_CONFIRM_UNSELECTED_BACKGROUND := "#2c4d4e"
 
 default:
-  just require-sudo -- nixos-rebuild switch --fast --override-input sensible-nix $PWD --show-trace
+  just require-sudo -- nixos-rebuild switch  --override-input sensible-nix $PWD
 
 reboot:
-  just require-sudo -- nixos-rebuild boot --fast --override-input sensible-nix $PWD --show-trace && reboot
+  just require-sudo -- nixos-rebuild boot  --override-input sensible-nix $PWD && reboot
 
 boot:
-  just require-sudo -- nixos-rebuild boot --fast --override-input sensible-nix $PWD --show-trace
+  just require-sudo -- nixos-rebuild boot  --override-input sensible-nix $PWD
 
 upgrade:
-  just require-sudo -- nixos-rebuild switch --fast --override-input sensible-nix $PWD --show-trace --upgrade
-  just require-sudo -- nixos-rebuild boot --fast --override-input sensible-nix $PWD --show-trace && reboot
+  just require-sudo -- nixos-rebuild switch  --override-input sensible-nix $PWD --upgrade
 
 check:
   nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace

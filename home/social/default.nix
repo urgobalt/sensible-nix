@@ -14,8 +14,6 @@ in {
     home.packages = with pkgs; [
       unstable.discord
       unstable.discord-canary
-      webcord
-      whatsapp-for-linux
     ];
   };
 }

@@ -65,7 +65,7 @@ in {
       auto_start = mkOption {
         description = "autostart live wallpaper using mpvpaper";
         type = types.bool;
-        default = true;
+        default = false;
       };
       monitors = mkOption {
         type = types.listOf types.str;
@@ -120,7 +120,6 @@ in {
     };
   };
   config = mkIf cfg.enable (
-
     mkMerge [
       (mkIf (cfg.hypridle.enable) {
         services.hypridle = {
@@ -158,6 +157,7 @@ in {
             hyprpicker
             grimblast
             hypr-zoom
+            playerctl
           ]
           ++ lib.optionals cfg.live_wallpaper.enable [
             zenity
