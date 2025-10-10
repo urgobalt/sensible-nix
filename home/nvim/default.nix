@@ -48,7 +48,10 @@ in {
       htmx-lsp
       vscode-langservers-extracted
       emmet-ls
+      texlab
 
+      # pdf viewer for texlab
+      zathura
       # Linters
       eslint_d
 

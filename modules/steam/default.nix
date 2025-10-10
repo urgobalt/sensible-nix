@@ -19,9 +19,16 @@ in {
       default = false;
       description = "enable gamemode";
     };
+
+    gamescope = mkOption {
+      type = types.bool;
+      default = false;
+      description = "enable gamescope";
+    };
   };
   config = mkIf cfg.enable {
     programs.gamemode.enable = cfg.gamemode;
+    programs.gamescope.enable = cfg.gamescope;
     programs.steam = {
       enable = true;
       extraCompatPackages = cfg.extraPackages;

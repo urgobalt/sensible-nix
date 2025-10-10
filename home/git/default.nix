@@ -19,9 +19,7 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = full-name;
-      userEmail = email;
-      extraConfig = {
+      settings = {
         core = {
           editor = "nvim";
           fsmonitor = true;
@@ -37,8 +35,12 @@ in {
         branch.sort = "-committerdate";
         fetch.writeCommitGraph = true;
       };
-      aliases = {
-        fp = "push --force-with-lease";
+      settings = {
+        user.name = full-name;
+        user.email = email;
+        aliases = {
+          fp = "push --force-with-lease";
+        };
       };
     };
   };
