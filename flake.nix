@@ -2,7 +2,7 @@
   description = "The entrypoint to the system configuration";
   inputs = {
     # System
-    nixpkgs.url = "github:nixos/nixpkgs?ref=38249382085a00f4ee71d6368e3ac64522f204cc";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     systems = {
       url = "github:nix-systems/default";

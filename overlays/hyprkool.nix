@@ -20,18 +20,19 @@
 }:
 pkgs.unstable.rustPlatform.buildRustPackage rec {
   pname = "hyprkool";
-  version = "0.9.2";
+  version = "v0.9.3";
 
   src = fetchFromGitHub {
-    owner = "thrombe";
-    repo = "hyprkool";
+    owner = "barbariand";
+    repo = "hyprspree";
     rev = version;
-    sha256 = "sha256-/u8YzjgiagERZhFa9eDvR7Z61913K/RZnpt/r3/4OfI=";
+    sha256 = "sha256-tzb4RphGvqbfqZDmGIt32kj7KTQ24egO2qopJeICbu4=";
   };
   cargoLock = {
     lockFile = "${src}/Cargo.lock";
+
     outputHashes = {
-      "hyprland-0.4.0-beta.2" = "sha256-Vvpb5BzzTjol6UmJjkqymLlARr4gRJaS5k4aONNlcsk=";
+      "hyprland-0.4.0-beta.3" = "sha256-DU+WQaEUg8QdIK4x9Zr55whuk8a4UPPHwGYwwZn7gyg=";
     };
   };
   buildInputs = [
@@ -51,13 +52,6 @@ pkgs.unstable.rustPlatform.buildRustPackage rec {
     hyprland-protocols
     cairo
     aquamarine
-    # xorg.libXcursor
-    # xorg.libxcb
-    # xorg.libXdmcp
-    # xorg.xcbutilerrors
-    # xorg.xcbutilrenderutil
-    # xorg.xcbutilwm
-    # xwayland
   ];
   nativeBuildInputs = with pkgs; [
     pkg-config
