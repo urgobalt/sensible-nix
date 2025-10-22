@@ -10,4 +10,5 @@ _final: prev: {
   sddm-glassy = prev.callPackage ./sddm-glassy {};
   regreet = prev.callPackage ./regreet.nix {};
   hypr-zoom = prev.callPackage ./hypr-zoom.nix {};
+  foamshot = prev.callPackage ./foamshot.nix {};
 }
