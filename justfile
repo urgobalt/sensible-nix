@@ -1,7 +1,8 @@
-set unstable := true
-set dotenv-load := true
+set unstable
+set dotenv-load
+set positional-arguments
 set shell := ["bash", "-uc"]
-
+set script-interpreter := ["shell", "--norc", "--"]
 export GUM_SPIN_SPINNER_FOREGROUND := "#D6B97F"
 
 builder := "nh os"
