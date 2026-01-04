@@ -16,5 +16,5 @@ sensible_config {
       shellInit = import ./posix_init.nix {inherit config lib;};
     }
     // import ./general_shell_options.nix;
-  home.home.packages = import ./packages.nix pkgs;
+  # home.home.packages = import ./packages.nix pkgs;
 }

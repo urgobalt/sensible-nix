@@ -67,7 +67,7 @@ in
 
     phases = ["installPhase" "fixupPhase"];
 
-    nativeBuildInputs = [pkgs.makeWrapper pkgs.copyDesktopItems pkgs.wrapGAppsHook];
+    nativeBuildInputs = [pkgs.makeWrapper pkgs.copyDesktopItems pkgs.wrapGAppsHook3];
 
     installPhase = ''
       mkdir -p $out/bin && cp -r $src/* $out/bin

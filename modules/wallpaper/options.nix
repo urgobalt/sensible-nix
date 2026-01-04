@@ -7,7 +7,7 @@ with lib;
   sensible_option {
     wallpaper = {
       source = mkOption {
-        type = with types; nullor path;
+        type = with types; nullOr path;
         default = null;
         description = "Wallpaper used in graphical environments";
       };

@@ -62,6 +62,7 @@
           jq
           m4
           alejandra
+          nix-doc
         ];
       };
     });

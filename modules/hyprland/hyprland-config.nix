@@ -2,12 +2,11 @@
   config,
   lib,
 }: let
-  modules = config.modules;
-  terminal = lib.getExe config.sensible.terminal;
-  browser = lib.getExe config.sensible.browser;
+  terminal = lib.getExe config.sensible.terminal.resolved;
+  browser = lib.getExe config.sensible.browser.package;
   colors = config.lib.stylix.colors;
 in {
-  monitor = config.sensible.monitors ++ lib.optionals modules.eww.enable [",addreserved,40,0,0,0"];
+  monitor = config.sensible.monitors;
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
   exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"] ++ config.sensible.hyprland.exec-once;
@@ -24,7 +23,9 @@ in {
     "ignorezero, rofi"
     "noanim, rofi"
   ];
-  env = ["HYPRCURSOR_THEME,${config.sensible.cursor.name}" "HYPRCURSOR_SIZE,${builtins.toString config.sensible.cursor.size}"];
+  # TODO: allow for setting a custom cursor using the rewrite
+  #
+  # env = ["HYPRCURSOR_THEME,${config.sensible.cursor.name}" "HYPRCURSOR_SIZE,${builtins.toString config.sensible.cursor.size}"];
   input = {
     follow_mouse = 2;
     kb_layout = "se";
@@ -35,12 +36,10 @@ in {
     special_fallthrough = true;
   };
   general = {
-    layout = config.hyprland.layout;
+    layout = config.sensible.hyprland.layout;
     gaps_in = 5;
     gaps_out = "0,20,20,20";
     border_size = 1;
-    "col.active_border" = "0x00000000";
-    "col.inactive_border" = "0x00000000";
     resize_on_border = false;
 
     snap = {
@@ -64,7 +63,6 @@ in {
     shadow = {
       enabled = "false";
       range = 30;
-      color = "0x66000000";
     };
     inactive_opacity = 0.95;
     active_opacity = 0.95;
@@ -94,7 +92,7 @@ in {
     disable_hyprland_logo = true;
     exit_window_retains_fullscreen = true;
     enable_swallow = true;
-    swallow_regex = "${lib.strings.getName config.sensible.terminal}";
+    swallow_regex = "${lib.strings.getName config.sensible.terminal.resolved}";
   };
   animations = {
     enabled = 1;

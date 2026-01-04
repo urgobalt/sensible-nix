@@ -11,7 +11,7 @@ sensible_config {
   home.programs.fish =
     {
       enable = true;
-      package = config.system.sensible.shell.package;
+      package = config.sensible.shell.package;
 
       shellInit =
         /*
@@ -50,5 +50,5 @@ sensible_config {
         '';
     }
     // import ./general_shell_options.nix;
-  home.home.packages = import ./packages.nix pkgs;
+  # home.home.packages = import ./packages.nix pkgs;
 }

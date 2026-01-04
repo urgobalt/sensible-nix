@@ -1,6 +1,8 @@
+# TODO: Figure out why mkforce is required on colors
 {
   config,
   lib,
+  user,
 }: let
   #  _                      _            _
   # | |__  _   _ _ __  _ __| | ___   ___| | __
@@ -38,16 +40,16 @@ in {
     dots_spacing = 0.15;
     dots_center = true;
     dots_rounding = -1;
-    outer_color = colors.base00;
-    inner_color = colors.base05;
-    font_color = colors.base04;
+    outer_color = lib.mkForce colors.base00;
+    inner_color = lib.mkForce colors.base05;
+    font_color = lib.mkForce colors.base04;
     fade_on_empty = true;
     fade_timeout = 1000;
     placeholder_text = "<i>Input Password...</i>";
     hide_input = false;
     rounding = 40;
-    check_color = colors.base0D;
-    fail_color = colors.base08;
+    check_color = lib.mkForce colors.base0D;
+    fail_color = lib.mkForce colors.base08;
     fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
     capslock_color = -1; # this needs to look better
     numlock_color = -1;
@@ -96,7 +98,7 @@ in {
     }
     {
       monitor = "";
-      text = "  ${config.home.username}";
+      text = "  ${user}";
       font_size = 24;
       position = "0, 20";
       halign = "center";
@@ -114,19 +116,19 @@ in {
       color = colors.base05;
       font_family = defaultLabelFont;
     }
-    {
-      monitor = "";
-      text = "cmd[update:60000] echo \"<b> \"$(sh ${./uptimeNixOS.sh})\" </b>\"";
-      font_size = 24;
-      position = "0, -200";
-      halign = "center";
-      valign = "center";
-      color = colors.base05;
-      font_family = defaultLabelFont;
-    }
+    # {
+    #   monitor = "";
+    #   text = "cmd[update:60000] echo \"<b> \"$(sh ${./uptimeNixOS.sh})\" </b>\"";
+    #   font_size = 24;
+    #   position = "0, -200";
+    #   halign = "center";
+    #   valign = "center";
+    #   color = colors.base05;
+    #   font_family = defaultLabelFont;
+    # }
   ];
 
-  image = {
+  image = lib.mkIf (config.sensible.wallpaper.source != null) {
     monitor = "";
     path = config.sensible.wallpaper.resolved;
     size = 280;

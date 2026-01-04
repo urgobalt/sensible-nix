@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  self,
   nixpkgs-unstable,
   home-manager,
   stylix,
@@ -14,11 +13,10 @@
     if primary == null
     then secondary
     else primary;
-  units = lib.flatten (map (name: ["${self.outPath}/modules/${name}/unit.nix" "${self.outPath}/modules/${name}/options.nix"]) (import ../modules));
+  units = lib.flatten (map (name: [(../. + "/modules/${name}/unit.nix") (../. + "/modules/${name}/options.nix")]) (import ../modules));
 in {
   defaultModules =
     lib.flatten [
-      ../configuration.nix
       home-manager.nixosModules.home-manager
 
       stylix.nixosModules.stylix
@@ -65,6 +63,7 @@ in {
                   };
                 };
               })
+              (import ../overlays)
             ];
             config = {
               allowUnfree = true;
@@ -85,38 +84,7 @@ in {
       specialArgs =
         rec {
           inherit hostname user;
-          sensible_config = config: {
-            imports =
-              if builtins.hasAttr "imports" config
-              then config.imports
-              else [];
-            config =
-              {
-                assertions =
-                  if builtins.hasAttr "assertions" config
-                  then config.assertions
-                  else [];
-                warnings =
-                  if builtins.hasAttr "warnings" config
-                  then config.warnings
-                  else [];
-                home-manager.users.${user} =
-                  lib.mkIf config.condition
-                  (
-                    if builtins.hasAttr "home" config
-                    then config.home
-                    else {}
-                  );
-              }
-              // (
-                lib.mkIf config.condition
-                (
-                  if builtins.hasAttr "system" config
-                  then config.system
-                  else {}
-                )
-              );
-          };
+          sensible_config = import ./sensible_config.nix lib user;
         }
         // system.specialArgs;
     })

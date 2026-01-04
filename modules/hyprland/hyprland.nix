@@ -1,23 +1,19 @@
 {
-  pkgs,
   lib,
   config,
   sensible_config,
+  user,
   ...
 }:
 sensible_config {
   condition = config.sensible.hyprland.enable == true;
-  system = {
-    warnings = lib.optional (config.sensible.wallpaper.resolved == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviour since the wallpaper is used in multiple different places.";
-  };
+  warnings = lib.optional (config.sensible.wallpaper.source == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviour since the wallpaper is used in multiple different places.";
+  system.sensible.graphical_environment = true;
   home = {
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.variables = ["--all"];
       xwayland.enable = true;
-      plugins = with pkgs; [
-        hyprkool
-      ];
       settings = import ./hyprland-config.nix {
         inherit config lib;
       };
@@ -26,12 +22,12 @@ sensible_config {
     programs.hyprlock = {
       enable = true;
       settings = import ./hyprlock.nix {
-        inherit lib config;
+        inherit lib config user;
       };
     };
 
     services.hypridle.enable = true;
-    services.hyprpaper = {
+    services.hyprpaper = lib.mkIf (config.sensible.wallpaper.source != null) {
       enable = true;
       settings = {
         ipc = "on";

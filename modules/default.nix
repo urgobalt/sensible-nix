@@ -1,4 +1,5 @@
 [
+  "default"
   "browser"
   "direnv"
   "cli"
@@ -7,4 +8,5 @@
   "hyprland"
   "live_wallpaper"
   "wallpaper"
+  "terminal"
 ]

@@ -33,10 +33,10 @@
           };
         };
         default = mkOption {
-          type = types.enum (map (p: p.${0}) packages);
+          type = types.enum (map (p: builtins.elemAt p 0) packages);
           default =
             if (length packages > 0)
-            then (head packages).${0}
+            then builtins.elemAt (head packages) 0
             else null;
           description = "The default to use.";
         };
@@ -44,7 +44,6 @@
         package = mkOption {
           type = types.package;
           internal = true;
-          readOnly = true;
           default =
             config.sensible.browser.${config.sensible.browser.default}.package;
         };
