@@ -1,0 +1,58 @@
+{}:
+/*
+nix
+*/
+"# remove default mappings
+map kitty_mod+t no_op
+map esc no_op
+# font mappings
+map ctrl+plus change_font_size all +2.0
+map ctrl+minus change_font_size all -2.0
+map ctrl+0 change_font_size all 10
+# duplicate the current window
+map ctrl+shift+d launch --type=os-window --cwd=current --copy-env
+
+# remove the confirmation when running a child window
+confirm_os_window_close 0
+
+# rasmus colorscheme for kitty using stylix instead
+# cursor #b6b6b5
+# foreground #d1d1d1
+# background #1a1a19
+# selection_foreground #d1d1d1
+# selection_background #2a2a29
+# color0  #333332
+# color8  #4c4c4b
+# color1  #ff968c
+# color9  #ffafa5
+# color2  #61957f
+# color10 #7aae98
+# color3  #ffc591
+# color11 #ffdeaa
+# color4  #8db4d4
+# color12 #a6cded
+# color5  #de9bc8
+# color13 #f7b4e1
+# color6  #7bb099
+# color14 #94c9b2
+# color7  #d1d1d1
+# color15 #eaeaea
+#
+# active_tab_foreground   #d1d1d1
+# active_tab_background   #323231
+# inactive_tab_foreground #b6b6b5
+# inactive_tab_background #222221
+#
+# active_border_color   #3a3a39
+# inactive_border_color #323231
+# inactive_text_alpha   0.8
+
+# padding
+window_padding_width 15
+
+# opacity
+background_opacity 0.95
+
+# font
+font_size 10.0
+"

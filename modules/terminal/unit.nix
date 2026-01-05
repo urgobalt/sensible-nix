@@ -10,3 +10,10 @@ sensible_config {
     sensible.terminal.resolved = pkgs.kitty;
   };
 }
+{
+  imports = [
+    ./ghostty.nix
+    ./kitty.nix
+    ./wezterm.nix
+  ];
+}
