@@ -7,13 +7,13 @@
 }:
 sensible_config {
   condition = config.sensible.shell.bash.enable;
-  home.programs.bash =
+  home.programs.zsh =
     {
       enable = true;
-      package = config.system.sensible.shell.bash.package;
+      package = config.system.sensible.shell.package;
 
-      shellInit = import ../posix_init.nix {inherit config lib;};
+      shellInit = import ./posix_init.nix {inherit config lib;};
     }
-    // import ../general_shell_options.nix;
-  home.home.packages = import ./packages.nix pkgs;
+    // import ./general_shell_options.nix;
+  # home.home.packages = import ./packages.nix pkgs;
 }
