@@ -9,8 +9,6 @@ sensible_config {
   system = {
     sensible.terminal.resolved = pkgs.kitty;
   };
-}
-{
   imports = [
     ./ghostty.nix
     ./kitty.nix

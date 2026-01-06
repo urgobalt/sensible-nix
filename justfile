@@ -45,7 +45,7 @@ test: prepare_tests
 [script]
 test_entry path name=file_stem(path):
     gum spin --spinner dot --title "Testing {{ name }}..." --show-error -- \
-      {{ builder }} build-vm {{ path }} --hostname {{test_hostname}} -o {{ path / f"result" }} -d never -- {{ override_input }}
+      {{ builder }} build-vm {{ path }} --hostname {{test_hostname}} -o {{ path / f"result" }} -d never -- {{ override_input }} --show-trace
 
     if [ $? -eq 0 ]; then
       echo "Testing {{ name }}...{{ GREEN }} ok{{ NORMAL }}"
