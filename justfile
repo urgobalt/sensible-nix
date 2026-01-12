@@ -37,6 +37,14 @@ check path=default_configuration_path:
 repl path=default_configuration_path:
     nix repl {{ path }}#nixosConfigurations."{{ shell("hostname") }}" {{ override_input }}
 
+[group("development")]
+tags:
+    nix-doc tags
+
+[group("development")]
+search_symbol regex:
+    nix-doc search "{{regex}}"
+
 [group("testing")]
 test: prepare_tests
     echo {{ test_src }} | xargs -n 1 just test_entry
