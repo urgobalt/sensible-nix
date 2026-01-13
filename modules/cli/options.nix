@@ -3,10 +3,10 @@
   config,
   pkgs,
   sensible_option,
-  mkPackageSelector,
+  sensibleLib,
   ...
 }: let
-  packageSelector = mkPackageSelector config;
+  packageSelector = sensibleLib.mkPackageSelector config;
 in
   with lib;
     sensible_option {

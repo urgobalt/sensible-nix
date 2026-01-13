@@ -2,10 +2,10 @@
   pkgs,
   config,
   lib,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.shell.bash.enable;
   home.programs.zsh =
     {

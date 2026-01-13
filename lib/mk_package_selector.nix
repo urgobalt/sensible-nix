@@ -53,7 +53,6 @@ lib: config: {
       package = lib.mkOption {
         type = with lib.types; nullOr package;
         internal = true;
-        readOnly = true;
         default =
           if cfg.default != null && cfg.${cfg.default}.enable
           then cfg.${cfg.default}.package

@@ -1,11 +1,11 @@
 {
   lib,
   config,
-  sensible_config,
+  sensibleLib,
   user,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.hyprland.enable == true;
   warnings = lib.optional (config.sensible.wallpaper.source == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviour since the wallpaper is used in multiple different places.";
   system.sensible.graphical_environment = true;

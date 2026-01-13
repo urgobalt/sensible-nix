@@ -7,5 +7,8 @@ _final: prev: {
   sddm-glassy = prev.callPackage ./sddm-glassy {};
   regreet = prev.callPackage ./regreet.nix {};
   hypr-zoom = prev.callPackage ./hypr-zoom.nix {};
-  shell = prev.callPackage ./shell.nix {};
+  # BUG: The following package works when directly calling from devshell but
+  # results in an error
+  # error: function 'anonymous lambda' called with unexpected argument 'nativeBuildInputs'
+  # shell = prev.callPackage ./shell.nix {};
 }

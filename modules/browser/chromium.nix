@@ -1,9 +1,9 @@
 {
   config,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.browser.chromium.enable;
   home = {
     packages = [config.sensible.browser.chromium.package];

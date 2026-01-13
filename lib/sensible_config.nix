@@ -1,30 +1,18 @@
-lib: user: config: {
-  imports =
-    if builtins.hasAttr "imports" config
-    then config.imports
-    else [];
+lib: user: unit: let
+  optionalWithDefault = default: name:
+    if builtins.hasAttr name unit
+    then unit.${name}
+    else default;
+  optional = optionalWithDefault {};
+  optionals = optionalWithDefault [];
+in {
+  imports = optionals "imports";
   config =
-    lib.mkIf config.condition
-    ({
-        assertions =
-          if builtins.hasAttr "assertions" config
-          then config.assertions
-          else [];
-        warnings =
-          if builtins.hasAttr "warnings" config
-          then config.warnings
-          else [];
-        home-manager.users.${user} =
-          lib.mkIf config.condition
-          (
-            if builtins.hasAttr "home" config
-            then config.home
-            else {}
-          );
-      }
-      // (
-        if builtins.hasAttr "system" config
-        then config.system
-        else {}
-      ));
+    lib.mkIf unit.condition
+    <| {
+      assertions = optionals "assertions";
+      warnings = optionals "warnings";
+      home-manager.users.${user} = lib.mkIf unit.condition <| optional "home";
+    }
+    // optional "system";
 }

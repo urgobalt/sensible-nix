@@ -29,7 +29,6 @@ in {
   defaultSpecialArgs =
     {
       sensible_option = options: {options.sensible = options;};
-      mkPackageSelector = import ./mk_package_selector.nix lib;
     }
     // config.default.specialArgs;
 
@@ -85,7 +84,7 @@ in {
       specialArgs =
         rec {
           inherit hostname user;
-          sensible_config = import ./sensible_config.nix lib user;
+          sensibleLib = import ./lib.nix {inherit lib user;};
         }
         // system.specialArgs;
     })

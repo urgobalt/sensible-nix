@@ -1,12 +1,12 @@
 {
   pkgs,
   sensible_option,
-  mkPackageSelector,
+  sensibleLib,
   config,
   ...
 }:
 sensible_option {
-  terminal = mkPackageSelector config {
+  terminal = sensibleLib.mkPackageSelector config {
     name = "terminal";
 
     packages = {

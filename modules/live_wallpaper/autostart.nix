@@ -2,10 +2,10 @@
   config,
   pkgs,
   lib,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.live_wallpaper.autostart;
   home = {
     packages = [pkgs.mpvpaper];
