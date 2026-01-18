@@ -8,6 +8,7 @@
 sensible_option {
   terminal = sensibleLib.mkPackageSelector config {
     name = "terminal";
+    enableDefault = true;
 
     packages = {
       ghostty = {
@@ -27,5 +28,4 @@ sensible_option {
       };
     };
   };
-
 }

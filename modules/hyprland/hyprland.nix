@@ -15,7 +15,7 @@ sensibleLib.sensibleConfig {
       systemd.variables = ["--all"];
       xwayland.enable = true;
       settings = import ./hyprland-config.nix {
-        inherit config lib;
+        inherit config lib sensibleLib;
       };
     };
 

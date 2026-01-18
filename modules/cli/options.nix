@@ -12,6 +12,7 @@ in
     sensible_option {
       shell = packageSelector {
         name = "shell";
+        enableDefault = true;
         packages = {
           fish = {
             name = "fish";

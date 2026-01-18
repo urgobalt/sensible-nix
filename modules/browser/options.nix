@@ -8,6 +8,7 @@
 sensible_option {
   browser = sensibleLib.mkPackageSelector config {
     name = "browser";
+    enableDefault = true;
     packages = {
       zen = {
         name = "zen";

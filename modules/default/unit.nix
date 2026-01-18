@@ -19,7 +19,7 @@
     home = "/home/${user}";
     createHome = true;
     extraGroups = ["audio" "wheel" "networkmanager"];
-    shell = config.sensible.shell.package;
+    shell = config.sensible.shell.default.package;
     ignoreShellProgramCheck = true;
     # openssh.authorizedKeys.keys = ssh.users;
   };

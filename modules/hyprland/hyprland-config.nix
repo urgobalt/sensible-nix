@@ -1,12 +1,11 @@
 {
   config,
   lib,
-} @ inputs: let
-  default = import ./hyprland-default.nix inputs;
-  # TODO: Ensure that package is not null
-  terminal = lib.getExe config.sensible.terminal.package;
-  # TODO: Ensure that package is not null
-  browser = lib.getExe config.sensible.browser.package;
+  sensibleLib,
+}: let
+  default = import ./hyprland-default.nix {inherit config lib;};
+  terminal = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.terminal;
+  browser = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.browser;
   colors = config.lib.stylix.colors;
 in {
   monitor = config.sensible.monitors;
@@ -57,7 +56,7 @@ in {
     disable_hyprland_logo = true;
     exit_window_retains_fullscreen = true;
     enable_swallow = true;
-    swallow_regex = "${lib.strings.getName terminal}";
+    swallow_regex = "${lib.strings.getName <| sensibleLib.getDefaultPackage config.sensible.terminal}";
   };
   animations = {
     enabled = 1;
