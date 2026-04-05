@@ -13,7 +13,7 @@
   host-base ? "${outPath}/hosts",
   sshPath ? "${outPath}/ssh.nix",
   ...
-}: hostname: {
+} @ args: hostname: {
   system,
   extraModules ? [],
   specialArgs ? {},
@@ -72,21 +72,24 @@ in
         {
           nixpkgs = {
             config.allowUnfree = true;
-            overlays = [
-              (final: prev: {
-                nur = import inputs.nur {
-                  nurpkgs = prev;
-                  pkgs = prev;
-                };
-              })
-              (final: prev: {
-                unstable = import inputs.nixpkgs-unstable {
-                  system = system;
-                  config.allowUnfree = true;
-                };
-              })
-              (import ./overlays)
-            ];
+            overlays =
+              (args.extraOverlays or [])
+              ++ [
+                (final: prev: {
+                  nur = import inputs.nur {
+                    nurpkgs = prev;
+                    pkgs = prev;
+                  };
+                })
+                (final: prev: {
+                  unstable = import inputs.nixpkgs-unstable {
+                    system = system;
+                    config.allowUnfree = true;
+                    overlays = (final.overlays or []) ++ (args.extraUnstableOverlays or []);
+                  };
+                })
+                (import ./overlays)
+              ];
             config = {
               allowUnfreePredicate = pkg:
                 builtins.elem (nixpkgs.lib.getName pkg) [
