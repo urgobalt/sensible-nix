@@ -4,16 +4,16 @@ export GUM_CONFIRM_SELECTED_BACKGROUND := "#4b7c7b"
 export GUM_CONFIRM_UNSELECTED_BACKGROUND := "#2c4d4e"
 
 default:
-  just require-sudo -- nixos-rebuild switch  --override-input sensible-nix $PWD
+  nh os switch -- --override-input sensible-nix $PWD
 
 reboot:
-  just require-sudo -- nixos-rebuild boot  --override-input sensible-nix $PWD && reboot
+  nh os boot -- --override-input sensible-nix $PWD && reboot
 
 boot:
-  just require-sudo -- nixos-rebuild boot  --override-input sensible-nix $PWD
+  nh os boot --  --override-input sensible-nix $PWD
 
 upgrade:
-  just require-sudo -- nixos-rebuild switch  --override-input sensible-nix $PWD --upgrade
+  nh os switch --  --override-input sensible-nix $PWD --upgrade
 
 check:
   nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace
@@ -25,14 +25,3 @@ eww: default
 
 hyprland: default
   hyprctl reload
-
-require-sudo *args="":
-  #!/usr/bin/env -S bash
-  if [ $EUID -ne 0 ]; then
-    gum confirm "This command require sudo, do you want to proceed?"
-    if [ $? -eq 0 ]; then
-      sudo $@
-      exit 0
-    fi
-  fi
-

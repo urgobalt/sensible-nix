@@ -9,11 +9,20 @@ with lib; let
 in {
   options.modules.social = {
     enable = mkEnableOption "social";
+    useVesktop = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Use vesktop instead of standard Discord";
+    };
   };
+
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      unstable.discord
-      unstable.discord-canary
-    ];
+    # If not using vesktop, permit discord
+    nixpkgs.config.permittedInsecurePackages = optional (!cfg.useVesktop) "discord";
+
+    home.packages = 
+      if cfg.useVesktop 
+      then [ pkgs.unstable.vesktop ]
+      else [ pkgs.discord ];
   };
 }

@@ -28,7 +28,6 @@ in {
       zig
 
       # Erlang
-      gleam
       erlang
       rebar3
       elixir
