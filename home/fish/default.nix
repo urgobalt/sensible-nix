@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  colors,
   ...
 }: let
   cfg = config.modules.fish;
@@ -8,8 +9,8 @@
   fastfetch = config.modules.fastfetch.enable;
 in {
   options.modules.fish = {enable = lib.mkEnableOption "fish";};
-
   config = lib.mkIf cfg.enable {
+    stylix.targets.fish.enable = true;
     programs.fish = {
       enable = true;
 
@@ -41,9 +42,6 @@ in {
           function take
             mkdir -p $argv && cd $argv
           end
-
-
-          fish_config theme choose Nord
         ''
         (lib.strings.optionalString
           fastfetch

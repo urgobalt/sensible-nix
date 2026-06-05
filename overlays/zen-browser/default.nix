@@ -43,7 +43,7 @@
       libglvnd
       pipewire
     ]
-    ++ (with pkgs.xorg; [
+    ++ (with pkgs; [
       libxcb
       libX11
       libXcursor

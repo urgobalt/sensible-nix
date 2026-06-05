@@ -41,6 +41,7 @@ in {
         desktop = "$HOME/other";
         publicShare = "$HOME/other";
         templates = "$HOME/other";
+        setSessionVariables = false;
       };
       mime.enable = true;
       mimeApps = {

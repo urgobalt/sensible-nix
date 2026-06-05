@@ -9,8 +9,6 @@
   browser = lib.getExe cfg.browser;
 in {
   monitor = cfg.monitors ++ lib.optionals modules.eww.enable [",addreserved,40,0,0,0"];
-  # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
-  # "eww daemon" "eww open bar"
   exec-once =
     lib.optionals modules.hyprland.hyprlock.auto_start ["hyprlock || hyprctl dispatch exit"]
     ++ ["wlsunset -l -23 -L -46" "hyprkool daemon" "wl-paste --watch cliphist store"]
@@ -18,31 +16,31 @@ in {
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
     ++ lib.optionals modules.waybar.enable ["waybar"]
-    ++ lib.optionals modules.social.enable ["[workspace special:vesktop silent] vesktop --fullscreen"]
+    ++ lib.optionals modules.social.enable ["[workspace special:vesktop silent] discord --fullscreen || vesktop --fullscreen"]
     ++ lib.optionals modules.hyprland.live_wallpaper.auto_start ["mpvpaper -f -o \"loop no-audio\" ${lib.strings.concatStringsSep "," modules.hyprland.live_wallpaper.monitors} $(${modules.hyprland.live_wallpaper.default} sed \"s|~|$HOME|\")"];
+
   layerrule = [
-    "blur, eww"
-    "ignorezero, eww"
-
-    "blur, swaync"
-    "ignorezero, swaync"
-    "animation slide right, swaync"
-    "dimaround, swaync-control-center"
-
-    "blur, rofi"
-    "ignorezero, rofi"
-    "noanim, rofi"
+    "blur on, match:namespace eww"
+    "ignore_alpha 0.0, match:namespace eww"
+    "blur on, match:namespace swaync"
+    "ignore_alpha 0.0, match:namespace swaync"
+    "animation slide right, match:namespace swaync"
+    "dim_around on, match:namespace swaync-control-center"
+    "blur on, match:namespace rofi"
+    "ignore_alpha 0.0, match:namespace rofi"
+    "no_anim on, match:namespace rofi"
   ];
+
   env = ["HYPRCURSOR_THEME,${cfg.cursor.name}" "HYPRCURSOR_SIZE,${builtins.toString cfg.cursor.size}"];
+
   input = {
     follow_mouse = 2;
     kb_layout = "se";
     sensitivity = 1;
     natural_scroll = false;
-    #scroll_method = "on_button_down";
-    #scroll_button = 274;
     special_fallthrough = true;
   };
+
   general = {
     layout = cfg.layout;
     gaps_in = 5;
@@ -58,20 +56,22 @@ in {
       monitor_gap = 5;
     };
   };
+
   master = {
     mfact = 0.5;
-    inherit_fullscreen = 1;
     orientation = "center";
     slave_count_for_center_master = 2;
     new_status = "master";
   };
+
   group = {
     merge_floated_into_tiled_on_groupbar = true;
   };
+
   decoration = {
     rounding = 5;
     shadow = {
-      enabled = "false";
+      enabled = false;
       range = 30;
       color = "0x66000000";
     };
@@ -83,13 +83,8 @@ in {
       passes = 3;
     };
   };
+
   plugin = {
-    # overview = {
-    #   workspaceActiveBorder = colors.yellow;
-    #   workspaceBorder = colors.gray02;
-    #   overrideGaps = false;
-    #   affectStrut = false;
-    # };
     hyprkool = {
       overview = {
         hover_border_color = colors.yellow;
@@ -98,20 +93,21 @@ in {
       };
     };
   };
+
   misc = {
-    disable_splash_rendering = true;
     disable_hyprland_logo = true;
     exit_window_retains_fullscreen = true;
     enable_swallow = true;
     swallow_regex = "${lib.strings.getName cfg.terminal}";
   };
+
   animations = {
-    enabled = 1;
+    enabled = true;
     animation = [
       "windows,1,3,default,slide"
-      "workspaces,1,2,default,slide"
       "windowsIn,1,3,default,popin"
       "layers,1,3,default,fade"
+      "workspaces,1,2,default,slide"
     ];
   };
 
@@ -120,29 +116,30 @@ in {
     "f[1], gapsout:0, border:0, rounding:0"
   ];
 
-  windowrulev2 = [
+  windowrule = [
     # Window tags
-    "tag +plain,class:(steam_app)(.*)"
+    "tag +plain, match:class ^(steam_app)(.*)$"
 
     # Rules
-    "opacity 1 override, tag:plain"
-    "noblur, tag:plain"
-    "noanim, tag:plain"
+    "opacity 1.0 override, match:tag plain"
+    "no_blur on, match:tag plain"
+    "no_anim on, match:tag plain"
 
-    # Discord client vesktop
-    "workspace special:vesktop silent, class:vesktop"
-    "fullscreen, class:vesktop"
-    "animation fade, class:vesktop"
+    # Discord/Vesktop
+    "workspace special:vesktop silent, match:class ^(vesktop|discord)$"
+    "fullscreen on, match:class ^(vesktop|discord)$"
+    "animation fade, match:class ^(vesktop|discord)$"
 
     # Steam
-    "workspace special:steam silent, initialClass:steam"
-    "float, initialClass:steam"
-    "animation fade, initialClass:steam"
+    "workspace special:steam silent, match:initial_class steam"
+    "float on, match:initial_class steam"
+    "animation fade, match:initial_class steam"
   ];
 
   "$mod" = "SUPER";
   "$smod" = "SUPER SHIFT";
   "$cmod" = "CTRL SUPER";
+
   bind =
     [
       # General
@@ -173,24 +170,11 @@ in {
       "$smod,k,movewindow,u"
       "$smod,j,movewindow,d"
       # Workspace navigation
-      # "$mod,1,workspace,1"
-      # "$mod,2,workspace,2"
-      # "$mod,3,workspace,3"
-      # "$mod,4,workspace,4"
-      # "$mod,5,workspace,5"
-      # Relative workspace navigation
-      # "$mod,l,workspace,+1"
-      # "$mod,h,workspace,-1"
       "$mod, h, exec, hyprkool move-left -c"
       "$mod, l, exec, hyprkool move-right -c"
       "$mod, j, exec, hyprkool move-down -c"
       "$mod, k, exec, hyprkool move-up -c"
       # Move to workspace
-      # "$smod,1,movetoworkspacesilent,1"
-      # "$smod,2,movetoworkspacesilent,2"
-      # "$smod,3,movetoworkspacesilent,3"
-      # "$smod,4,movetoworkspacesilent,4"
-      # "$smod,5,movetoworkspacesilent,5"
       "$smod, h, exec, hyprkool move-left -c -w"
       "$smod, l, exec, hyprkool move-right -c -w"
       "$smod, j, exec, hyprkool move-down -c -w"
@@ -198,16 +182,16 @@ in {
       # Volume
       ",XF86AudioMute,exec,pamixer --toggle-mute"
       # Airplane mode
-      ",XF86WLAN,exec,if [ \$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
+      ",XF86WLAN,exec,if [ \\$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \\$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
     ]
     ++ lib.optionals modules.rofi.enable [
       # Application runner
       "$mod,R,exec,rofi -show drun"
       # Clipboard history
       "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-      "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
+      "$smod,X,exec,format=$(echo -ne 'cmyk\\\\nhex\\\\nrgb\\\\nhsl\\\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
       # Screenshot
-      "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+      "$mod,S,exec,echo -ne 'active\\\\nscreen\\\\noutput\\\\narea' | rofi -dmenu | xargs -I _ grimblast --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
       "$smod,S,exec,grimblast --notify --freeze copysave area ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
       ",Print,exec,grimblast --notify --freeze copysave screen ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
       # Floating windows movement and resize
@@ -222,6 +206,7 @@ in {
     ]
     ++ lib.optionals (modules.hyprland.live_wallpaper.enable && (builtins.length modules.hyprland.live_wallpaper.monitors) != 0)
     ["$mod,u,exec,pkill .mpvpaper-wrapp || mpvpaper -f -o \"loop no-audio\" ${lib.strings.concatStringsSep "," modules.hyprland.live_wallpaper.monitors} $(zenity --entry --entry-text=${modules.hyprland.live_wallpaper.default} --text=\"Enter your input:\" --title=\"Input Prompt\" 2>/dev/null | sed \"s|~|$HOME|\")"];
+
   # Repeating keybinds
   binde = [
     # Brightness
@@ -234,10 +219,12 @@ in {
     ",XF86AudioPrev,exec,playerctl previous"
     ",XF86AudioPlay,exec,playerctl play-pause"
   ];
+
   bindm = [
     # Floating windows movement and resize
     "$mod, mouse:272, movewindow"
     "$mod, mouse:273, resizewindow"
   ];
+
   debug.disable_logs = false;
 }

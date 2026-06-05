@@ -16,7 +16,7 @@ upgrade:
   nh os switch --  --override-input sensible-nix $PWD --upgrade
 
 check:
-  nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace
+  nix flake check /etc/nixos --override-input sensible-nix $PWD --show-trace --all-systems 
 
 eww: default
   eww daemon --restart

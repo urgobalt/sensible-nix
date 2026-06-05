@@ -142,9 +142,11 @@ in {
           settings = {
             ipc = "on";
             preload = ["${wallpaper}"];
-            wallpaper = [
-              ",${wallpaper}"
-            ];
+            wallpaper = {
+              monitor = "";
+              path = "${wallpaper}";
+              fit_mode = "cover";
+            };
           };
         };
         home.packages = with pkgs;
@@ -164,18 +166,25 @@ in {
             mpvpaper
             yt-dlp
           ];
+
         wayland.windowManager.hyprland = {
           enable = true;
           systemd.variables = ["--all"];
           xwayland.enable = true;
+          configType = "hyprlang";
           plugins = with pkgs; [
             # hyprspace
-            hyprkool
+            # hyprkool plugin has been depricated
           ];
           settings = import ./hyprland.nix {
             inherit cfg lib config;
             colors = c;
           };
+          # extraConfig =
+          #   (import ./hyprland.nix {
+          #     inherit cfg lib config;
+          #     colors = c;
+          #   }).extraConfig;
         };
 
         # xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;

@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   gcc13Stdenv,
   stdenv,
@@ -40,7 +41,6 @@
   wayland,
   wayland-protocols,
   wayland-scanner,
-  xorg,
   xwayland,
   meson,
   hyprland,
@@ -100,18 +100,18 @@ gcc13Stdenv.mkDerivation rec {
       tomlplusplus
       wayland
       wayland-protocols
-      xorg.libXcursor
+      pkgs.libxcursor
     ]
     (lib.optionals stdenv.hostPlatform.isMusl [libexecinfo])
-    (lib.optionals enableXWayland [
-      xorg.libxcb
-      xorg.libXdmcp
-      xorg.xcbutil
-      xorg.xcbutilerrors
-      xorg.xcbutilrenderutil
-      xorg.xcbutilwm
+    (lib.optionals enableXWayland (with pkgs; [
+      libxcb
+      libXdmcp
+      xcbutil
+      xcbutilerrors
+      xcbutilrenderutil
+      xcbutilwm
       xwayland
-    ])
+    ]))
     (lib.optionals withSystemd [systemd])
   ];
 

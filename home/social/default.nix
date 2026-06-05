@@ -17,9 +17,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # If not using vesktop, permit discord
-    nixpkgs.config.permittedInsecurePackages = optional (!cfg.useVesktop) "discord";
-
     home.packages = 
       if cfg.useVesktop 
       then [ pkgs.unstable.vesktop ]

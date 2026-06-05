@@ -72,6 +72,7 @@ in
         {
           nixpkgs = {
             config.allowUnfree = true;
+            config.permittedInsecurePackages = ["discord"];
             overlays =
               (args.extraOverlays or [])
               ++ [
