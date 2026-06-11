@@ -16,7 +16,7 @@ in {
     ++ lib.optionals modules.dunst.enable ["dunst --startup_notification"]
     ++ lib.optionals modules.swaync.enable ["swaync"]
     ++ lib.optionals modules.waybar.enable ["waybar"]
-    ++ lib.optionals modules.social.enable ["[workspace special:vesktop silent] discord --fullscreen || vesktop --fullscreen"]
+    ++ lib.optionals modules.social.enable ["[workspace special:discord silent] bash -c '(command -v Discord >/dev/null && Discord --fullscreen) || (command -v vesktop >/dev/null && vesktop --fullscreen)'"]
     ++ lib.optionals modules.hyprland.live_wallpaper.auto_start ["mpvpaper -f -o \"loop no-audio\" ${lib.strings.concatStringsSep "," modules.hyprland.live_wallpaper.monitors} $(${modules.hyprland.live_wallpaper.default} sed \"s|~|$HOME|\")"];
 
   layerrule = [
@@ -126,9 +126,9 @@ in {
     "no_anim on, match:tag plain"
 
     # Discord/Vesktop
-    "workspace special:vesktop silent, match:class ^(vesktop|discord)$"
-    "fullscreen on, match:class ^(vesktop|discord)$"
-    "animation fade, match:class ^(vesktop|discord)$"
+    "workspace special:discord silent, match:class (vesktop|discord)"
+    "fullscreen on, match:class (vesktop|discord)"
+    "animation fade, match:class (vesktop|discord)"
 
     # Steam
     "workspace special:steam silent, match:initial_class steam"
@@ -154,7 +154,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
-      "$mod,D,exec, hyprkool toggle-special-workspace --name vesktop"
+      "$mod,D,exec, hyprkool toggle-special-workspace --name discord"
       "$mod,G,exec, hyprkool toggle-special-workspace --name steam"
       "$mod,X,exec,hyprpicker -a"
       # Movement

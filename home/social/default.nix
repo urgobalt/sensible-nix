@@ -11,15 +11,15 @@ in {
     enable = mkEnableOption "social";
     useVesktop = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
       description = "Use vesktop instead of standard Discord";
     };
   };
 
   config = mkIf cfg.enable {
-    home.packages = 
-      if cfg.useVesktop 
-      then [ pkgs.unstable.vesktop ]
-      else [ pkgs.discord ];
+    home.packages =
+      if cfg.useVesktop
+      then [pkgs.unstable.vesktop]
+      else [pkgs.discord];
   };
 }

@@ -85,7 +85,7 @@ in
                 (final: prev: {
                   unstable = import inputs.nixpkgs-unstable {
                     system = system;
-                    config.allowUnfree = true;
+                    config = prev.config;
                     overlays = (final.overlays or []) ++ (args.extraUnstableOverlays or []);
                   };
                 })

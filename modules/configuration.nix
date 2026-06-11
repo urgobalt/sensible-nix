@@ -71,7 +71,7 @@
     portal = {
       enable = true;
       wlr.enable = true;
-      configPackages = with pkgs; [xdg-desktop-portal-gtk xdg-desktop-portal-wlr];
+      configPackages = with pkgs; [xdg-desktop-portal-gtk xdg-desktop-portal-wlr xdg-desktop-portal-hyprland];
     };
   };
 
