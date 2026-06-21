@@ -63,7 +63,6 @@
           m4
           alejandra
           nix-doc
-          (callPackage ./overlays/shell.nix {})
         ];
       };
     });

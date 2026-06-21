@@ -2,7 +2,6 @@ set unstable := true
 set dotenv-load := true
 set positional-arguments := true
 set shell := ["bash", "-uc"]
-set script-interpreter := ["shell", "--norc", "--"]
 
 # Global configurations for all the commands
 builder := "nh os"
