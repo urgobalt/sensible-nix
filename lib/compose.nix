@@ -50,32 +50,29 @@ in {
       };
     in {
       system = system.system;
-      modules = let
-        meta-configuration = {
-          nixpkgs = {
-            overlays = [
-              (final: prev: {
-                unstable = import nixpkgs-unstable {
-                  inherit (system) system;
-                  config = {
-                    allowUnfree = true;
-                    allowInsecure = true;
+      modules = lib.flatten [
+          {
+            nixpkgs = {
+              overlays = [
+                (final: prev: {
+                  unstable = import nixpkgs-unstable {
+                    inherit (system) system;
+                    config = {
+                      allowUnfree = true;
+                      allowInsecure = true;
+                    };
                   };
-                };
-              })
-              (import ../overlays)
-            ];
-            config = {
-              allowUnfree = true;
-              allowInsecure = true;
+                })
+                (import ../overlays)
+              ];
+              config = {
+                allowUnfree = true;
+                allowInsecure = true;
+              };
             };
-          };
-          system.stateVersion = system.stateVersion;
-          home-manager.users.${user}.home.stateVersion = system.stateVersion;
-        };
-      in
-        lib.flatten [
-          meta-configuration
+            system.stateVersion = system.stateVersion;
+            home-manager.users.${user}.home.stateVersion = system.stateVersion;
+          }
           (lib.optional system.wsl wsl.nixosModules.wsl)
           (lib.optional system.disko disko.nixosModules.disko)
           assertions_and_warnings

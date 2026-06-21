@@ -1,4 +1,4 @@
-{
+{ config, lib, ... }: {
   layerrule = [
     "blur, eww"
     "ignorezero, eww"
@@ -7,10 +7,16 @@
     "ignorezero, swaync"
     "animation slide right, swaync"
     "dimaround, swaync-control-center"
-
+  ]
+  ++ lib.optionals (config.sensible.launcher == "rofi") [
     "blur, rofi"
     "ignorezero, rofi"
     "noanim, rofi"
+  ]
+  ++ lib.optionals (config.sensible.launcher == "walker") [
+    "blur, walker"
+    "ignorezero, walker"
+    "noanim, walker"
   ];
 
   # TODO: allow for setting a custom cursor using the rewrite

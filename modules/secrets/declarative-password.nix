@@ -3,8 +3,7 @@
   config,
   sensibleLib,
   ...
-}:
-sensibleLib.sensibleConfig {
+}: sensibleLib.sensibleConfig {
   condition = config.sensible.secrets.passwordFile != null;
   system = {
     users.mutableUsers = false;

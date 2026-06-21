@@ -12,8 +12,9 @@ sensibleLib.sensibleConfig {
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = true;
-    enableFishIntegration = false; # Alias come before init breaking zoxide
+    enableFishIntegration = false;
   };
+
   home.programs.fish.shellInit = ''
     ${lib.getExe pkgs.zoxide} init fish | source
   '';

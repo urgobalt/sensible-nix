@@ -6,22 +6,20 @@
   ...
 }:
 sensibleLib.sensibleConfig {
-  condition = config.sensible.hyprland.enable == true;
+  condition = config.sensible.niri.enable == true;
   warnings = lib.optional (config.sensible.wallpaper.source == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviour since the wallpaper is used in multiple different places.";
-  system.sensible.graphical_environment = true;
+  system = {
+    sensible.graphical_environment = true;
+    programs.niri.enable = true;
+  };
   home = {
-    wayland.windowManager.hyprland = {
-      enable = true;
-      systemd.variables = ["--all"];
-      xwayland.enable = true;
-      settings = import ./hyprland-config.nix {
-        inherit config lib sensibleLib;
-      };
+    xdg.configFile."niri/config.kdl".text = import ./niri-config.nix {
+      inherit config lib sensibleLib;
     };
 
     programs.hyprlock = {
       enable = true;
-      settings = import ./hyprlock.nix {
+      settings = import ../hyprland/hyprlock.nix {
         inherit lib config user;
       };
     };

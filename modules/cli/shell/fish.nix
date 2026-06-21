@@ -1,5 +1,4 @@
  {
-   pkgs,
    config,
    lib,
    sensibleLib,
@@ -10,7 +9,7 @@
    home.programs.fish =
      {
        enable = true;
-      package = config.sensible.shell.package;
+      package = config.sensible.shell.fish.package;
 
        shellInit =
          /*
@@ -19,31 +18,23 @@
          ''
            fish_vi_key_bindings
 
-           function storePathForWindowsTerminal --on-variable PWD
-             if test -n "$WT_SESSION"
-               printf "\e]9;9;%s\e\\" (wslpath -w "$PWD")
-             end
-           end
-
            function take
              mkdir -p $argv && cd $argv
            end
 
+           function sysinfo
+             if test (tput cols) -ge 80
+               ${lib.getExe config.sensible.sysinfo.${config.sensible.sysinfo.default}.package}
+             end
+           end
+
            ${
-             if config.sensible.sysinfo.sysinfo.package != null
+             if config.sensible.sysinfo.default != null
              then ''
                function clear
                  command clear
-                 if test (tput cols) -ge 80
-                   ${lib.getExe config.sensible.sysinfo.package}
-                 end
+                 sysinfo
                end''
-             else ""
-           }
-
-           ${
-             if config.sensible.sysinfo.name != null
-             then lib.getExe config.sensible.sysinfo.package
              else ""
            }
          '';

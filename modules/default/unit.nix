@@ -4,13 +4,33 @@
   lib,
   pkgs,
   hostname,
+  sensibleLib,
   ...
 }: {
   environment.defaultPackages = [];
-  environment.systemPackages = [pkgs.openssl config.sensible.shell.package];
+  environment.systemPackages = [pkgs.openssl];
+
+  sensible.rofi.enable = lib.mkDefault (config.sensible.launcher == "rofi");
+  sensible.walker.enable = lib.mkDefault (config.sensible.launcher == "walker");
+
+  assertions = let
+    wms = ["hyprland" "niri"];
+    enabledWms = lib.count (wm: config.sensible.${wm}.enable) wms;
+  in [
+    {
+      assertion = !(config.sensible.rofi.enable && config.sensible.walker.enable);
+      message = "Only one application launcher can be enabled at a time.";
+    }
+    {
+      assertion = enabledWms <= 1;
+      message = "Only one window manager / compositor can be enabled at a time.";
+    }
+  ];
+
   services.xserver.desktopManager.xterm.enable = false;
 
   services.fwupd = {enable = true;};
+  services.userborn.enable = true;
   # User
   networking.hostName = hostname;
   users.users.${user} = {
@@ -19,11 +39,13 @@
     home = "/home/${user}";
     createHome = true;
     extraGroups = ["audio" "wheel" "networkmanager"];
-    shell = config.sensible.shell.default.package;
+    shell = sensibleLib.getDefaultPackage config.sensible.shell;
     ignoreShellProgramCheck = true;
+    # TODO: create a proper system for handling ssh
     # openssh.authorizedKeys.keys = ssh.users;
   };
 
+  # TODO: create a proper system for handling ssh
   # users.users.root.openssh.authorizedKeys.keys = ssh.users;
 
   # Locale settings
@@ -78,7 +100,7 @@
   nix = {
     settings.auto-optimise-store = true;
     settings.allowed-users = [user];
-    settings.experimental-features = ["nix-command" "flakes"];
+    settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
     settings.keep-outputs = false;
     gc = {
       automatic = true;
@@ -95,8 +117,8 @@
 
   # Set environment variables
   environment.variables = {
-    XDG_CONFIG_HOME = "$HOME/.config";
-    SHELL = lib.getExe config.sensible.shell.package;
+    XDG_CONFIG_HOME = "${ config.home-manager.users.${user}.home.homeDirectory }/.config";
+    SHELL = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.shell;
     DIRENV_LOG_FORMAT = "";
     # ANKI_WAYLAND = "1";
     # OZ_ENABLE_WAYLAND = "1";

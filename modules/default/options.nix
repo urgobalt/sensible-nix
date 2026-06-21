@@ -15,4 +15,9 @@ with lib;
       default = false;
       internal = true;
     };
+    launcher = mkOption {
+      type = types.enum ["rofi" "walker"];
+      default = "rofi";
+      description = "Application launcher to use in the graphical environment.";
+    };
   }

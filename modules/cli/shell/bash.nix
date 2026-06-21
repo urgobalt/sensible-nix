@@ -1,5 +1,4 @@
 {
-  pkgs,
   config,
   lib,
   sensibleLib,
@@ -10,7 +9,7 @@ sensibleLib.sensibleConfig {
   home.programs.zsh =
     {
       enable = true;
-      package = config.system.sensible.shell.package;
+      package = config.system.sensible.shell.bash.package;
 
       shellInit = import ./posix_init.nix {inherit config lib;};
     }

@@ -4,10 +4,17 @@
   sensibleLib,
 }: let
   default = import ./hyprland-default.nix {inherit config lib;};
+  base = import ./hyprland-base.nix {inherit config lib;};
   terminal = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.terminal;
   browser = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.browser;
   colors = config.lib.stylix.colors;
-in {
+  launcherCmd = if config.sensible.launcher == "rofi" then "rofi -show drun" else "walker";
+  rofiBinds = lib.optionals (config.sensible.launcher == "rofi") [
+    "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+    "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
+    "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
+  ];
+in lib.recursiveUpdate base {
   monitor = config.sensible.monitors;
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
@@ -109,6 +116,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
+      "$mod,R,exec,${launcherCmd}"
       "$mod,D,exec, hyprkool toggle-special-workspace --name discord"
       "$mod,X,exec,hyprpicker -a"
       # Movement
@@ -151,6 +159,7 @@ in {
       # Airplane mode
       ",XF86WLAN,exec,if [ \$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
     ]
+    ++ rofiBinds
     ++ config.sensible.hyprland.keymaps;
   # Repeating keybinds
   binde = [

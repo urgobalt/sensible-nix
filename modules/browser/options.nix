@@ -2,11 +2,10 @@
   pkgs,
   sensible_option,
   sensibleLib,
-  config,
   ...
 }:
 sensible_option {
-  browser = sensibleLib.mkPackageSelector config {
+  browser = sensibleLib.mkPackageSelector {
     name = "browser";
     enableDefault = true;
     packages = {
