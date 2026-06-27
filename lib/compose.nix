@@ -71,7 +71,9 @@ in {
               };
             };
             system.stateVersion = system.stateVersion;
-            home-manager.users.${user}.home.stateVersion = system.stateVersion;
+            home-manager.sharedModules = [{
+              home.stateVersion = lib.mkOverride 1 system.stateVersion;
+            }];
           }
           (lib.optional system.wsl wsl.nixosModules.wsl)
           (lib.optional system.disko disko.nixosModules.disko)

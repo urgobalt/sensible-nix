@@ -20,24 +20,17 @@
   ```
   */
 
-  sensibleConfig = unit: let
-    optionalWithDefault = default: name:
-      if builtins.hasAttr name unit
-      then unit.${name}
-      else default;
-    optional = optionalWithDefault {};
-    optionals = optionalWithDefault [];
-  in {
-    imports = optionals "imports";
-    config =
-      lib.mkIf unit.condition
-      <| {
-        assertions = optionals "assertions";
-        warnings = optionals "warnings";
-        home-manager.users.${user} = lib.mkIf unit.condition <| optional "home";
-      }
-      // optional "system";
-  };
+  sensibleConfig = unit: {
+      imports = unit.imports or [];
+      config =
+        lib.mkIf unit.condition
+        <| {
+          assertions = unit.assertions or [];
+          warnings = unit.warnings or [];
+          home-manager.users.${user}.imports = [ { config = unit.home or {}; } ];
+        }
+        // unit.system or {};
+    };
 
   /*
   Conditions
