@@ -29,7 +29,13 @@
       };
       sysinfo = sensibleLib.mkPackageSelector {
         name = "sysinfo";
+        enableDefault = true;
         packages = {
+          none = {
+            name = "none";
+            description = "no sysinfo package";
+            package = pkgs.emptyDirectory;
+          };
           pfetch = {
             name = "pfetch";
             description = "pfetch sysinfo";

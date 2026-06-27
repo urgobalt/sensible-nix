@@ -24,12 +24,12 @@
 
            function sysinfo
              if test (tput cols) -ge 80
-               ${lib.getExe config.sensible.sysinfo.${config.sensible.sysinfo.default}.package}
+               ${lib.getExe <| sensibleLib.getDefaultPackage config.sensible.sysinfo}
              end
            end
 
            ${
-             if config.sensible.sysinfo.default != null
+             if config.sensible.sysinfo.default != "none"
              then ''
                function clear
                  command clear
