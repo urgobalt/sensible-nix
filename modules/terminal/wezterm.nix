@@ -8,6 +8,12 @@ let
 in
 sensibleLib.sensibleConfig {
   condition = config.sensible.terminal.wezterm.enable;
+  assertions = [
+    {
+      assertion = config.stylix.enable or false;
+      message = "wezterm terminal requires stylix to be enabled for color theming";
+    }
+  ];
   home.programs.wezterm = {
     enable = true;
     # TODO: fix package overrideability

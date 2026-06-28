@@ -99,5 +99,8 @@
       packageOptions // defaultOption;
 
   # Lightweight utility for getting the default package from a package selector
-  getDefaultPackage = config: config.${config.default}.package;
+  getDefaultPackage = config:
+    assert builtins.hasAttr "default" config || throw "getDefaultPackage: config missing 'default' attribute";
+    assert builtins.hasAttr config.default config || throw "getDefaultPackage: config.default '${config.default}' not found in config";
+    config.${config.default}.package;
 }

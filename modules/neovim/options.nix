@@ -23,6 +23,9 @@ with lib;
             "python"
             "html-css-js"
             "tailwindcss"
+            "c"
+            "lua"
+            "nix"
           ]);
         default = [];
         description = "Programs used for development in the languages specified.";

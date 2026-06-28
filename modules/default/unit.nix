@@ -33,6 +33,10 @@
       assertion = config.sensible.graphical_environment -> config.sensible.window_manager;
       message = "Graphical environment enabled without a window_manager";
     }
+    {
+      assertion = !(config.sensible.docker.enable && config.sensible.podman.enable);
+      message = "Docker and Podman cannot be enabled simultaneously (Podman has dockerCompat which conflicts)";
+    }
   ];
 
   services.xserver.desktopManager.xterm.enable = false;

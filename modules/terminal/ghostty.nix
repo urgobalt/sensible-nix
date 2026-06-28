@@ -8,6 +8,12 @@ let
 in
 sensibleLib.sensibleConfig {
   condition = config.sensible.terminal.ghostty.enable;
+  assertions = [
+    {
+      assertion = config.stylix.enable or false;
+      message = "ghostty terminal requires stylix to be enabled for color theming";
+    }
+  ];
   home.programs.ghostty = {
     enable = true;
     # TODO: fix package overrideability

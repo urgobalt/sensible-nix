@@ -8,6 +8,12 @@ let
 in
 sensibleLib.sensibleConfig {
   condition = config.sensible.terminal.kitty.enable;
+  assertions = [
+    {
+      assertion = config.stylix.enable or false;
+      message = "kitty terminal requires stylix to be enabled for color theming";
+    }
+  ];
   home.programs.kitty = {
     enable = true;
     # TODO: fix package overrideability

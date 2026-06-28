@@ -17,9 +17,14 @@ with lib;
         description = "Secret file that holds the hashed user password. OBS: This option will make the users immutable.";
       };
       password = mkOption {
-        type = types.str;
-        default = "root";
+        type = with types; nullOr str;
+        default = null;
         description = "The password configured through this field is public-readable and should only be used as an initial configuration. The field is not used if passwordFile is configured.";
+      };
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable sensible secrets management. Required to activate password configuration.";
       };
     };
   }

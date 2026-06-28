@@ -61,6 +61,12 @@ let
 in
 sensibleLib.sensibleConfig {
   condition = config.sensible.eww.enable;
+  assertions = [
+    {
+      assertion = config.stylix.enable or false;
+      message = "eWW module requires stylix to be enabled for color theming";
+    }
+  ];
   home = {
     packages = with pkgs; [
       eww
