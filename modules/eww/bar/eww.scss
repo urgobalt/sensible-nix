@@ -1,31 +1,33 @@
-$background: rgba(#1a1a19, 0.7);
-$text: #d1d1d1;
+@import 'colors';
+
+$background: rgba(var(--base00-rgb), 0.7);
+$text: var(--base05);
 /* Normal */
-$black: #333332;
-$red: #ff968c;
-$green: #61957f;
-$yellow: #ffc591;
-$blue: #8db4d4;
-$magenta: #de9bc8;
-$cyan: #7bb099;
-$white: #d1d1d1;
+$black: var(--base01);
+$red: var(--base08);
+$green: var(--base0B);
+$yellow: var(--base0A);
+$blue: var(--base0D);
+$magenta: var(--base0E);
+$cyan: var(--base0C);
+$white: var(--base05);
 /* Bright */
-$bright_black: #4c4c4b;
-$bright_red: #ffafa5;
-$bright_green: #7aae98;
-$bright_yellow: #ffdeaa;
-$bright_blue: #a6cded;
-$bright_magenta: #f7b4e1;
-$bright_cyan: #94c9b2;
-$bright_white: #eaeaea;
+$bright_black: var(--base03);
+$bright_red: var(--base12);
+$bright_green: var(--base14);
+$bright_yellow: var(--base13);
+$bright_blue: var(--base16);
+$bright_magenta: var(--base17);
+$bright_cyan: var(--base15);
+$bright_white: var(--base07);
 /* Grays */
-$gray01: #222221;
-$gray02: #2a2a29;
-$gray03: #323231;
-$gray04: #3a3a39;
-$gray05: #6a6a69;
-$gray06: #767675;
-$gray07: #b6b6b5;
+$gray01: var(--base01);
+$gray02: var(--base02);
+$gray03: var(--base03);
+$gray04: var(--base04);
+$gray05: var(--base04);
+$gray06: var(--base05);
+$gray07: var(--base06);
 
 * {
   all: unset;
