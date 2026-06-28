@@ -11,7 +11,12 @@ with lib;
         default = false;
         description = "Enable Niri, a scrollable-tiling Wayland compositor.";
       };
-      keymaps = mkOption {
+      launcherCommand = mkOption {
+        type = with types; nullOr str;
+        default = null;
+        internal = true;
+      };
+      binds = mkOption {
         type = with types; listOf str;
         default = [];
         description = "Extra KDL bind entries for Niri.";

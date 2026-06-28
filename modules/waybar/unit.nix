@@ -2,11 +2,13 @@
   config,
   pkgs,
   sensibleLib,
+  lib,
   ...
 }:
 with sensibleLib;
   (makeGraphical config {
     condition = config.sensible.waybar.enable;
+    system.sensible.hyprland.exec-once = ["waybar"];
     home = {
       programs.waybar = {
         enable = true;

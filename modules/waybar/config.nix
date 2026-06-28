@@ -1,5 +1,4 @@
 { config, lib }:
-# ponytail: conditional window module based on enabled WM
 let
   windowModule = 
     if config.sensible.hyprland.enable then "hyprland/window"
@@ -61,7 +60,7 @@ builtins.toJSON {
     format-wifi = "{essid} {icon}";
     format-disconnected = "󰤮 ";
     format-linked = "󰤫 ";
-    format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "] ;
+    format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "];
     tooltip = false;
   };
   bluetooth = {

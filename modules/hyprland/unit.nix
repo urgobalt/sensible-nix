@@ -3,6 +3,7 @@
   config,
   sensibleLib,
   user,
+  pkgs,
   ...
 }:
 sensibleLib.sensibleConfig {
@@ -19,6 +20,7 @@ sensibleLib.sensibleConfig {
       settings = import ./hyprland-config.nix {
         inherit config lib sensibleLib;
       };
+      plugins = [pkgs.hyprkool];
     };
 
     programs.hyprlock = {
@@ -39,5 +41,8 @@ sensibleLib.sensibleConfig {
         ];
       };
     };
+
+    home.packages = [pkgs.hyprkool];
+    xdg.configFile."hypr/hyprkool.toml".source = ./hyprkool.toml;
   };
 }

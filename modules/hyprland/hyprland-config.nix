@@ -8,12 +8,6 @@
   terminal = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.terminal;
   browser = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.browser;
   colors = config.lib.stylix.colors;
-  launcherCmd = if config.sensible.launcher == "rofi" then "rofi -show drun" else "walker";
-  rofiBinds = lib.optionals (config.sensible.launcher == "rofi") [
-    "$mod,V,exec,cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-    "$smod,X,exec,format=$(echo -ne 'cmyk\\nhex\\nrgb\\nhsl\\nhsv' | rofi -dmenu) && sleep 0.7s && hyprpicker -af $format"
-    "$mod,S,exec,echo -ne 'active\\nscreen\\noutput\\narea' | rofi -dmenu | xargs -I _ grimblast --notify --freeze copysave _ ~/pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png"
-  ];
 in lib.recursiveUpdate base {
   monitor = config.sensible.monitors;
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
@@ -92,12 +86,6 @@ in lib.recursiveUpdate base {
     "opacity 1 override, tag:plain"
     "noblur, tag:plain"
     "noanim, tag:plain"
-
-    # Discord
-    "workspace special:discord silent, class:discord"
-    "fullscreen, class:discord"
-    "suppressevent movewindow movewindowv2, class:discord"
-    "animation fade, class:discord"
   ];
 
   "$mod" = "SUPER";
@@ -116,8 +104,7 @@ in lib.recursiveUpdate base {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
-      "$mod,R,exec,${launcherCmd}"
-      "$mod,D,exec, hyprkool toggle-special-workspace --name discord"
+      "$mod,R,exec,${config.sensible.hyprland.launcherCommand}"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
@@ -159,8 +146,7 @@ in lib.recursiveUpdate base {
       # Airplane mode
       ",XF86WLAN,exec,if [ \$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
     ]
-    ++ rofiBinds
-    ++ config.sensible.hyprland.keymaps;
+    ++ config.sensible.hyprland.binds;
   # Repeating keybinds
   binde = [
     # Brightness

@@ -27,4 +27,5 @@
   "steam"
   "display-manager"
   "docker"
+  "discord"
 ]

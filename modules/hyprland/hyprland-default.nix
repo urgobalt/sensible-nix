@@ -4,7 +4,11 @@
 }: let
   colors = config.lib.stylix.colors;
 in {
-  exec-once = ["wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" "wl-paste --watch cliphist store"];
+  exec-once = [
+    "wlsunset -l -23 -L -46" "hyprkool daemon -m 2>&1 > ~/somelog.txt" 
+    "wl-paste --watch cliphist store"
+    "hyprkool -m 2>&1"
+  ];
 
   plugin = {
     hyprkool = {

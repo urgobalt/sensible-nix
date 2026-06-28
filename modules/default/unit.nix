@@ -30,7 +30,7 @@
       message = "Only one window manager / compositor can be enabled at a time.";
     }
     {
-      assertion = config.sensible.graphical_environment -> config.sensible.window_manager;
+      assertion = config.sensible.graphical_environment -> config.sensible.window_manager != null;
       message = "Graphical environment enabled without a window_manager";
     }
     {
