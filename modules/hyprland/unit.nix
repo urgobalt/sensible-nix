@@ -7,8 +7,10 @@
 }:
 sensibleLib.sensibleConfig {
   condition = config.sensible.hyprland.enable == true;
-  warnings = lib.optional (config.sensible.wallpaper.source == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviour since the wallpaper is used in multiple different places.";
-  system.sensible.graphical_environment = true;
+  system = {
+    sensible.graphical_environment = true;
+    sensible.window_manager = config.home-manager.users.${user}.wayland.windowManager.hyprland.package;
+  };
   home = {
     wayland.windowManager.hyprland = {
       enable = true;

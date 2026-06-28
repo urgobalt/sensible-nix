@@ -13,6 +13,10 @@
   sensible.rofi.enable = lib.mkDefault (config.sensible.launcher == "rofi");
   sensible.walker.enable = lib.mkDefault (config.sensible.launcher == "walker");
 
+  warnings = lib.flatten [
+    (lib.optional (config.sensible.wallpaper.source == null && config.sensible.graphical_environment) "No custom wallpaper defined for graphical environment")
+  ];
+
   assertions = let
     wms = ["hyprland" "niri"];
     enabledWms = lib.count (wm: config.sensible.${wm}.enable) wms;
@@ -24,6 +28,10 @@
     {
       assertion = enabledWms <= 1;
       message = "Only one window manager / compositor can be enabled at a time.";
+    }
+    {
+      assertion = config.sensible.graphical_environment -> config.sensible.window_manager;
+      message = "Graphical environment enabled without a window_manager";
     }
   ];
 

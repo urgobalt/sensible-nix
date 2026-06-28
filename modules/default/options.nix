@@ -15,6 +15,11 @@ with lib;
       default = false;
       internal = true;
     };
+    window_manager = mkOption {
+      type = with types; nullOr package;
+      default = null;
+      internal = true;
+    };
     launcher = mkOption {
       type = types.enum ["rofi" "walker"];
       default = "rofi";

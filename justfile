@@ -82,4 +82,3 @@ prepare_tests:
         {{ test_dir / "test_config.m4" }} \
         {{ test_dir / "flake.nix.m4" }} \
         > {{ "{}" / "flake.nix" }} && echo Wrote to {{ "{}" / "flake.nix" }}"
-    {{ if which("alejandra") != "" { f"echo {{test_src}} | tr ' ' '\n' | xargs -I {} alejandra {{'{}' / 'flake.nix'}} 2>/dev/null" } else { "" } }}

@@ -7,9 +7,9 @@
 }:
 sensibleLib.sensibleConfig {
   condition = config.sensible.niri.enable == true;
-  warnings = lib.optional (config.sensible.wallpaper.source == null) "Without a properly configured wallpaper in a graphical environment, some applications may have undefined behaviour since the wallpaper is used in multiple different places.";
   system = {
     sensible.graphical_environment = true;
+    sensible.window_manager = config.programs.niri.package;
     programs.niri.enable = true;
   };
   home = {

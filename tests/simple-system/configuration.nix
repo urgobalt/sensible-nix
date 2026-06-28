@@ -1,6 +1,4 @@
-{config, ...}: let
-  deepAssert = import ../deepAssert.nix;
-in {
+{config, ...}: {
   assertions = [
     {
       assertion = config.home-manager.users.test.wayland.windowManager.hyprland.enable;

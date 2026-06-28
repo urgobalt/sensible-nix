@@ -1,8 +1,16 @@
+{ config, lib }:
+# ponytail: conditional window module based on enabled WM
+let
+  windowModule = 
+    if config.sensible.hyprland.enable then "hyprland/window"
+    else if config.sensible.niri.enable then "niri/window"
+    else lib.warn "No window manager for waybar";
+in
 builtins.toJSON {
   margin = "10 20 10 20";
   modules-left = ["custom/nix-packages" "custom/nix-store" "disk" "memory" "cpu"];
   modules-center = ["clock"];
-  modules-right = ["hyprland/window" "tray" "network" "bluetooth" "custom/volume" "battery"];
+  modules-right = lib.optional (windowModule != null) windowModule ++ ["tray" "network" "bluetooth" "custom/volume" "battery"];
 
   "custom/nix-packages" = {
     format = "{} 󱄅 ";
@@ -40,6 +48,9 @@ builtins.toJSON {
   "hyprland/window" = {
     format = "{initialTitle}";
   };
+  "niri/window" = {
+    format = "{app_id}";
+  };
   tray = {
     icon-size = 16;
     spacing = 2;
@@ -50,7 +61,7 @@ builtins.toJSON {
     format-wifi = "{essid} {icon}";
     format-disconnected = "󰤮 ";
     format-linked = "󰤫 ";
-    format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "];
+    format-icons = ["󰤯 " "󰤟 " "󰤢 " "󰤥 " "󰤨 "] ;
     tooltip = false;
   };
   bluetooth = {

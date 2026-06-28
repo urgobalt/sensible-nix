@@ -11,7 +11,7 @@ with sensibleLib;
       programs.waybar = {
         enable = true;
       };
-      xdg.configFile."waybar/config.jsonc".text = import ./config.nix;
+      xdg.configFile."waybar/config.jsonc".text = import ./config.nix { inherit config lib; };
       xdg.configFile."waybar/style.css".text = import ./style.nix {config = config;};
       xdg.configFile."waybar/scripts/battery.sh".source = ./battery.sh;
       xdg.configFile."waybar/scripts/volume.sh".source = ./volume.sh;

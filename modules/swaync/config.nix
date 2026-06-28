@@ -1,3 +1,11 @@
+{ config, lib }: 
+let
+  focusScript = if config.sensible.hyprland.enable then ''
+    hyprctl dispatch focuswindow "$SWAYNC_APP_NAME"
+  '' else if config.sensible.niri.enable then ''
+    niri msg action focus-window --app-id "$SWAYNC_APP_NAME"
+  '' else lib.warn "No window manager for swaync";
+in
 builtins.toJSON {
   "positionX" = "right";
   "positionY" = "top";
@@ -29,9 +37,9 @@ builtins.toJSON {
   "hide-on-action" = true;
   "text-empty" = "No Notifications";
   "script-fail-notify" = true;
-  "scripts" = {
-    "hyprland-focus" = {
-      exec = "bash -c 'hyprctl dispatch focuswindow \"$SWAYNC_APP_NAME\"'";
+  "scripts" = lib.optionalAttrs (focusScript != "") {
+    "wm-focus" = {
+      exec = focusScript;
       urgency = "Normal";
       run-on = "action";
     };
