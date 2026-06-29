@@ -1,10 +1,10 @@
 {
   config,
   pkgs,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   imports = [./autostart.nix];
   condition = config.sensible.live_wallpaper.enable;
   home = {

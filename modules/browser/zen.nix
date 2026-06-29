@@ -1,9 +1,9 @@
 {
   config,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.browser.zen.enable;
   home = {
     packages = [config.sensible.browser.zen.package];

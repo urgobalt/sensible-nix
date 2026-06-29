@@ -1,11 +1,10 @@
 {
   user,
   config,
-  sensible_config,
+  sensibleLib,
   ...
-}:
-sensible_config {
-  condition = config.sensible.secrets.passwordFile != null;
+}: sensibleLib.sensibleConfig {
+  condition = config.sensible.secrets.enable && config.sensible.secrets.passwordFile != null;
   system = {
     users.mutableUsers = false;
 

@@ -1,12 +1,14 @@
 {
   config,
   lib,
+  sensibleLib,
 }: let
-  default = import ./hyprland-default.nix;
-  terminal = lib.getExe config.sensible.terminal.resolved;
-  browser = lib.getExe config.sensible.browser.package;
+  default = import ./hyprland-default.nix {inherit config lib;};
+  base = import ./hyprland-base.nix {inherit config lib;};
+  terminal = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.terminal;
+  browser = lib.getExe <| sensibleLib.getDefaultPackage config.sensible.browser;
   colors = config.lib.stylix.colors;
-in {
+in lib.recursiveUpdate base {
   monitor = config.sensible.monitors;
   # "swaybg -i /home/urgobalt/pictures/wallpaper.png"
   # "eww daemon" "eww open bar"
@@ -55,7 +57,7 @@ in {
     disable_hyprland_logo = true;
     exit_window_retains_fullscreen = true;
     enable_swallow = true;
-    swallow_regex = "${lib.strings.getName config.sensible.terminal.resolved}";
+    swallow_regex = "${lib.strings.getName <| sensibleLib.getDefaultPackage config.sensible.terminal}";
   };
   animations = {
     enabled = 1;
@@ -84,12 +86,6 @@ in {
     "opacity 1 override, tag:plain"
     "noblur, tag:plain"
     "noanim, tag:plain"
-
-    # Discord
-    "workspace special:discord silent, class:discord"
-    "fullscreen, class:discord"
-    "suppressevent movewindow movewindowv2, class:discord"
-    "animation fade, class:discord"
   ];
 
   "$mod" = "SUPER";
@@ -108,7 +104,7 @@ in {
       # Applications
       "$mod,T,exec,${terminal}"
       "$mod,B,exec,${browser}"
-      "$mod,D,exec, hyprkool toggle-special-workspace --name discord"
+      "$mod,R,exec,${config.sensible.hyprland.launcherCommand}"
       "$mod,X,exec,hyprpicker -a"
       # Movement
       "$mod,n,layoutmsg,rollnext"
@@ -150,7 +146,7 @@ in {
       # Airplane mode
       ",XF86WLAN,exec,if [ \$(wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print \$2}') == \"COMPLETED\" ]; then wpa_cli disconnect; else wpa_cli reconnect; fi"
     ]
-    ++ config.sensible.hyprland.keymaps;
+    ++ config.sensible.hyprland.binds;
   # Repeating keybinds
   binde = [
     # Brightness

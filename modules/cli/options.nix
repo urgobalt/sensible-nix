@@ -1,17 +1,14 @@
 {
   lib,
-  config,
   pkgs,
   sensible_option,
-  mkPackageSelector,
+  sensibleLib,
   ...
-}: let
-  packageSelector = mkPackageSelector config;
-in
-  with lib;
+}: with lib;
     sensible_option {
-      shell = packageSelector {
+      shell = sensibleLib.mkPackageSelector {
         name = "shell";
+        enableDefault = true;
         packages = {
           fish = {
             name = "fish";
@@ -30,9 +27,15 @@ in
           };
         };
       };
-      sysinfo = packageSelector {
+      sysinfo = sensibleLib.mkPackageSelector {
         name = "sysinfo";
+        enableDefault = true;
         packages = {
+          none = {
+            name = "none";
+            description = "no sysinfo package";
+            package = pkgs.emptyDirectory;
+          };
           pfetch = {
             name = "pfetch";
             description = "pfetch sysinfo";
@@ -52,7 +55,7 @@ in
           description = "Customizable shell prompt that works on bash, zsh, fish and many others.";
         };
       };
-      options.modules.zoxide = {
+      zoxide = {
         enable = mkOption {
           type = types.bool;
           default = true;

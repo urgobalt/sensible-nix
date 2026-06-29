@@ -1,14 +1,10 @@
 {
-  sensible_config,
   config,
-  pkgs,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.graphical_environment;
-  system = {
-    sensible.terminal.resolved = pkgs.kitty;
-  };
   imports = [
     ./ghostty.nix
     ./kitty.nix

@@ -1,18 +1,17 @@
 {
-  pkgs,
   config,
   lib,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.shell.bash.enable;
-  home.programs.zsh =
+  home.programs.bash =
     {
       enable = true;
-      package = config.system.sensible.shell.package;
+      package = config.system.sensible.shell.bash.package;
 
-      shellInit = import ./posix_init.nix {inherit config lib;};
+      bashrcExtra = import ./posix_init.nix {inherit config lib;};
     }
     // import ./general_shell_options.nix;
   # home.home.packages = import ./packages.nix pkgs;

@@ -2,18 +2,19 @@
   pkgs,
   lib,
   config,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.starship.enable;
 
   home.programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = true;
-    enableFishIntegration = false; # Alias come before init breaking zoxide
+    enableFishIntegration = false;
   };
+
   home.programs.fish.shellInit = ''
     ${lib.getExe pkgs.zoxide} init fish | source
   '';

@@ -1,5 +1,5 @@
 {nixpkgs, ...} @ inputs: attrs: let
-  config = (import ./compose.nix) ({
+  config = import ./compose.nix <| {
       config =
         (nixpkgs.lib.evalModules {
           modules = [
@@ -10,7 +10,7 @@
         }).config;
       lib = nixpkgs.lib;
     }
-    // inputs);
+    // inputs;
 in {
   nixosConfigurations = nixpkgs.lib.genAttrs (builtins.attrNames config.systems) (hostname: let
     system = config.systems.${hostname};

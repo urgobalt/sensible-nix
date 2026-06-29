@@ -1,0 +1,198 @@
+; Clock
+(defpoll clock_time :interval "200ms" "date +\%H")
+(defpoll clock_minute :interval "200ms" "date +\%M")
+(defpoll clock_second :interval "200ms" "date +\%S")
+(defvar show_time false)
+
+(defwidget clock_module []
+    (eventbox :onhover "${EWW_CMD} open calendar"
+              :onhoverlost "${EWW_CMD} close calendar"
+      (eventbox :onhover "${EWW_CMD} update show_time=true"
+                :onhoverlost "${EWW_CMD} update show_time=false"
+      (box :class "module" :space-evenly "false" :orientation "h" :spacing "3"
+        (label :text clock_time :class "clock_hours" )
+        (label :text ":" :class "clock_time_sep" )
+        (label :text clock_minute :class "clock_minute_class")
+        (revealer :transition "slideright" :reveal show_time :duration "350ms"
+          (box :space-evenly "false" :orientation "h" :spacing "3"
+            (label :text ":" :class "clock_time_sep" )
+            (label :text clock_second :class "clock_second_class")
+))))))
+
+; Calendar
+
+(defpoll calendar_weekday :interval "10m" "date +'%A'")
+(defpoll calendar_day :interval "10m" "date +'%d'")
+(defpoll calendar_month :interval "10m" "date +'%B'")
+(defpoll calendar_year :interval "10m" "date +'%Y'")
+
+(defwidget cal []
+	(box :class "calendar" :orientation "v" :space-evenly "false" :spacing "5"
+	(box :class "row" :space-evenly "true" :spacing "5" :valign "center"
+      (label :text calendar_day :class "calendar_day")
+      (label :text calendar_weekday :class "calendar_weekday"))
+	(box :class "row" :space-evenly "true" :spacing "5" :valign "center"
+      (label :text calendar_month :class "calendar_month")
+      (label :text calendar_year :class "calendar_year"))
+))
+
+(defwindow calendar
+  :monitor 0
+  :namespace "eww"
+  :geometry (geometry :x "0px"
+						:y "45px"
+            :anchor "top center"
+						)
+(cal))
+
+; Battery
+(defvar show_battery false)
+
+(defwidget battery_module []
+  (eventbox :onhover "${EWW_CMD} update show_battery=true"
+            :onhoverlost "${EWW_CMD} update show_battery=false"
+      (metric :icon {EWW_BATTERY.BAT0.status == "Charging" ? "󰂄" : "󰁹"} :value {jq(EWW_BATTERY, ".total_avg")} :preview "${EWW_BATTERY.BAT0.capacity}%" :show_preview show_battery)
+))
+
+; RAM
+(defwidget ram_module []
+  (eventbox :onhover "${EWW_CMD} open ram"
+            :onhoverlost "${EWW_CMD} close ram"
+      (metric :icon "󰍛 " :value {jq(EWW_RAM, ".used_mem_perc")} :reverse true)
+))
+
+(defwindow ram
+          :monitor 0
+          :namespace "eww"
+          :id "ram"
+          :geometry (geometry :x "165px"
+                              :y "45px"
+                              :anchor "top left")
+  (box :orientation "h" :space-evenly "false" :spacing "20"
+    (label :text "${round(jq(EWW_RAM, ".used_mem")/1000000000, 2)}/${round(jq(EWW_RAM, ".total_mem")/1000000000, 0)} Gb RAM used")
+))
+
+; Disk
+(defwidget disk_module []
+  (eventbox :onhover "${EWW_CMD} open disk"
+            :onhoverlost "${EWW_CMD} close disk"
+      (metric :icon "󰒋 " :value {jq(EWW_DISK, ".\"/\".used_perc")} :reverse true)
+))
+
+(defwindow disk
+          :monitor 0
+          :namespace "eww"
+          :id "disk"
+          :transition "slidedown"
+          :geometry (geometry :x "${150*2+15}px"
+                              :y "45px"
+                              :anchor "top left")
+  (box :orientation "h" :space-evenly "false" :spacing "20"
+    (label :text "${round(jq(EWW_DISK, ".\"/\".used")/1000000000, 2)}/${round(jq(EWW_DISK, ".\"/\".total")/1000000000, 0)} Gb disk space used")
+))
+
+; CPU
+(defvar show_cpu false)
+
+(defwidget cpu_module []
+  (eventbox :onhover "${EWW_CMD} update show_cpu=true"
+            :onhoverlost "${EWW_CMD} update show_cpu=false"
+        (metric :icon "󰊚 " :value {jq(EWW_CPU, ".avg")} :preview "${round(jq(EWW_CPU, ".avg"), 2)}%" :show_preview show_cpu :reverse true)
+))
+
+; WIFI
+(defpoll ethernet_connected :interval "5s" "
+ethernet_interface=$(ip link show | grep -E '^[0-9]+: (en|eth)' | awk -F: '{print $2}' | tr -d ' ')
+
+if [[ -n $ethernet_interface && $(ip addr show $ethernet_interface | grep 'inet ' | wc -l) -gt 0 ]]; then
+    echo \"true\"
+else
+    echo \"false\"
+fi
+")
+(defpoll wifi_status :interval "5s" "wpa_cli status | grep \"^wpa_state=\" | awk -F '=' '{print $2}'")
+(defpoll wifi_name :interval "5s" "iwgetid -r")
+(defpoll wifi_rssi :interval "5s" "wpa_cli signal_poll | grep \"^RSSI=\" | awk -F '=' '{print $2}'")
+(defvar show_wifi false)
+
+(defwidget wifi_module []
+  (eventbox :onhover "${EWW_CMD} update show_wifi=true"
+            :onhoverlost "${EWW_CMD} update show_wifi=false"
+    (box :orientation "h" :space-evenly "false" :spacing "10"
+      (revealer :transition "slideleft" :reveal {show_wifi && wifi_status == "COMPLETED" && ethernet_connected == false} :duration "350ms"
+          (label :text wifi_name))
+      (label :text {ethernet_connected == "true" ? "󰈁" : wifi_status != "COMPLETED" ? "󰤮 " : wifi_rssi < -50 ? wifi_rssi < -60 ? wifi_rssi < -70 ? wifi_rssi < -80 ? "󰤯 " : "󰤟 " : "󰤢 " : "󰤥 " : "󰤨 " })
+)))
+
+; Locations
+(defwidget left []
+	(box :orientation "h"
+		 :space-evenly false
+         :halign "start"
+		 :class "right_modules"
+          :spacing "20"
+    (cpu_module)
+    (ram_module)
+    (disk_module)
+))
+
+
+(defwidget center []
+	(box :orientation "h"
+		 :space-evenly false
+         :halign "center"
+		 :class "center_modules"
+          :spacing "20"
+(clock_module)))
+
+(defwidget right []
+	(box :orientation "h"
+		 :space-evenly false
+         :halign "end"
+		 :class "left_modules"
+          :spacing "20"
+    (wifi_module)
+    (battery_module)
+))
+
+(defwidget bar_1 []
+  (box :class "bar_class"
+       :orientation "h"
+  (left)
+  (center)
+  (right)
+    ))
+
+(defwindow bar
+          :monitor 0
+          :namespace "eww"
+          :id "bar"
+          :geometry (geometry :x "0%"
+                       :y "10px"
+                       :width "98%"
+                       :height "30px"
+                       :anchor "top center")
+          :stacking "fg"
+          :windowtype "dock"
+  (bar_1))
+
+(defwidget metric [icon value ?preview ?show_preview ?onchange ?reverse]
+  (inner_metric :icon icon :value value :preview preview :show_preview show_preview :onchange onchange :state {reverse != "" && reverse ?
+                  value > 75 ? "error" : value > 50 ? "warning" : "normal" :
+                  value < 25 ? "error" : value < 50 ? "warning" : "normal"})
+  )
+(defwidget inner_metric [icon value preview show_preview onchange state]
+  (box :class "metric" :orientation "h" :space-evenly "false" :spacing "10"
+    (overlay
+      (revealer :transition "crossfade" :reveal {show_preview == false || preview == ""} :duration "350ms"
+        (scale :class {state}
+               :min 0
+               :max 101
+               :active {onchange != ""}
+               :value value
+               :onchange onchange
+              :orientation "h"))
+      (revealer :transition "crossfade" :reveal show_preview :duration "350ms"
+        (label :text preview)))
+    (label :text icon :class "icon ${state}")
+))

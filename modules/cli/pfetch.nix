@@ -1,10 +1,10 @@
 {
   pkgs,
   config,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.sysinfo.pfetch.enable;
   home.home.packages = [pkgs.pfetch-rs];
 }

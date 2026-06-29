@@ -1,13 +1,13 @@
 {
   pkgs,
   sensible_option,
-  mkPackageSelector,
-  config,
+  sensibleLib,
   ...
 }:
 sensible_option {
-  browser = mkPackageSelector config {
+  browser = sensibleLib.mkPackageSelector {
     name = "browser";
+    enableDefault = true;
     packages = {
       zen = {
         name = "zen";

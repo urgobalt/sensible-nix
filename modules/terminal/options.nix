@@ -1,31 +1,31 @@
 {
-  pkgs,
+  lib,
   sensible_option,
-  mkPackageSelector,
-  config,
+  sensibleLib,
+  pkgs,
   ...
 }:
+with lib;
 sensible_option {
-  terminal = mkPackageSelector config {
+  terminal = sensibleLib.mkPackageSelector {
     name = "terminal";
-
+    enableDefault = true;
     packages = {
       ghostty = {
         name = "ghostty";
-        description = "Ghostty terminal";
+        description = "ghostty terminal emulator";
         package = pkgs.ghostty;
       };
       kitty = {
         name = "kitty";
-        description = "Kitty terminal";
+        description = "kitty terminal emulator";
         package = pkgs.kitty;
       };
       wezterm = {
         name = "wezterm";
-        description = "Wezterm terminal";
-        package = pkgs.unstable.wezterm;
+        description = "wezterm terminal emulator";
+        package = pkgs.wezterm;
       };
     };
   };
-
 }

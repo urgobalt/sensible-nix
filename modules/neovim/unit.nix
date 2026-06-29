@@ -2,15 +2,15 @@
   pkgs,
   config,
   lib,
-  sensible_config,
+  sensibleLib,
   ...
 }: let
-  f = feature: res:
+  feat = feature: res:
     if lib.xor config.sensible.neovim.invert_features (builtins.elem feature config.sensible.neovim.features)
     then res
     else [];
 in
-  sensible_config {
+  sensibleLib.sensibleConfig {
     condition = config.sensible.neovim.enable;
     home.home.packages = with pkgs;
       lib.flatten [
@@ -19,29 +19,17 @@ in
         emmet-ls
         eslint_d
 
-        (f "rust" [rustup cargo-info])
-        (f "go" [go gopls])
-        (f "ocaml" [ocaml ocamlPackages.ocaml-lsp])
-        (f "zig" [zig zls])
-        (f "gleam" [gleam erlang rebar3])
-        (f "elixir" [elixir-ls elixir erlang rebar3])
-        (f "python" [
-          python312Packages.python-lsp-server
-          python312Packages.pylsp-rope
-        ])
-        (f "html-css-js" [vscode-langservers-extracted])
-        (f "tailwindcss" [
-          tailwindcss
-          tailwindcss-language-server
-        ])
-        (f "c" [clang-tools])
-        (f "lua" [
-          lua-language-server
-          stylua
-        ])
-        (f "nix" [
-          nil
-          alejandra
-        ])
+        (feat "rust"        [rustup cargo-info])
+        (feat "go"          [go gopls])
+        (feat "ocaml"       [ocaml ocamlPackages.ocaml-lsp])
+        (feat "zig"         [zig zls])
+        (feat "gleam"       [gleam erlang rebar3])
+        (feat "elixir"      [elixir-ls elixir erlang rebar3])
+        (feat "python"      [python312Packages.python-lsp-server python312Packages.pylsp-rope])
+        (feat "html-css-js" [vscode-langservers-extracted])
+        (feat "tailwindcss" [tailwindcss tailwindcss-language-server])
+        (feat "c"           [clang-tools])
+        (feat "lua"         [lua-language-server stylua])
+        (feat "nix"         [nil alejandra])
       ];
   }

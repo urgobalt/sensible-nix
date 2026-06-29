@@ -1,9 +1,9 @@
 {
   config,
-  sensible_config,
+  sensibleLib,
   ...
 }:
-sensible_config {
+sensibleLib.sensibleConfig {
   condition = config.sensible.sysinfo.fastfetch.enable;
   home = {
     programs.fastfetch.enable = true;
